@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Meu Canteiro</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    
+    <header>
+        <h1>Meu Canteiro</h1>
+    </header>
+    <main>
+        <form id="addForm">
+            <fieldset id="addForm--fieldset">
+                <legend>Adicione espécies no banco de dados:</legend>
+                <section class="addForm--section">
+                    <label for="nomePlanta">Nome:</label> 
+                    <input id="nomePlanta" class="input" type="text"  placeholder="Banana Prata">
+                </section>
+                <section class="addForm--section">
+                    <label for="novoEstrato">Estrato:</label> 
+                    <select class="input" id="novoEstrato">
+                        <option value="" required></option>
+                        <option value="baixo">Baixo</option>
+                        <option value="medio">Médio</option>
+                        <option value="alto">Alto</option>
+                        <option value="emergente">Emergente</option>
+                    </select>
+                </section>
+                <section class="addForm--section">
+                    <label for="tempoColheita">Tempo para colheita (dias):</label>
+                    <input id="tempoColheita" class="input" type="number"  placeholder="420">
+                </section>
+                <section class="addForm--section">
+                    <p>Espaçamento convencional (m):</p>
+                    <div>
+                        <label for="espacamento">Eixo (X): 
+                            <input id="espacamento" class="input" type="number"  placeholder="3.0">
+                        </label>
+                    </div>
+                    
+                </section>
+                <button type="button" id="addBtn">Adicionar</button>
+            </fieldset>
+        </form>
+        <form id="canteiroForm">
+            <fieldset>
+                <legend class="legend">Montar o canteiro:</legend>
+                <label>Comprimento: 
+                    <input class="input" type="text" placeholder="5">
+                </label>
+                <label>Largura: 
+                    <input class="input" type="text" placeholder="2">
+                </label>
+
+                <p>Selecionar estratos:</p>
+                <label>Baixo: 
+                    <select class="input" id="select_emergente">
+                        <option value=""></option>
+                    </select>
+                </label>
+                <label>Médio: 
+                    <select class="input" id="select_alto">
+                        <option value=""></option>
+                    </select>
+                </label>
+                <label>Alto: 
+                    <select class="input" id="select_medio">
+                        <option value=""></option>
+                    </select>
+                </label>
+                <label>Emergente: 
+                    <select class="input" id="select_baixo">
+                        <option value=""></option>
+                    </select>
+                </label>
+                <button type="button" id="canteiroBtn">Adicionar</button>
+            </fieldset>
+        </form>
+        <table id="tabela_resultado">
+            <thead>
+                <tr>
+                    <th>Espaçamento</th>
+                    <th>Estrato</th>
+                    <th>Nome</th>
+                    <th>Dias Colheita</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="emergente">
+                </tr>
+                <tr id="alto">
+                </tr>
+                <tr id="medio">
+                </tr>
+                <tr id="baixo">
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+	<script src="./main.js"></script>
+  </body>
+</html>
