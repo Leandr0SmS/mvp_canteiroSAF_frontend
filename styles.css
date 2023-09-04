@@ -1,0 +1,29 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+}
+#addForm--fieldset {
+    display: flex;
+    gap: 1rem;
+}
+.addForm--section {
+    display: flex;
+    flex-direction: column;
+}
+.input {
+    margin: 0.3rem;
+    padding: 0.3rem;
+}
+#tabela_resultado {
+    visibility: hidden;
+}
+table, th, td {
+    border: 1px solid;
+    text-align: center;
+}
+th, td {
+    padding: 0.5rem;
+}
