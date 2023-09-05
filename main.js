@@ -62,9 +62,11 @@ const criarCanteiro = async () => {
   --------------------------------------------------------------------------------------
 */
 const inserirLista = (planta) => {
-    const linha = document.getElementById(`${planta.estrato}`)
+    const table = document.getElementById('tabela_resultado');
+    const tbody = table.createTBody();
+    const linha = tbody.insertRow()
     for (prop in planta) {
-        const cel = linha.insertCell(-1);
+        const cel = linha.insertCell();
         cel.innerHTML = planta[prop];
     }
 }
