@@ -117,10 +117,18 @@ label, legend {
 #tabela_resultado {
     display: none;
 }
-table, th, td {
-    border: 1px solid;
-    text-align: center;
+#tabela_resultado {
+    margin: 1rem;
 }
 th, td {
+    border: 1px dashed var(--lion);
+    text-align: center;
     padding: 0.5rem;
+}
+th {
+    font-weight: 700;
+    background-color: rgb(253, 243, 234);
+}
+td {
+    font-size: 0.9em;
 }
