@@ -1,24 +1,65 @@
+@import url(
+    'https://fonts.googleapis.com/css2?family=Jura:wght@300;400;600&display=swap'
+);
 *, *::before, *::after {
     box-sizing: border-box;
 }
 
 * {
     margin: 0;
+    font-family: 'Jura', sans-serif;
 }
-#addForm--fieldset {
+body {
+    margin: 0 auto;
+}
+#header {
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
 }
-.addForm--section {
+#main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.form {
     display: flex;
     flex-direction: column;
 }
+#addForm {
+    display: none;
+}
+#canteiroForm--fieldset {
+    display: flex;
+    gap: 0.5rem;
+}
+#section--addForm {
+    position: relative;
+}
+#toggleAddForm {
+    margin: 1.5rem auto;
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.3rem;
+    padding: 0.5rem 6rem;
+}
+.form--section {
+    display: flex;
+    flex-direction: column;
+}
+.btn {
+    padding: 0.5rem;
+    width: 100%;    
+}
 .input {
-    margin: 0.3rem;
-    padding: 0.3rem;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
 }
 #tabela_resultado {
-    visibility: hidden;
+    display: none;
 }
 table, th, td {
     border: 1px solid;

@@ -9,71 +9,40 @@
   </head>
   <body>
     
-    <header>
-        <h1>Meu Canteiro</h1>
+    <header id="header">
+        <img src="./resources/images/saf_img.jpg">
+        <h1>Canteiro Agroflorestal</h1>
     </header>
-    <main>
-        <form id="addForm">
-            <fieldset id="addForm--fieldset">
-                <legend>Adicione espécies no banco de dados:</legend>
-                <section class="addForm--section">
-                    <label for="nomePlanta">Nome:</label> 
-                    <input id="nomePlanta" class="input" type="text"  placeholder="Banana Prata">
-                </section>
-                <section class="addForm--section">
-                    <label for="novoEstrato">Estrato:</label> 
-                    <select class="input" id="novoEstrato">
-                        <option value="" required></option>
-                        <option value="baixo">Baixo</option>
-                        <option value="medio">Médio</option>
-                        <option value="alto">Alto</option>
-                        <option value="emergente">Emergente</option>
-                    </select>
-                </section>
-                <section class="addForm--section">
-                    <label for="tempoColheita">Tempo para colheita (dias):</label>
-                    <input id="tempoColheita" class="input" type="number"  placeholder="420">
-                </section>
-                <section class="addForm--section">
-                    <label for="espacamento">Espaçamento entre plantas:</label> 
-                    <input id="espacamento" class="input" type="number"  placeholder="3.0">
-                </section>
-                <button type="button" id="addBtn">Adicionar</button>
-            </fieldset>
-        </form>
-        <form id="canteiroForm">
-            <fieldset>
-                <legend class="legend">Montar o canteiro:</legend>
-                <label>Comprimento: 
-                    <input class="input" type="text" placeholder="5">
-                </label>
-                <label>Largura: 
-                    <input class="input" type="text" placeholder="2">
-                </label>
-
-                <p>Selecionar estratos:</p>
-                <label>Baixo: 
+    <main id="main">
+        <form class="form">
+            <fieldset id="canteiroForm--fieldset">
+                <legend>Selecionar plantas nos estratos:</legend>
+                <section class="form--section">
+                    <label>Baixo:</label>
                     <select class="input" id="select_baixo">
                         <option value=""></option>
                     </select>
-                </label>
-                <label>Médio: 
+                </section>
+                <section class="form--section">
+                    <label>Médio:</label> 
                     <select class="input" id="select_medio">
                         <option value=""></option>
                     </select>
-                </label>
-                <label>Alto: 
+                </section>    
+                <section class="form--section">
+                    <label>Alto:</label> 
                     <select class="input" id="select_alto">
                         <option value=""></option>
                     </select>
-                </label>
-                <label>Emergente: 
+                </section>
+                <section class="form--section">
+                    <label>Emergente:</label> 
                     <select class="input" id="select_emergente">
                         <option value=""></option>
                     </select>
-                </label>
-                <button type="button" id="canteiroBtn">Adicionar</button>
+                </section>
             </fieldset>
+            <button type="button" class="btn" id="canteiroBtn">Criar Canteiro</button>
         </form>
         <table id="tabela_resultado">
             <thead>
@@ -85,6 +54,40 @@
                 </tr>
             </thead>
         </table>
+        <section id="section--addForm">
+            <button type="button" id="toggleAddForm">
+                <img id="toggleBtnImg" src="./resources/images/expand_more.png">
+                Adicionar Planta
+            </button>
+            <form class="form" id="addForm">
+                <fieldset id="addForm--fieldset">
+                    <legend>Adicione espécies no banco de dados:</legend>
+                    <section class="form--section">
+                        <label for="nomePlanta">Nome:</label> 
+                        <input id="nomePlanta" class="input" type="text"  placeholder="Banana Prata">
+                    </section>
+                    <section class="form--section">
+                        <label for="novoEstrato">Estrato:</label> 
+                        <select class="input" id="novoEstrato">
+                            <option value="" required></option>
+                            <option value="baixo">Baixo</option>
+                            <option value="medio">Médio</option>
+                            <option value="alto">Alto</option>
+                            <option value="emergente">Emergente</option>
+                        </select>
+                    </section>    
+                    <section class="form--section">
+                        <label for="tempoColheita">Tempo para colheita (dias):</label>
+                        <input id="tempoColheita" class="input" type="number"  placeholder="420">
+                    </section>
+                    <section class="form--section">
+                        <label for="espacamento">Espaçamento entre plantas:</label> 
+                        <input id="espacamento" class="input" type="number"  placeholder="3.0">
+                    </section>    
+                </fieldset>
+                <button type="button" class="btn" id="addBtn">Adicionar</button>
+            </form>
+        </section>
     </main>
 
 	<script src="./main.js"></script>

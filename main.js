@@ -72,13 +72,32 @@ const inserirLista = (planta) => {
 }
 /*
   --------------------------------------------------------------------------------------
+  Método para ouvir evento de clicar no botão #toggleAddForm
+  --------------------------------------------------------------------------------------
+*/
+document.getElementById("toggleAddForm").addEventListener("click", function(event){
+  event.preventDefault()
+  const table = document.getElementById('tabela_resultado');
+  const icon = document.getElementById('toggleBtnImg');
+  const form = document.getElementById('addForm');
+  if (form.style.display == 'flex') {
+    form.style.display='none';
+    icon.src = './resources/images/expand_more.png'
+  } else {
+    form.style.display='flex';
+    table.style.display='none';
+    icon.src = './resources/images/expand_less.png';
+  }
+}); 
+/*
+  --------------------------------------------------------------------------------------
   Método para ouvir evento de clicar no botão #addBtn 
   --------------------------------------------------------------------------------------
 */
 document.getElementById("canteiroBtn").addEventListener("click", function(event){
     event.preventDefault()
     criarCanteiro()
-    document.getElementById('tabela_resultado').style.visibility='visible';
+    document.getElementById('tabela_resultado').style.display ='block';
 }); 
 /*
   --------------------------------------------------------------------------------------
