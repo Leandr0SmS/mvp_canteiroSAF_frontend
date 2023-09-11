@@ -11,6 +11,8 @@
     --hunter-green: #3E6331ff;
     --bistre: #382216ff;    
 }
+
+/* reset */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -20,6 +22,8 @@
     font-family: 'Jura', sans-serif;
     letter-spacing: 0.125em;
 }
+
+/* body, header, main */
 body {
     margin: 0 auto;
     color: var(--bistre);
@@ -41,6 +45,8 @@ body {
     align-items: center;
     justify-content: center;
 }
+
+/* Forms */
 .form {
     display: flex;
     flex-direction: column;
@@ -64,6 +70,26 @@ body {
     display: flex;
     flex-direction: column;
 }
+.input {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    width: 100%;
+    min-width: 12rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--lawn-green);
+}
+.input:active {
+    border: 1px solid var(--lion--active);
+}
+.input:focus {
+    outline: none;
+    border: 1px solid var(--lion--active);
+}
+label, legend {
+    margin-bottom: 0.3rem;
+}
+
+/* Buttons */
 #toggleAddForm {
     margin: 1.5rem auto;
     display: flex;
@@ -96,26 +122,11 @@ body {
     cursor: pointer;
     transition: background-color 0.2s;
 }
-.input {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    width: 100%;
-    min-width: 12rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--lawn-green);
-}
-.input:active {
-    border: 1px solid var(--lion--active);
-}
-.input:focus {
-    outline: none;
-    border: 1px solid var(--lion--active);
-}
-label, legend {
-    margin-bottom: 0.3rem;
-}
+
+/* Table */
 #tabela_resultado {
     display: none;
+    transition: visibility 0s, opacity 0.5s linear;
 }
 #tabela_resultado {
     margin: 1rem;
