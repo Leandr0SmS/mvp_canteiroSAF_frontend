@@ -42,10 +42,10 @@ todasPlantas(inserirSelectionForm, 'canteiro')
 */
 const criarCanteiro = async () => {
 
-    const emergente = document.getElementById("select_emergente").value;
-    const alto = document.getElementById("select_alto").value;
-    const medio = document.getElementById("select_medio").value;
-    const baixo = document.getElementById("select_baixo").value;
+    const emergente = document.getElementById("canteiro_emergente").value;
+    const alto = document.getElementById("canteiro_alto").value;
+    const medio = document.getElementById("canteiro_medio").value;
+    const baixo = document.getElementById("canteiro_baixo").value;
 
     const urlPlantas = `http://127.0.0.1:5000/canteiro?nome_planta_emergente=${emergente}&nome_planta_alto=${alto}&nome_planta_medio=${medio}&nome_planta_baixo=${baixo}`;
     fetch(urlPlantas, {
