@@ -3,40 +3,39 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Meu Canteiro</title>
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
     
     <header id="header">
-        <img src="./resources/images/saf_img.jpg">
-        <h1>Canteiro Agroflorestal</h1>
+        <img src="./resources/images/saf_bg.png" alt="Consórcio de plantas">
+        <h1 id="title">Canteiro Agroflorestal</h1>
     </header>
     <main id="main">
         <form class="form">
-            <fieldset id="canteiroForm--fieldset">
+            <fieldset class="fieldset" id="canteiroForm--fieldset">
                 <legend>Selecionar plantas nos estratos:</legend>
                 <section class="form--section">
-                    <label>Baixo:</label>
+                    <label for="select_baixo">Baixo:</label>
                     <select class="input" id="select_baixo">
                         <option value=""></option>
                     </select>
                 </section>
                 <section class="form--section">
-                    <label>Médio:</label> 
+                    <label for="select_medio">Médio:</label> 
                     <select class="input" id="select_medio">
                         <option value=""></option>
                     </select>
                 </section>    
                 <section class="form--section">
-                    <label>Alto:</label> 
+                    <label for="select_alto">Alto:</label> 
                     <select class="input" id="select_alto">
                         <option value=""></option>
                     </select>
                 </section>
                 <section class="form--section">
-                    <label>Emergente:</label> 
+                    <label for="select_emergente">Emergente:</label> 
                     <select class="input" id="select_emergente">
                         <option value=""></option>
                     </select>
@@ -56,11 +55,11 @@
         </table>
         <section id="section--addForm">
             <button type="button" id="toggleAddForm">
-                <img id="toggleBtnImg" src="./resources/images/expand_more.png">
+                <img id="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Adicionar Planta
             </button>
             <form class="form" id="addForm">
-                <fieldset id="addForm--fieldset">
+                <fieldset class="fieldset" id="addForm--fieldset">
                     <legend>Adicione espécies no banco de dados:</legend>
                     <section class="form--section">
                         <label for="nomePlanta">Nome:</label> 

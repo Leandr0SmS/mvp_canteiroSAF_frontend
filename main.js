@@ -82,11 +82,11 @@ document.getElementById("toggleAddForm").addEventListener("click", function(even
   const form = document.getElementById('addForm');
   if (form.style.display == 'flex') {
     form.style.display='none';
-    icon.src = './resources/images/expand_more.png'
+    icon.src = './resources/images/expand_more.svg'
   } else {
     form.style.display='flex';
     table.style.display='none';
-    icon.src = './resources/images/expand_less.png';
+    icon.src = './resources/images/expand_less.svg';
   }
 }); 
 /*
