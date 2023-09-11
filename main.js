@@ -3,8 +3,13 @@
   Função para inserir planta no formulário do canteiro
   --------------------------------------------------------------------------------------
 */
-const inserirCanteiroForm = (planta) => {
-    const select = document.getElementById(`select_${planta.estrato}`);
+const inserirSelectionForm = (planta, form) => {
+    let select;
+    if (form == "canteiro") {
+      select = document.getElementById(`${form}_${planta.estrato}`);
+    } else {
+      select = document.getElementById(`${form}`);
+    }
     const option = document.createElement("option");
     option.text = `${planta.nome_planta}`;
     option.value = `${planta.nome_planta}`;
@@ -16,20 +21,20 @@ const inserirCanteiroForm = (planta) => {
   e inserir <option> no formulário do canteiro.
   --------------------------------------------------------------------------------------
 */
-const todasPlantas = async () => {
+const todasPlantas = async (func, form) => {
     const urlPlantas = 'http://127.0.0.1:5000/plantas';
     fetch(urlPlantas, {
       method: 'get',
     })
         .then((response) => response.json())
         .then((data) => {
-            data.plantas.forEach(planta => inserirCanteiroForm(planta))
+            data.plantas.forEach(planta => func(planta, form))
         })
         .catch((error) => {
             console.error('Error:', error);
         });
 }
-todasPlantas()
+todasPlantas(inserirSelectionForm, 'canteiro')
 /*
   --------------------------------------------------------------------------------------
   Função para obter a lista das plantas selecionada no servidor via requisição GET
@@ -58,7 +63,7 @@ const criarCanteiro = async () => {
 }
 /*
   --------------------------------------------------------------------------------------
-  Função para inserir plantas na lista apresentada
+  Função para inserir plantas na lista
   --------------------------------------------------------------------------------------
 */
 const inserirLista = (planta) => {
@@ -72,26 +77,7 @@ const inserirLista = (planta) => {
 }
 /*
   --------------------------------------------------------------------------------------
-  Método para ouvir evento de clicar no botão #toggleAddForm
-  --------------------------------------------------------------------------------------
-*/
-document.getElementById("toggleAddForm").addEventListener("click", function(event){
-  event.preventDefault()
-  const table = document.getElementById('tabela_resultado');
-  const icon = document.getElementById('toggleBtnImg');
-  const form = document.getElementById('addForm');
-  if (form.style.display == 'flex') {
-    form.style.display='none';
-    icon.src = './resources/images/expand_more.svg'
-  } else {
-    form.style.display='flex';
-    table.style.display='none';
-    icon.src = './resources/images/expand_less.svg';
-  }
-}); 
-/*
-  --------------------------------------------------------------------------------------
-  Método para ouvir evento de clicar no botão #addBtn 
+  Método para ouvir evento de clicar no botão #canteiroBtn (criar canteiro) 
   --------------------------------------------------------------------------------------
 */
 document.getElementById("canteiroBtn").addEventListener("click", function(event){
@@ -101,7 +87,7 @@ document.getElementById("canteiroBtn").addEventListener("click", function(event)
 }); 
 /*
   --------------------------------------------------------------------------------------
-  Função para colocar um item na lista do servidor via requisição POST
+  Função para colocar uma planta servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
 const postItem = async (
@@ -129,7 +115,7 @@ const postItem = async (
 
 /*
   --------------------------------------------------------------------------------------
-  Função para adicionar um novo item com nome, quantidade e valor 
+  Função para adicionar uma nova planta 
   --------------------------------------------------------------------------------------
 */
 const adicionarPlanta = () => {
@@ -162,3 +148,76 @@ document.getElementById("addBtn").addEventListener("click", function(event){
     event.preventDefault()
     adicionarPlanta()
 }); 
+/*
+  --------------------------------------------------------------------------------------
+  Função para deletar uma planta do servidor via requisição DELETE
+  --------------------------------------------------------------------------------------
+*/
+const deleteItem = (item) => {
+  let url = `http://127.0.0.1:5000/planta?nome_planta=${item}`;
+  fetch(url, {
+    method: 'delete'
+  })
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+/*
+  --------------------------------------------------------------------------------------
+  Função para deletar uma planta
+  --------------------------------------------------------------------------------------
+*/
+const removerPlanta = () => {
+  const inputNomePlanta = document.getElementById("delete_select").value;
+
+  if (inputNomePlanta === '') {
+      alert("O nome da planta deve ser preenchido");
+  } else {
+    deleteItem(inputNomePlanta)
+      console.log(inputNomePlanta)
+      alert("Item deletado!")
+      document.getElementById('deleteForm').reset();
+  }
+}
+/*
+  --------------------------------------------------------------------------------------
+  Método para ouvir evento de clicar no botão #delBtn 
+  --------------------------------------------------------------------------------------
+*/
+document.getElementById("delBtn").addEventListener("click", function(event){
+  event.preventDefault()
+  removerPlanta()
+});
+/*
+  --------------------------------------------------------------------------------------
+  Método para ouvir evento de clicar no botão #toggleForm
+  --------------------------------------------------------------------------------------
+*/
+const togglesBtns = document.querySelectorAll(".toggleFormBtn")
+
+togglesBtns.forEach(button => {
+
+  button.addEventListener("click", function(event){
+
+    event.preventDefault()
+    const table = document.getElementById('tabela_resultado');
+    const icon = document.getElementById('toggleBtnImg');
+    
+    const btnId = event.target.id;
+    const formId = btnId.substring(0, btnId.indexOf("_"));
+    const form = document.getElementById(`${formId}`);
+    
+    if (form.style.display == 'flex') {
+      form.style.display='none';
+      icon.src = './resources/images/expand_more.svg'
+    } else {
+      form.style.display='flex';
+      table.style.display='none';
+      icon.src = './resources/images/expand_less.svg';
+      if (formId == "deleteForm") {
+        todasPlantas(inserirSelectionForm, 'delete_select')
+      }
+    }
+  }); 
+});

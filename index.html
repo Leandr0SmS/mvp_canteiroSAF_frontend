@@ -17,26 +17,26 @@
             <fieldset class="fieldset" id="canteiroForm--fieldset">
                 <legend>Selecionar plantas nos estratos:</legend>
                 <section class="form--section">
-                    <label for="select_baixo">Baixo:</label>
-                    <select class="input" id="select_baixo">
+                    <label for="canteiro_baixo">Baixo:</label>
+                    <select class="input" id="canteiro_baixo">
                         <option value=""></option>
                     </select>
                 </section>
                 <section class="form--section">
-                    <label for="select_medio">Médio:</label> 
-                    <select class="input" id="select_medio">
+                    <label for="canteiro_medio">Médio:</label> 
+                    <select class="input" id="canteiro_medio">
                         <option value=""></option>
                     </select>
                 </section>    
                 <section class="form--section">
-                    <label for="select_alto">Alto:</label> 
-                    <select class="input" id="select_alto">
+                    <label for="canteiro_alto">Alto:</label> 
+                    <select class="input" id="canteiro_alto">
                         <option value=""></option>
                     </select>
                 </section>
                 <section class="form--section">
-                    <label for="select_emergente">Emergente:</label> 
-                    <select class="input" id="select_emergente">
+                    <label for="canteiro_emergente">Emergente:</label> 
+                    <select class="input" id="canteiro_emergente">
                         <option value=""></option>
                     </select>
                 </section>
@@ -54,13 +54,15 @@
                 </tr>
             </thead>
         </table>
-        <section id="section--addForm">
-            <button type="button" id="toggleAddForm">
+    </main>
+    <aside id="aside">
+        <section class="section--toggle">
+            <button type="button" class="toggleFormBtn" id="addForm_toggleBtn">
                 <img id="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Adicionar Planta
             </button>
             <form class="form" id="addForm">
-                <fieldset class="fieldset" id="addForm--fieldset">
+                <fieldset class="fieldset">
                     <legend>Adicione espécies no banco de dados:</legend>
                     <section class="form--section">
                         <label for="nomePlanta">Nome:</label> 
@@ -88,8 +90,24 @@
                 <button type="button" class="btn" id="addBtn">Adicionar</button>
             </form>
         </section>
-    </main>
-
+        <section class="section--toggle">
+            <button type="button" class="toggleFormBtn" id="deleteForm_toggleBtn">
+                <img id="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
+                Deletar Planta
+            </button>
+            <form class="form" id="deleteForm">
+                <fieldset class="fieldset">
+                    <legend>Deletar espécies no banco de dados:</legend>
+                    <section class="form--section">
+                        <label for="delete_select">Nome:</label> 
+                        <select id="delete_select" class="input">
+                        </select>
+                    </section>    
+                </fieldset>
+                <button type="button" class="btn" id="delBtn">Deletar</button>
+            </form>
+        </section>
+    </aside>
 	<script src="./main.js"></script>
   </body>
 </html>

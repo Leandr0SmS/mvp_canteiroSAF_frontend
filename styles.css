@@ -45,6 +45,13 @@ body {
     align-items: center;
     justify-content: center;
 }
+#aside {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
 
 /* Forms */
 .form {
@@ -56,15 +63,18 @@ body {
     border-bottom: none;
     border: 1px solid var(--lawn-green);
 }
-#addForm {
+#deleteForm, #addForm {
     display: none;
 }
 #canteiroForm--fieldset {
     display: flex;
     gap: 0.5rem;
 }
-#section--addForm {
+.section--toggle {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .form--section {
     display: flex;
@@ -90,12 +100,13 @@ label, legend {
 }
 
 /* Buttons */
-#toggleAddForm {
-    margin: 1.5rem auto;
+.toggleFormBtn {
     display: flex;
     align-items: center;
-    margin-bottom: 0.3rem;
-    padding: 0.5rem 7rem;
+    justify-content: center;
+    min-width: 24.68rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0;
     border: none;
     border-radius: 0.5rem;
     font-size: 1.2rem;
@@ -112,13 +123,13 @@ label, legend {
     color: var(--bistre);
     font-weight: 100;
 }
-#toggleAddForm:hover {
+.toggleFormBtn:hover {
     background-color: var(--lion--active);
 }
 .btn:hover {
     background-color: var(--lawn-green-active);
 }
-#toggleAddForm:hover, .btn:hover {
+.toggleFormBtn:hover, .btn:hover {
     cursor: pointer;
     transition: background-color 0.2s;
 }
