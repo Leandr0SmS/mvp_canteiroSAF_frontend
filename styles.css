@@ -133,6 +133,9 @@ label, legend {
     cursor: pointer;
     transition: background-color 0.2s;
 }
+.toggleBtnImg {
+    width: 4rem;
+}
 
 /* Table */
 #tabela_resultado {

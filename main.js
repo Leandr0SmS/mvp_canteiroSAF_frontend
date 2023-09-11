@@ -4,6 +4,7 @@
   --------------------------------------------------------------------------------------
 */
 const inserirSelectionForm = (planta, form) => {
+
     let select;
     if (form == "canteiro") {
       select = document.getElementById(`${form}_${planta.estrato}`);
@@ -67,9 +68,11 @@ const criarCanteiro = async () => {
   --------------------------------------------------------------------------------------
 */
 const inserirLista = (planta) => {
+
     const table = document.getElementById('tabela_resultado');
     const tbody = table.createTBody();
     const linha = tbody.insertRow()
+
     for (prop in planta) {
         const cel = linha.insertCell();
         cel.innerHTML = planta[prop];
@@ -96,7 +99,9 @@ const postItem = async (
                             inputTempoColheita,
                             inputEspacamento,
                         ) => {
+
     const formData = new FormData();
+
     formData.append('nome_planta', inputNomePlanta);
     formData.append('estrato', inputNovoEstrato);
     formData.append('tempo_colheita', inputTempoColheita);
@@ -119,6 +124,7 @@ const postItem = async (
   --------------------------------------------------------------------------------------
 */
 const adicionarPlanta = () => {
+
     const inputNomePlanta = document.getElementById("nomePlanta").value;
     const inputNovoEstrato = document.getElementById("novoEstrato").value;
     const inputTempoColheita = document.getElementById("tempoColheita").value;
@@ -169,6 +175,7 @@ const deleteItem = (item) => {
   --------------------------------------------------------------------------------------
 */
 const removerPlanta = () => {
+
   const inputNomePlanta = document.getElementById("delete_select").value;
 
   if (inputNomePlanta === '') {
@@ -191,7 +198,7 @@ document.getElementById("delBtn").addEventListener("click", function(event){
 });
 /*
   --------------------------------------------------------------------------------------
-  Método para ouvir evento de clicar no botão #toggleForm
+  Método para ouvir eventos de clicar no botôs .toggleFormBtn
   --------------------------------------------------------------------------------------
 */
 const togglesBtns = document.querySelectorAll(".toggleFormBtn")
@@ -199,14 +206,20 @@ const togglesBtns = document.querySelectorAll(".toggleFormBtn")
 togglesBtns.forEach(button => {
 
   button.addEventListener("click", function(event){
+    event.preventDefault();
+ 
+    let btnId;
+    const btnClass = event.target.className;
+    btnClass == "toggleBtnImg"
+      ? btnId = event.target.parentNode.id
+      : btnId = event.target.id
 
-    event.preventDefault()
-    const table = document.getElementById('tabela_resultado');
-    const icon = document.getElementById('toggleBtnImg');
+    const btn = document.getElementById(`${btnId}`);
     
-    const btnId = event.target.id;
+    const icon = document.getElementById(`${btn.children[0].id}`);
     const formId = btnId.substring(0, btnId.indexOf("_"));
     const form = document.getElementById(`${formId}`);
+    const table = document.getElementById('tabela_resultado');
     
     if (form.style.display == 'flex') {
       form.style.display='none';
