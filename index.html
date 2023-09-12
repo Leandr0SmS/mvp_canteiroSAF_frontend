@@ -9,7 +9,7 @@
   <body>
     
     <header id="header">
-        <img src="./resources/images/saf_bg.png" alt="Consórcio de plantas">
+        <img id="header--img" src="./resources/images/saf_bg.png" alt="Consórcio de plantas">
         <h1 id="title">Canteiro Agroflorestal</h1>
     </header>
     <main id="main">
@@ -46,10 +46,10 @@
         <table id="tabela_resultado">
             <thead>
                 <tr>
-                    <th>Espaçamento</th>
+                    <th>Espaçamento (m)</th>
                     <th>Estrato</th>
                     <th>Nome</th>
-                    <th>Porcentagem de Sombra</th>
+                    <th>Sombra (%)</th>
                     <th>Dias Colheita</th>
                 </tr>
             </thead>
@@ -71,7 +71,7 @@
                     <section class="form--section">
                         <label for="novoEstrato">Estrato:</label> 
                         <select class="input" id="novoEstrato">
-                            <option value="" required></option>
+                            <option value=""></option>
                             <option value="baixo">Baixo</option>
                             <option value="medio">Médio</option>
                             <option value="alto">Alto</option>
@@ -101,6 +101,7 @@
                     <section class="form--section">
                         <label for="delete_select">Nome:</label> 
                         <select id="delete_select" class="input">
+                            <option value=""></option>
                         </select>
                     </section>    
                 </fieldset>
