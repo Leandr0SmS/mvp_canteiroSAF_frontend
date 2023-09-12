@@ -53,12 +53,27 @@ todasPlantas(inserirSelectionForm, 'canteiro')
 */
 const criarCanteiro = async () => {
 
-  const emergente = document.getElementById("canteiro_emergente").value;
-  const alto = document.getElementById("canteiro_alto").value;
-  const medio = document.getElementById("canteiro_medio").value;
-  const baixo = document.getElementById("canteiro_baixo").value;
+  const canteiro = {
+    "emergente": document.getElementById("canteiro_emergente").value,
+    "alto": document.getElementById("canteiro_alto").value,
+    "medio": document.getElementById("canteiro_medio").value,
+    "baixo": document.getElementById("canteiro_baixo").value
+  }
+  const values = Object.entries(canteiro);
+  console.log(values)
+  const urlList = [];
+  values.map(v => {
+    if (urlList.length == 0 && v[1]) {
+      urlList.push(`id_planta_${v[0]}=${v[1]}`)
+    } else if (v[1]) {
+      urlList.push(`&id_planta_${v[0]}=${v[1]}`)
+    }
+  })
+  console.log(urlList)
 
-  const urlPlantas = `http://127.0.0.1:5000/canteiro?id_planta_emergente=${emergente}&id_planta_alto=${alto}&id_planta_medio=${medio}&id_planta_baixo=${baixo}`;
+  let url = 'http://127.0.0.1:5000/canteiro?'
+  const urlPlantas = url + urlList.join('');
+  //const urlPlantas = `http://127.0.0.1:5000/canteiro?id_planta_emergente=${emergente}&id_planta_alto=${alto}&id_planta_medio=${medio}&id_planta_baixo=${baixo}`;
   console.log(urlPlantas)
   fetch(urlPlantas, {
     method: 'get',
