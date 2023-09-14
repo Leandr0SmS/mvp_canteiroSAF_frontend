@@ -26,6 +26,8 @@ body {
     color: var(--bistre);
     font-family: 'Jura', sans-serif;
     letter-spacing: 0.125em;
+    height: 100vh;
+    margin-top: 1.5rem;
 }
 #header {
     display: flex;
@@ -161,6 +163,7 @@ td {
     /* body, header, main, aside */
     body {
         letter-spacing: 0.1em;
+        margin-top: 0;
     }
     #header {
         margin-bottom: 0.3rem;
