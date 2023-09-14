@@ -1,6 +1,6 @@
 /*
   --------------------------------------------------------------------------------------
-  Função para inserir planta no formulário do canteiro
+  Função para inserir <option> nos <selects> do formulário do canteiro.
   --------------------------------------------------------------------------------------
 */
 const inserirSelectionForm = (planta, form) => {
@@ -23,7 +23,7 @@ const inserirSelectionForm = (planta, form) => {
 /*
   --------------------------------------------------------------------------------------
   Função para obter a lista de todas as plantas no servidor via requisição GET 
-  e inserir <option> no formulário do canteiro.
+  e inserir no formulário do canteiro.
   --------------------------------------------------------------------------------------
 */
 const todasPlantas = async (func, form) => {
@@ -48,7 +48,7 @@ const todasPlantas = async (func, form) => {
 todasPlantas(inserirSelectionForm, 'canteiro')
 /*
   --------------------------------------------------------------------------------------
-  Função para obter a lista das plantas selecionada no servidor via requisição GET
+  Função para obter a lista das plantas do canteiro no servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
 const criarCanteiro = async () => {
@@ -59,9 +59,10 @@ const criarCanteiro = async () => {
     "medio": document.getElementById("canteiro_medio").value,
     "baixo": document.getElementById("canteiro_baixo").value
   }
+
   const values = Object.entries(canteiro);
-  console.log(values)
   const urlList = [];
+
   values.map(v => {
     if (urlList.length == 0 && v[1]) {
       urlList.push(`id_planta_${v[0]}=${v[1]}`)
@@ -69,12 +70,10 @@ const criarCanteiro = async () => {
       urlList.push(`&id_planta_${v[0]}=${v[1]}`)
     }
   })
-  console.log(urlList)
 
   let url = 'http://127.0.0.1:5000/canteiro?'
   const urlPlantas = url + urlList.join('');
-  //const urlPlantas = `http://127.0.0.1:5000/canteiro?id_planta_emergente=${emergente}&id_planta_alto=${alto}&id_planta_medio=${medio}&id_planta_baixo=${baixo}`;
-  console.log(urlPlantas)
+
   fetch(urlPlantas, {
     method: 'get',
   })
@@ -99,7 +98,7 @@ const criarCanteiro = async () => {
 }
 /*
   --------------------------------------------------------------------------------------
-  Função para inserir plantas na lista
+  Função para inserir plantas na tabela do canteiro
   --------------------------------------------------------------------------------------
 */
 const inserirLista = (planta, length) => {
@@ -130,7 +129,7 @@ document.getElementById("canteiroBtn").addEventListener("click", function(event)
 }); 
 /*
   --------------------------------------------------------------------------------------
-  Função para colocar uma planta servidor via requisição POST
+  Função para adicionar uma planta no servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
 const postItem = async (
@@ -191,7 +190,7 @@ const adicionarPlanta = () => {
 }
 /*
   --------------------------------------------------------------------------------------
-  Método para ouvir evento de clicar no botão #addBtn 
+  Método para ouvir evento de clicar no botão #addBtn (Adicionar)
   --------------------------------------------------------------------------------------
 */
 document.getElementById("addBtn").addEventListener("click", function(event){
@@ -236,7 +235,7 @@ const removerPlanta = () => {
 }
 /*
   --------------------------------------------------------------------------------------
-  Método para ouvir evento de clicar no botão #delBtn 
+  Método para ouvir evento de clicar no botão #delBtn (deletar)
   --------------------------------------------------------------------------------------
 */
 document.getElementById("delBtn").addEventListener("click", function(event){
@@ -245,7 +244,7 @@ document.getElementById("delBtn").addEventListener("click", function(event){
 });
 /*
   --------------------------------------------------------------------------------------
-  Método para ouvir eventos de clicar no botôs .toggleFormBtn
+  Método para ouvir eventos de clicar nos .toggleFormBtn 
   --------------------------------------------------------------------------------------
 */
 const togglesBtns = document.querySelectorAll(".toggleFormBtn")
