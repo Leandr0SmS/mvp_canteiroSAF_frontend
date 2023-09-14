@@ -154,7 +154,9 @@ const postItem = async (
     .then((response) => {
       (response.status === 200)
         ? alert("Item adicionado!")
-        : alert(`Erro: ${response.status}`)
+        : (response.status === 409)
+          ? alert("ERRO: Planta de mesmo nome já salvo na base :/")
+          : alert("ERRO: Não foi possível salvar nova plnata :/")
     })
     .catch((error) => {
       console.error('Error:', error);
