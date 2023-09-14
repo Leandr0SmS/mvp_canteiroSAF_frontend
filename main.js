@@ -266,6 +266,7 @@ togglesBtns.forEach(button => {
     const formId = btnId.substring(0, btnId.indexOf("_"));
     const form = document.getElementById(`${formId}`);
     const table = document.getElementById('tabela_resultado');
+    const deleteSelect = document.getElementById('delete_select');
     
     if (form.style.display == 'flex') {
       form.style.display='none';
@@ -274,7 +275,7 @@ togglesBtns.forEach(button => {
       form.style.display='flex';
       table.style.display='none';
       icon.src = './resources/images/expand_less.svg';
-      if (formId == "deleteForm") {
+      if (formId == "deleteForm" && deleteSelect.childElementCount == 0) {
         todasPlantas(inserirSelectionForm, 'delete_select')
       }
     }
