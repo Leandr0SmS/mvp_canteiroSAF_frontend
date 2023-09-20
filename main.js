@@ -1,9 +1,82 @@
+start()
+
+function start() {
+  // Adiciona plantas ao formulário do canteiro
+  todasPlantas(inserirSelectionForm, 'canteiro')
+  /*
+    --------------------------------------------------------------------------------------
+    Método para ouvir evento de clicar no botão #canteiroBtn (criar canteiro) 
+    --------------------------------------------------------------------------------------
+  */
+  document.getElementById("canteiroBtn").addEventListener("click", function(event){
+    event.preventDefault()
+    criarCanteiro()
+    document.getElementById('tabela_resultado').style.display ='block';
+  }); 
+  /*
+    --------------------------------------------------------------------------------------
+    Método para ouvir evento de clicar no botão #addBtn (Adicionar)
+    --------------------------------------------------------------------------------------
+  */
+  document.getElementById("addBtn").addEventListener("click", function(event){
+      event.preventDefault()
+      adicionarPlanta()
+  }); 
+  /*
+    --------------------------------------------------------------------------------------
+    Método para ouvir evento de clicar no botão #delBtn (deletar)
+    --------------------------------------------------------------------------------------
+  */
+  document.getElementById("delBtn").addEventListener("click", function(event){
+    event.preventDefault()
+    removerPlanta()
+  });
+  /*
+    --------------------------------------------------------------------------------------
+    Método para ouvir eventos de clicar nos .toggleFormBtn 
+    --------------------------------------------------------------------------------------
+  */
+  const togglesBtns = document.querySelectorAll(".toggleFormBtn")
+
+  togglesBtns.forEach(button => {
+
+    button.addEventListener("click", function(event){
+      event.preventDefault();
+    
+      let btnId;
+      const btnClass = event.target.className;
+      btnClass == "toggleBtnImg"
+        ? btnId = event.target.parentNode.id
+        : btnId = event.target.id
+
+      const btn = document.getElementById(`${btnId}`);
+
+      const icon = document.getElementById(`${btn.children[0].id}`);
+      const formId = btnId.substring(0, btnId.indexOf("_"));
+      const form = document.getElementById(`${formId}`);
+      const table = document.getElementById('tabela_resultado');
+      const deleteSelect = document.getElementById('delete_select');
+
+      if (form.style.display == 'flex') {
+        form.style.display='none';
+        icon.src = './resources/images/expand_more.svg'
+      } else {
+        form.style.display='flex';
+        table.style.display='none';
+        icon.src = './resources/images/expand_less.svg';
+        if (formId == "deleteForm" && deleteSelect.childElementCount == 0) {
+          todasPlantas(inserirSelectionForm, 'delete_select')
+        }
+      }
+    }); 
+  });
+}
 /*
   --------------------------------------------------------------------------------------
   Função para inserir <option> nos <selects> do formulário do canteiro.
   --------------------------------------------------------------------------------------
 */
-const inserirSelectionForm = (planta, form) => {
+function inserirSelectionForm(planta, form) {
 
   let select;
   if (form == "canteiro") {
@@ -26,7 +99,7 @@ const inserirSelectionForm = (planta, form) => {
   e inserir no formulário do canteiro.
   --------------------------------------------------------------------------------------
 */
-const todasPlantas = async (func, form) => {
+async function todasPlantas(func, form) {
   const urlPlantas = config.baseUrl + '/plantas';
   fetch(urlPlantas, {
     method: 'get',
@@ -45,13 +118,12 @@ const todasPlantas = async (func, form) => {
           console.error('Error:', error);
       });
 }
-todasPlantas(inserirSelectionForm, 'canteiro')
 /*
   --------------------------------------------------------------------------------------
   Função para obter a lista das plantas do canteiro no servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
-const criarCanteiro = async () => {
+async function criarCanteiro() {
 
   const canteiro = {
     "emergente": document.getElementById("canteiro_emergente").value,
@@ -101,7 +173,7 @@ const criarCanteiro = async () => {
   Função para inserir plantas na tabela do canteiro
   --------------------------------------------------------------------------------------
 */
-const inserirLista = (planta, length) => {
+function inserirLista(planta, length) {
   const table = document.getElementById('tabela_resultado');
   const tbody = table.createTBody();
   const linha = tbody.insertRow();
@@ -117,27 +189,18 @@ const inserirLista = (planta, length) => {
     }
   }   
 }
-/*
-  --------------------------------------------------------------------------------------
-  Método para ouvir evento de clicar no botão #canteiroBtn (criar canteiro) 
-  --------------------------------------------------------------------------------------
-*/
-document.getElementById("canteiroBtn").addEventListener("click", function(event){
-    event.preventDefault()
-    criarCanteiro()
-    document.getElementById('tabela_resultado').style.display ='block';
-}); 
+
 /*
   --------------------------------------------------------------------------------------
   Função para adicionar uma planta no servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
-const postItem = async (
-                            inputNomePlanta, 
-                            inputNovoEstrato, 
-                            inputTempoColheita,
-                            inputEspacamento,
-                        ) => {
+async function postItem(
+                          inputNomePlanta, 
+                          inputNovoEstrato, 
+                          inputTempoColheita,
+                          inputEspacamento,
+                        ) {
 
   const formData = new FormData();
   
@@ -169,7 +232,7 @@ const postItem = async (
   Função para adicionar uma nova planta 
   --------------------------------------------------------------------------------------
 */
-const adicionarPlanta = () => {
+function adicionarPlanta() {
 
   const inputNomePlanta = document.getElementById("nomePlanta").value;
   const inputNovoEstrato = document.getElementById("novoEstrato").value;
@@ -190,21 +253,13 @@ const adicionarPlanta = () => {
       document.getElementById('addForm').reset();
   }
 }
-/*
-  --------------------------------------------------------------------------------------
-  Método para ouvir evento de clicar no botão #addBtn (Adicionar)
-  --------------------------------------------------------------------------------------
-*/
-document.getElementById("addBtn").addEventListener("click", function(event){
-    event.preventDefault()
-    adicionarPlanta()
-}); 
+
 /*
   --------------------------------------------------------------------------------------
   Função para deletar uma planta do servidor via requisição DELETE
   --------------------------------------------------------------------------------------
 */
-const deleteItem = (item) => {
+function deleteItem(item) {
   let url = config.baseUrl + `/planta?nome_planta=${item}`;
   fetch(url, {
     method: 'delete'
@@ -223,7 +278,7 @@ const deleteItem = (item) => {
   Função para deletar uma planta
   --------------------------------------------------------------------------------------
 */
-const removerPlanta = () => {
+function removerPlanta() {
 
   const inputNomePlanta = document.getElementById("delete_select").value;
 
@@ -235,51 +290,5 @@ const removerPlanta = () => {
     document.getElementById('deleteForm').reset();
   }
 }
-/*
-  --------------------------------------------------------------------------------------
-  Método para ouvir evento de clicar no botão #delBtn (deletar)
-  --------------------------------------------------------------------------------------
-*/
-document.getElementById("delBtn").addEventListener("click", function(event){
-  event.preventDefault()
-  removerPlanta()
-});
-/*
-  --------------------------------------------------------------------------------------
-  Método para ouvir eventos de clicar nos .toggleFormBtn 
-  --------------------------------------------------------------------------------------
-*/
-const togglesBtns = document.querySelectorAll(".toggleFormBtn")
 
-togglesBtns.forEach(button => {
 
-  button.addEventListener("click", function(event){
-    event.preventDefault();
- 
-    let btnId;
-    const btnClass = event.target.className;
-    btnClass == "toggleBtnImg"
-      ? btnId = event.target.parentNode.id
-      : btnId = event.target.id
-
-    const btn = document.getElementById(`${btnId}`);
-    
-    const icon = document.getElementById(`${btn.children[0].id}`);
-    const formId = btnId.substring(0, btnId.indexOf("_"));
-    const form = document.getElementById(`${formId}`);
-    const table = document.getElementById('tabela_resultado');
-    const deleteSelect = document.getElementById('delete_select');
-    
-    if (form.style.display == 'flex') {
-      form.style.display='none';
-      icon.src = './resources/images/expand_more.svg'
-    } else {
-      form.style.display='flex';
-      table.style.display='none';
-      icon.src = './resources/images/expand_less.svg';
-      if (formId == "deleteForm" && deleteSelect.childElementCount == 0) {
-        todasPlantas(inserirSelectionForm, 'delete_select')
-      }
-    }
-  }); 
-});
