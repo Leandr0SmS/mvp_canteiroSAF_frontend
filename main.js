@@ -251,6 +251,7 @@ function adicionarPlanta() {
           inputEspacamento,
       )
       document.getElementById('addForm').reset();
+      location.reload();
   }
 }
 
@@ -287,7 +288,7 @@ function removerPlanta() {
   } else {
     deleteItem(inputNomePlanta)
     console.log(inputNomePlanta)
-    document.getElementById('deleteForm').reset();
+    location.reload();
   }
 }
 
