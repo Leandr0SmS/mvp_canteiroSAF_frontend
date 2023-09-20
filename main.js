@@ -27,7 +27,7 @@ const inserirSelectionForm = (planta, form) => {
   --------------------------------------------------------------------------------------
 */
 const todasPlantas = async (func, form) => {
-  const urlPlantas = 'http://127.0.0.1:5000/plantas';
+  const urlPlantas = config.baseUrl + '/plantas';
   fetch(urlPlantas, {
     method: 'get',
   })
@@ -71,7 +71,7 @@ const criarCanteiro = async () => {
     }
   })
 
-  let url = 'http://127.0.0.1:5000/canteiro?'
+  let url = config.baseUrl + '/canteiro?'
   const urlPlantas = url + urlList.join('');
 
   fetch(urlPlantas, {
@@ -146,7 +146,7 @@ const postItem = async (
   formData.append('tempo_colheita', inputTempoColheita);
   formData.append('espacamento', inputEspacamento);
   
-  let url = 'http://127.0.0.1:5000/planta';
+  let url = config.baseUrl + '/planta';
   fetch(url, {
     method: 'post',
     body: formData
@@ -205,7 +205,7 @@ document.getElementById("addBtn").addEventListener("click", function(event){
   --------------------------------------------------------------------------------------
 */
 const deleteItem = (item) => {
-  let url = `http://127.0.0.1:5000/planta?nome_planta=${item}`;
+  let url = config.baseUrl + `/planta?nome_planta=${item}`;
   fetch(url, {
     method: 'delete'
   })
