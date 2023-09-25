@@ -208,21 +208,15 @@ async function postItem(
   formData.append('espacamento', inputEspacamento);
   
   let url = config.baseUrl + '/planta';
-  fetch(url, {
+
+  const response = await fetch(url, {
     method: 'post',
     body: formData
   })
-    .then((response) => {
-      (response.status === 200)
-        ? alert("Item adicionado!")
-        : (response.status === 409)
-          ? alert("ERRO: Planta de mesmo nome já salvo na base :/")
-          : alert("ERRO: Não foi possível salvar nova plnata :/")
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-      alert("Erro: ")
-    });
+  if (!response.ok) {
+    throw new Error(`${response.status}`);
+  }
+  return response
 }
 
 /*
@@ -248,7 +242,20 @@ function adicionarPlanta() {
           inputTempoColheita,
           inputEspacamento,
       )
-      window.location.reload();
+      .then((response) => {
+        if (response.status === 200) {
+          alert("Item adicionado!")
+          window.location.reload();
+        } else if (response.status === 409) {
+          alert("ERRO: Planta de mesmo nome já salvo na base :/")
+        } else {
+          alert("ERRO: Não foi possível salvar nova plnata :/")
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert("Erro: ")
+      });
   }
 }
 
@@ -257,19 +264,15 @@ function adicionarPlanta() {
   Função para deletar uma planta do servidor via requisição DELETE
   --------------------------------------------------------------------------------------
 */
-function deleteItem(item) {
+async function deleteItem(item) {
   let url = config.baseUrl + `/planta?nome_planta=${item}`;
-  fetch(url, {
+  const response = await fetch(url, {
     method: 'delete'
   })
-    .then((response) => {
-      response.status === 200
-        ? alert("Item Deletado!")
-        : alert(`Erro: ${response.status}`)
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+  if (!response.ok) {
+    throw new Error(`${response.status}`);
+  }
+  return response;
 }
 /*
   --------------------------------------------------------------------------------------
@@ -284,7 +287,17 @@ function removerPlanta() {
     alert("O nome da planta deve ser preenchido");
   } else {
     deleteItem(inputNomePlanta)
-    window.location.reload();
+      .then((response) => {
+        if (response.status == 200) {
+          alert("Item Deletado!")
+          window.location.reload();
+        } else {
+          alert(`Erro: ${response.status}`)
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 }
 
