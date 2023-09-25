@@ -1,8 +1,15 @@
+//start()
 start()
 
 function start() {
   // Adiciona plantas ao formulário do canteiro
-  todasPlantas(inserirSelectionForm, 'canteiro')
+  todasPlantas()
+    .then((data) => {
+      data.plantas.forEach(planta => inserirSelectionForm(planta, 'canteiro'))
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
   /*
     --------------------------------------------------------------------------------------
     Método para ouvir evento de clicar no botão #canteiroBtn (criar canteiro) 
@@ -10,7 +17,16 @@ function start() {
   */
   document.getElementById("canteiroBtn").addEventListener("click", function(event){
     event.preventDefault()
-    criarCanteiro()
+    criarCanteiro()      
+      .then((data) => {
+        const length = data.plantas.length;
+        data.plantas.forEach(planta => {
+          inserirLista(planta, length)
+        })
+      })
+      .catch((error) => {
+        console.error('Error:' + error);
+  });
     document.getElementById('tabela_resultado').style.display ='block';
   }); 
   /*
@@ -65,7 +81,13 @@ function start() {
         table.style.display='none';
         icon.src = './resources/images/expand_less.svg';
         if (formId == "deleteForm" && deleteSelect.childElementCount == 0) {
-          todasPlantas(inserirSelectionForm, 'delete_select')
+          todasPlantas()
+            .then((data) => {
+              data.plantas.forEach(planta => inserirSelectionForm(planta, 'delete_select'))
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
         }
       }
     }); 
@@ -99,24 +121,15 @@ function inserirSelectionForm(planta, form) {
   e inserir no formulário do canteiro.
   --------------------------------------------------------------------------------------
 */
-async function todasPlantas(func, form) {
+async function todasPlantas() {
   const urlPlantas = config.baseUrl + '/plantas';
-  fetch(urlPlantas, {
-    method: 'get',
-  })
-      .then((response) => {
-        if (response.status == 200) {
-          return response.json()
-        } else {
-          alert(`ERRO ${response.status}`)
-        }
-      })
-      .then((data) => {
-          data.plantas.forEach(planta => func(planta, form))
-      })
-      .catch((error) => {
-          console.error('Error:', error);
-      });
+  const response = await fetch(urlPlantas)
+  if (!response.ok) {
+    const message = `An error has occured: ${response.status}`;
+    throw new Error(message);
+  }
+  const plantasData = await response.json();
+  return plantasData;
 }
 /*
   --------------------------------------------------------------------------------------
@@ -146,27 +159,12 @@ async function criarCanteiro() {
   let url = config.baseUrl + '/canteiro?'
   const urlPlantas = url + urlList.join('');
 
-  fetch(urlPlantas, {
-    method: 'get',
-  })
-      .then((response) => {
-        if (response.status == 200) {
-          return response.json()
-        } else {
-          alert(`ERRO ${response}`)
-        }
-      })
-      .then((data) => {
-          const length = data.plantas.length;
-          data.plantas.forEach(planta => {
-              console.log(planta, length)
-              inserirLista(planta, length)
-          })
-      })
-      .catch((error) => {
-          console.log(error)
-          console.error('Error:' + error);
-      });
+  const response = await fetch(urlPlantas)
+  if (!response.ok) {
+    throw new Error(`${response.status}`);
+  }
+  const canteiroData = await response.json();
+  return canteiroData;
 }
 /*
   --------------------------------------------------------------------------------------
@@ -250,8 +248,7 @@ function adicionarPlanta() {
           inputTempoColheita,
           inputEspacamento,
       )
-      document.getElementById('addForm').reset();
-      location.reload();
+      window.location.reload();
   }
 }
 
@@ -287,8 +284,7 @@ function removerPlanta() {
     alert("O nome da planta deve ser preenchido");
   } else {
     deleteItem(inputNomePlanta)
-    console.log(inputNomePlanta)
-    location.reload();
+    window.location.reload();
   }
 }
 
