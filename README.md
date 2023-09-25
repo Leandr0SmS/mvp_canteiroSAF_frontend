@@ -19,7 +19,9 @@ Para que o front-end funcione de forma otimizada, será necessário iniciar a AP
 
 ### Executando
 
-Para executar basta abrir o arquivo index.html no browser.
+Para executar basta abrir o arquivo index.html no browser. 
+
+>Caso precise atualizar o url basta modificar o arquivo config.js.
 
 ## Autor
  
