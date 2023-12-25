@@ -12,6 +12,9 @@ function App() {
       <main id="main">
         <Form/>
       </main>
+      <aside id="aside">
+        
+      </aside>
     </>
   )
 }

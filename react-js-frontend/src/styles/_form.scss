@@ -1,0 +1,45 @@
+/* Forms */
+.form {
+    display: flex;
+    flex-direction: column;
+}
+.fieldset {
+    border-radius: 0.5rem 0.5rem 0 0;
+    border-bottom: none;
+    border: 1px solid $lawn-green;
+}
+.form--section {
+    display: flex;
+    flex-direction: column;
+}
+label, legend {
+    margin-bottom: 0.3rem;
+}
+#deleteForm, #addForm {
+    display: none;
+}
+#canteiroForm--fieldset {
+    display: flex;
+    gap: 0.5rem;
+}
+.section--toggle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 90%;
+}
+.input {
+    padding: 0.5rem;
+    margin-bottom: 0.3rem;
+    min-width: 12rem;
+    border-radius: 0.5rem;
+    border: 1px solid $lawn-green;
+}
+.input:active {
+    border: 1px solid $lion--active;
+}
+.input:focus {
+    outline: none;
+    border: 1px solid $lion--active;
+}

@@ -1,5 +1,115 @@
 @import url("https://fonts.googleapis.com/css2?family=Jura:wght@300;400;600&display=swap");
 /* CSS HEX */
+#header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+#title {
+  font-size: 2.5rem;
+  font-weight: 100;
+  letter-spacing: 0.2rem;
+}
+
+/* Forms */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldset {
+  border-radius: 0.5rem 0.5rem 0 0;
+  border-bottom: none;
+  border: 1px solid #96ea56;
+}
+
+.form--section {
+  display: flex;
+  flex-direction: column;
+}
+
+label, legend {
+  margin-bottom: 0.3rem;
+}
+
+#deleteForm, #addForm {
+  display: none;
+}
+
+#canteiroForm--fieldset {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.section--toggle {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 90%;
+}
+
+.input {
+  padding: 0.5rem;
+  margin-bottom: 0.3rem;
+  min-width: 12rem;
+  border-radius: 0.5rem;
+  border: 1px solid #96ea56;
+}
+
+.input:active {
+  border: 1px solid rgb(234, 130, 32);
+}
+
+.input:focus {
+  outline: none;
+  border: 1px solid rgb(234, 130, 32);
+}
+
+/* Buttons */
+.toggleFormBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24.68rem;
+  margin-bottom: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  color: #effedb;
+  background-color: #c08c5a;
+}
+
+.btn {
+  padding: 0.5rem;
+  width: 100%;
+  border: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  font-size: 1.2rem;
+  background-color: #96ea56;
+  color: #382216;
+  font-weight: 100;
+}
+
+.toggleFormBtn:hover {
+  background-color: rgb(234, 130, 32);
+}
+
+.btn:hover {
+  background-color: rgb(111, 246, 7);
+}
+
+.toggleFormBtn:hover, .btn:hover {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.toggleBtnImg {
+  width: 4rem;
+}
+
 /* reset */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -11,8 +121,15 @@
 
 /* body, header, main, aside */
 body {
-  color: var(--bistre);
+  color: #382216;
   font-family: "Jura", sans-serif;
   letter-spacing: 0.125em;
   padding-top: 1.5rem;
+}
+
+#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }/*# sourceMappingURL=main.css.map */

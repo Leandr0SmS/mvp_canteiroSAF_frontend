@@ -1,4 +1,7 @@
 @import "base";
+@import "header";
+@import "form";
+@import "buttons";
 
 /* reset */
 *, *::before, *::after {
@@ -11,8 +14,15 @@
 
 /* body, header, main, aside */
 body {
-    color: var(--bistre);
+    color: $bistre;
     font-family: 'Jura', sans-serif;
     letter-spacing: 0.125em;
     padding-top: 1.5rem;
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
