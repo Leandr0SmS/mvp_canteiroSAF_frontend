@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Jura:wght@300;400;600&display=swap");
+/* CSS HEX */
+/* reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+/* body, header, main, aside */
+body {
+  color: var(--bistre);
+  font-family: "Jura", sans-serif;
+  letter-spacing: 0.125em;
+  padding-top: 1.5rem;
+}/*# sourceMappingURL=main.css.map */
