@@ -1,4 +1,4 @@
-function Form() {
+function CanteiroForm() {
 
     return (
         <form className="form">
@@ -34,4 +34,4 @@ function Form() {
     )
 }
 
-export default Form
+export default CanteiroForm
