@@ -1,20 +1,12 @@
-import { useState } from 'react';
-
 import btnImgExpandMore from '../assets/expand_more.svg';
 import btnImgExpandLess from '../assets/expand_less.svg';
 
 function ToggleBtn({ btnId,
                      btnImgId,
                      btnText,
+                     toggleForm,
+                     onClickToggleBtn
                     }) {
-
-    // toggle buttons state
-    const [toggleForm, setToggleForm] = useState(false);
-
-    //handle toggle click btn
-    const handleToggleBtn = () => {
-      setToggleForm((t) => !t)
-    };
 
     const imgInfo = {
         src: toggleForm ? btnImgExpandLess : btnImgExpandMore,
@@ -26,7 +18,7 @@ function ToggleBtn({ btnId,
             type="button" 
             className="toggleFormBtn"
             id={btnId}
-            onClick={handleToggleBtn}
+            onClick={onClickToggleBtn}
         >
             <img 
                 id={btnImgId}

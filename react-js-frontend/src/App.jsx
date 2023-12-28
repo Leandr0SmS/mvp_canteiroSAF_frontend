@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import CanteiroForm from './components/Canteiro-form';
 import Header from './components/Header';
 import ToggleBtn from './components/Toggle-btn';
@@ -5,6 +7,25 @@ import ToggleBtn from './components/Toggle-btn';
 import headerImage from './assets/saf_bg.png';
 
 function App() {
+
+  const [addForm, setAddForm] = useState(false);
+  const [delForm, setDelForm] = useState(false);
+
+  const handleToggleBtn = (e) => {
+    const btnId = e.target.id
+    switch (btnId) {
+      case "addForm_toggleBtn":
+        setAddForm(a => !a)
+        break;
+      case "deleteForm_toggleBtn":
+        setDelForm(d => !d)
+        break;
+      default:
+        break;
+    }
+  }
+
+  console.log([addForm, delForm])
 
   return (
     <>
@@ -20,6 +41,8 @@ function App() {
               btnId="addForm_toggleBtn"
               btnImgId="toggleBtnImgAdd"
               btnText="Adicionar Planta"
+              toggleForm={addForm}
+              onClickToggleBtn={handleToggleBtn}
           />
         </section>
         <section className="section--toggle">
@@ -27,6 +50,8 @@ function App() {
               btnId="deleteForm_toggleBtn"
               btnImgId="toggleBtnImgDel"
               btnText="Deletar Planta"
+              toggleForm={delForm}
+              onClickToggleBtn={handleToggleBtn}
           />
         </section>
       </aside>
