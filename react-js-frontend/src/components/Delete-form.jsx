@@ -1,7 +1,11 @@
-function DeleteForm() {
+function DeleteForm({ toggle }) {
+
+    const formClass = toggle
+        ? "form"
+        : "form hidden"
 
     return (
-        <form className="form" id="deleteForm">
+        <form className={formClass} id="deleteForm">
             <fieldset className="fieldset">
                 <legend>Deletar espécies no banco de dados:</legend>
                 <section className="form--section">

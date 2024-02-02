@@ -58,11 +58,9 @@ function App() {
               toggleForm={delForm}
               onClickToggleBtn={handleToggleBtn}
           />
-          {
-            delForm
-            ? <DeleteForm/>
-            : undefined
-          }
+          <DeleteForm
+            toggle={delForm}
+          />
         </section>
       </aside>
     </>
