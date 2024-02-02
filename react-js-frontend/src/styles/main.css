@@ -35,7 +35,15 @@ label, legend {
 }
 
 .hidden {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 500ms, opacity 500ms;
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 500ms;
 }
 
 #canteiroForm--fieldset {

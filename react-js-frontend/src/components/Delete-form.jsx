@@ -1,7 +1,7 @@
 function DeleteForm({ toggle }) {
 
     const formClass = toggle
-        ? "form"
+        ? "form show"
         : "form hidden"
 
     return (

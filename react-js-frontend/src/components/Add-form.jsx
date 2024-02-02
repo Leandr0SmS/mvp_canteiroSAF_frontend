@@ -1,7 +1,7 @@
 function AddForm({ toggle }) {
 
     const formClass = toggle
-        ? "form"
+        ? "form show"
         : "form hidden"
 
     return (
