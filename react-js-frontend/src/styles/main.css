@@ -34,7 +34,7 @@ label, legend {
   margin-bottom: 0.3rem;
 }
 
-#deleteForm, #addForm {
+.hidden {
   display: none;
 }
 

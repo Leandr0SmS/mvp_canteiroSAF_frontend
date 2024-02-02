@@ -3,6 +3,8 @@ import { useState } from 'react';
 import CanteiroForm from './components/Canteiro-form';
 import Header from './components/Header';
 import ToggleBtn from './components/Toggle-btn';
+import AddForm from './components/Add-form';
+import DeleteForm from './components/Delete-form';
 
 import headerImage from './assets/saf_bg.png';
 
@@ -44,6 +46,9 @@ function App() {
               toggleForm={addForm}
               onClickToggleBtn={handleToggleBtn}
           />
+          <AddForm
+            toggle={addForm}
+          />
         </section>
         <section className="section--toggle">
           <ToggleBtn
@@ -53,6 +58,11 @@ function App() {
               toggleForm={delForm}
               onClickToggleBtn={handleToggleBtn}
           />
+          {
+            delForm
+            ? <DeleteForm/>
+            : undefined
+          }
         </section>
       </aside>
     </>
