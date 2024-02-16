@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import CanteiroForm from './components/Canteiro-form';
 import Header from './components/Header';
@@ -10,9 +10,11 @@ import headerImage from './assets/saf_bg.png';
 
 function App() {
 
+  // Toggle Forms States
   const [addForm, setAddForm] = useState(false);
   const [delForm, setDelForm] = useState(false);
 
+  // Toggle button function
   const handleToggleBtn = (e) => {
     const btnId = e.target.id
     switch (btnId) {
