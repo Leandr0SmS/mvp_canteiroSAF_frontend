@@ -23,7 +23,7 @@ function MeuCanteiroApp() {
   const [addForm, setAddForm] = useState(false);
   const [delForm, setDelForm] = useState(false);
 
-  // Query All Plantas
+  //Query All Plantas
   const { isLoading, error, data } = useQuery({
     queryKey: ['fetchAllPlantas'],
       queryFn: async () => {
@@ -38,7 +38,6 @@ function MeuCanteiroApp() {
   if (isLoading) return 'Loading...'
 
   if (error) return 'An error has occurred: ' + error.message
-
 
   // Toggle button function
   const handleToggleBtn = (e) => {
@@ -88,6 +87,7 @@ function MeuCanteiroApp() {
           />
           <DeleteForm
             toggle={delForm}
+            allPlantasData={data.plantas}
           />
         </section>
       </aside>
