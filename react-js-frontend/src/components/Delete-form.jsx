@@ -1,4 +1,4 @@
-function DeleteForm({ toggle, allPlantasData }) {
+function DeleteForm({ toggle, allPlantasData, formData, handleOnChange }) {
 
     const allPlantasOptions = allPlantasData.map(d => {
         return (
@@ -15,13 +15,20 @@ function DeleteForm({ toggle, allPlantasData }) {
         ? "form show"
         : "form hidden"
 
+    console.log(formData)
+
     return (
         <form className={formClass} id="deleteForm">
             <fieldset className="fieldset">
                 <legend>Deletar espécies no banco de dados:</legend>
                 <section className="form--section">
                     <label htmlFor="delete_select">Nome:</label> 
-                    <select id="delete_select" className="input">
+                    <select 
+                        id="delete_select" 
+                        className="input"
+                        value={formData}
+                        onChange={handleOnChange}
+                    >
                         <option value=""></option>
                         {allPlantasOptions}
                     </select>

@@ -4,8 +4,6 @@ function AddForm({ toggle, formData, onChangeNomeAddForm }) {
         ? "form show"
         : "form hidden"
 
-    console.log(formData)
-
     return (
         <form className={formClass} id="addForm">
                 <fieldset className="fieldset">

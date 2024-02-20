@@ -19,7 +19,7 @@ const allPlantasUrl = import.meta.env.VITE_API_URL;
 
 function MeuCanteiroApp() {
 
-  // Toggle Forms States
+  // Toggle Forms State
   const [addForm, setAddForm] = useState(false);
   const [delForm, setDelForm] = useState(false);
 
@@ -30,6 +30,9 @@ function MeuCanteiroApp() {
     "tempoColheita": "",
     "espacamento": ""
   });
+
+  // Del form State
+  const [DelFormData, setDelFormData] = useState("")
 
   //Query All Plantas
   const { isLoading, error, data } = useQuery({
@@ -62,13 +65,19 @@ function MeuCanteiroApp() {
     }
   }
 
-  // Onchange AddPlanta Function
+  // Onchange Add Planta Form Function
   const handleOnChangeAddForm = (e) => {
     const {name, value} = e.target;
     setAddFormData(p => ({
       ...p,
       [name]: value
     }))
+  }
+
+  // OnChange Del Planta Form Function
+  const handleOnChangeDelForm = (e) => {
+    const {value} = e.target;
+    setDelFormData(value)
   }
 
   return (
@@ -107,6 +116,8 @@ function MeuCanteiroApp() {
           <DeleteForm
             toggle={delForm}
             allPlantasData={data.plantas}
+            formData={DelFormData}
+            handleOnChange={handleOnChangeDelForm}
           />
         </section>
       </aside>
