@@ -14,6 +14,9 @@ import DeleteForm from './components/Delete-form';
 
 import headerImage from './assets/saf_bg.png';
 
+// Environmental Variables
+const allPlantasUrl = import.meta.env.VITE_API_URL;
+
 function MeuCanteiroApp() {
 
   // Toggle Forms States
@@ -23,10 +26,13 @@ function MeuCanteiroApp() {
   // Query All Plantas
   const { isLoading, error, data } = useQuery({
     queryKey: ['fetchAllPlantas'],
-    queryFn: () =>
-      fetch('http://127.0.0.1:5000/plantas').then((res) =>
-        res.json(),
-      ),
+      queryFn: async () => {
+        const response = await fetch(allPlantasUrl)
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        return response.json()
+      },
   })
 
   if (isLoading) return 'Loading...'
@@ -49,15 +55,15 @@ function MeuCanteiroApp() {
     }
   }
 
-  console.log(data)
-
   return (
     <>
       <Header
         imgSrc={headerImage}
       />
       <main id="main">
-        <CanteiroForm/>
+        <CanteiroForm
+          allPlantasData={data.plantas}
+        />
       </main>
       <aside id="aside">
         <section className="section--toggle">
