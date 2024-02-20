@@ -23,6 +23,14 @@ function MeuCanteiroApp() {
   const [addForm, setAddForm] = useState(false);
   const [delForm, setDelForm] = useState(false);
 
+  // Add Form State
+  const [addFormData, setAddFormData] = useState({
+    "nomePlanta": "",
+    "novoEstrato": "",
+    "tempoColheita": "",
+    "espacamento": ""
+  });
+
   //Query All Plantas
   const { isLoading, error, data } = useQuery({
     queryKey: ['fetchAllPlantas'],
@@ -54,6 +62,15 @@ function MeuCanteiroApp() {
     }
   }
 
+  // Onchange AddPlanta Function
+  const handleOnChangeAddForm = (e) => {
+    const {name, value} = e.target;
+    setAddFormData(p => ({
+      ...p,
+      [name]: value
+    }))
+  }
+
   return (
     <>
       <Header
@@ -75,6 +92,8 @@ function MeuCanteiroApp() {
           />
           <AddForm
             toggle={addForm}
+            formData={addFormData}
+            onChangeNomeAddForm={handleOnChangeAddForm}
           />
         </section>
         <section className="section--toggle">
