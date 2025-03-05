@@ -1,19 +1,19 @@
-const forcastBtn = document.getElementById("searchCityBtn");
-const canteiroBtn = document.getElementById("canteiroBtn");
+const forcastBtn = document.getElementById('searchCityBtn');
+const canteiroBtn = document.getElementById('canteiroBtn');
 const resultTabel = document.getElementById('tabela_resultado');
-const addBtn = document.getElementById("addBtn");
-const delBtn = document.getElementById("delBtn");
-const togglesBtns = document.querySelectorAll(".toggleFormBtn");
+const addBtn = document.getElementById('addBtn');
+const delBtn = document.getElementById('delBtn');
+const togglesBtns = document.querySelectorAll('.toggleFormBtn');
 const deleteSelect = document.getElementById('delete_select');
 const canteiroForm = document.getElementById('canteiro--form');
-const inputNomePlanta = document.getElementById("nomePlanta").value;
-const inputNovoEstrato = document.getElementById("novoEstrato").value;
-const inputTempoColheita = document.getElementById("tempoColheita").value;
-const inputEspacamento = document.getElementById("espacamento").value;
-const inputNomeDelPlanta = document.getElementById("delete_select").value;
-const cityName = document.getElementById("cityWeather").value;
+const inputNomePlanta = document.getElementById('nomePlanta').value;
+const inputNovoEstrato = document.getElementById('novoEstrato').value;
+const inputTempoColheita = document.getElementById('tempoColheita').value;
+const inputEspacamento = document.getElementById('espacamento').value;
+const inputNomeDelPlanta = document.getElementById('delete_select').value;
+const cityName = document.getElementById('cityWeather').value;
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
-const forcastDaysInput = document.getElementById("forcastDays").value;
+const forcastDaysInput = document.getElementById('forcastDays').value;
 const resultTableRaw = `
   <thead>
     <tr>
@@ -24,7 +24,7 @@ const resultTableRaw = `
         <th>Dias Colheita</th>
     </tr>
   </thead>
-`
+`;
 
 /*
   --------------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ const { baseUrl, brasilApi } = config;
   Função para iniciar o ambiente e os eventos
   --------------------------------------------------------------------------------------
 */
-start()
+start();
 
 function start() {
   // Adiciona plantas ao formulário do canteiro
@@ -54,11 +54,10 @@ function start() {
     Método para ouvir evento de clicar no botão #canteiroBtn (criar canteiro) 
     --------------------------------------------------------------------------------------
   */
-  canteiroBtn.addEventListener("click", function(event){
-    event.preventDefault()
-    console.log(canteiroBtn.value)
+  canteiroBtn.addEventListener('click', function(event){
+    event.preventDefault();
     if (canteiroBtn.textContent === 'Criar Canteiro') {
-      console.log("pass true")
+      console.log('pass true')
       resultTabel.innerHTML = resultTableRaw;
       criarCanteiro()      
         .then((data) => {
@@ -71,12 +70,12 @@ function start() {
           console.error('Error:' + error);
         });
       resultTabel.style.display ='block';
-      canteiroBtn.innerText = 'Refazer Canteiro'
+      canteiroBtn.innerText = 'Refazer Canteiro';
     } else if (canteiroBtn.textContent === 'Refazer Canteiro') {
       resultTabel.innerHTML = resultTableRaw;
-      resultTabel.style.display = 'none'
+      resultTabel.style.display = 'none';
       canteiroForm.reset();
-      canteiroBtn.innerText = 'Criar Canteiro'
+      canteiroBtn.innerText = 'Criar Canteiro';
     }
   }); 
   /*
@@ -84,18 +83,18 @@ function start() {
     Método para ouvir evento de clicar no botão #addBtn (Adicionar)
     --------------------------------------------------------------------------------------
   */
-  addBtn.addEventListener("click", function(event){
-      event.preventDefault()
-      adicionarPlanta()
+  addBtn.addEventListener('click', function(event){
+      event.preventDefault();
+      adicionarPlanta();
   }); 
   /*
     --------------------------------------------------------------------------------------
     Método para ouvir evento de clicar no botão #delBtn (deletar)
     --------------------------------------------------------------------------------------
   */
-  delBtn.addEventListener("click", function(event){
-    event.preventDefault()
-    removerPlanta()
+  delBtn.addEventListener('click', function(event){
+    event.preventDefault();
+    removerPlanta();
   });
   /*
     --------------------------------------------------------------------------------------
@@ -104,29 +103,29 @@ function start() {
   */
   togglesBtns.forEach(button => {
 
-    button.addEventListener("click", function(event){
+    button.addEventListener('click', function(event){
       event.preventDefault();
     
       let btnId;
       const btnClass = event.target.className;
-      btnClass == "toggleBtnImg"
+      btnClass == 'toggleBtnImg'
         ? btnId = event.target.parentNode.id
-        : btnId = event.target.id
+        : btnId = event.target.id;
 
       const btn = document.getElementById(`${btnId}`);
 
       const icon = document.getElementById(`${btn.children[0].id}`);
-      const formId = btnId.substring(0, btnId.indexOf("_"));
+      const formId = btnId.substring(0, btnId.indexOf('_'));
       const form = document.getElementById(`${formId}`);
 
       if (form.style.display == 'flex') {
         form.style.display='none';
-        icon.src = './resources/images/expand_more.svg'
+        icon.src = './resources/images/expand_more.svg';
       } else {
         form.style.display='flex';
         resultTabel.style.display='none';
         icon.src = './resources/images/expand_less.svg';
-        if (formId == "deleteForm" && deleteSelect.childElementCount == 0) {
+        if (formId == 'deleteForm' && deleteSelect.childElementCount == 0) {
           todasPlantas()
             .then((data) => {
               data.plantas.forEach(planta => inserirSelectionForm(planta, 'delete_select'))
@@ -143,11 +142,11 @@ function start() {
     Método para eventos de clicar nos .searchCityBtn 
     --------------------------------------------------------------------------------------
   */
-  forcastBtn.addEventListener("click", async function (event) {
+  forcastBtn.addEventListener('click', async function (event) {
     event.preventDefault();
     const cityId = await procurarIdCidade();
     const data = await buscarPrevisao(cityId);
-    mostrarPrevisao(data)
+    mostrarPrevisao(data);
   });
 
 }
@@ -159,15 +158,15 @@ function start() {
 function inserirSelectionForm(planta, form) {
 
   let select;
-  if (form == "canteiro") {
+  if (form == 'canteiro') {
     select = document.getElementById(`${form}_${planta.estrato}`);
-    const option = document.createElement("option");
+    const option = document.createElement('option');
     option.text = `${planta.nome_planta}`;
     option.value = `${planta.id_planta}`;
     select.add(option);
   } else {
     select = document.getElementById(`${form}`);
-    const option = document.createElement("option");
+    const option = document.createElement('option');
     option.text = `${planta.nome_planta}`;
     option.value = `${planta.nome_planta}`;
     select.add(option);
@@ -181,7 +180,7 @@ function inserirSelectionForm(planta, form) {
 */
 async function todasPlantas() {
   const urlPlantas = baseUrl + '/plantas';
-  const response = await fetch(urlPlantas)
+  const response = await fetch(urlPlantas);
   if (!response.ok) {
     const message = `An error has occured: ${response.status}`;
     throw new Error(message);
@@ -197,11 +196,11 @@ async function todasPlantas() {
 async function criarCanteiro() {
 
   const canteiro = {
-    "emergente": document.getElementById("canteiro_emergente").value,
-    "alto": document.getElementById("canteiro_alto").value,
-    "medio": document.getElementById("canteiro_medio").value,
-    "baixo": document.getElementById("canteiro_baixo").value
-  }
+    'emergente': document.getElementById('canteiro_emergente').value,
+    'alto': document.getElementById('canteiro_alto').value,
+    'medio': document.getElementById('canteiro_medio').value,
+    'baixo': document.getElementById('canteiro_baixo').value
+  };
 
   const values = Object.entries(canteiro);
   const urlList = [];
@@ -212,7 +211,7 @@ async function criarCanteiro() {
     } else if (v[1]) {
       urlList.push(`&id_planta_${v[0]}=${v[1]}`)
     }
-  })
+  });
 
   let url = config.baseUrl + '/canteiro?'
   const urlPlantas = url + urlList.join('');
@@ -223,7 +222,7 @@ async function criarCanteiro() {
   }
   const canteiroData = await response.json();
   return canteiroData;
-}
+};
 /*
   --------------------------------------------------------------------------------------
   Função para inserir plantas na tabela do canteiro
@@ -235,15 +234,15 @@ function inserirLista(planta, length) {
   if (!planta) {
     for (len = length; len >= 0; len--) {
       const cel = linha.insertCell();
-      cel.innerHTML = "";
+      cel.innerHTML = ';'
     }
   } else {
     for (prop in planta) {
       const cel = linha.insertCell();
       cel.innerHTML = planta[prop];
     }
-  }   
-}
+  };
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -268,10 +267,10 @@ async function postItem(
   const response = await fetch(url, {
     method: 'post',
     body: formData
-  })
+  });
   if (!response.ok) {
     throw new Error(`${response.status}`);
-  }
+  };
   return response
 }
 
@@ -282,9 +281,9 @@ async function postItem(
 */
 function adicionarPlanta() {
   if (inputNomePlanta === '' || inputNovoEstrato === '') {
-      alert("O nome da planta e o estrato devem ser preenchidos");
+      alert('O nome da planta e o estrato devem ser preenchidos');
   } else if (isNaN(inputEspacamento)  || isNaN(inputTempoColheita)) {
-      alert("Tempo para colheita e espaçamento convencional precisam ser números!");
+      alert('Tempo para colheita e espaçamento convencional precisam ser números!');
   } else {
       postItem(
           inputNomePlanta, 
@@ -294,20 +293,20 @@ function adicionarPlanta() {
       )
       .then((response) => {
         if (response.status === 200) {
-          alert("Item adicionado!")
+          alert('Item adicionado!')
           window.location.reload();
         } else if (response.status === 409) {
-          alert("ERRO: Planta de mesmo nome já salvo na base :/")
+          alert('ERRO: Planta de mesmo nome já salvo na base :/')
         } else {
-          alert("ERRO: Não foi possível salvar nova plnata :/")
+          alert('ERRO: Não foi possível salvar nova plnata :/')
         }
       })
       .catch((error) => {
         console.error('Error:', error);
-        alert("Erro: ")
+        alert('Erro: ')
       });
-  }
-}
+  };
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -318,10 +317,10 @@ async function deleteItem(item) {
   let url = config.baseUrl + `/planta?nome_planta=${item}`;
   const response = await fetch(url, {
     method: 'delete'
-  })
+  });
   if (!response.ok) {
     throw new Error(`${response.status}`);
-  }
+  };
   return response;
 }
 /*
@@ -331,12 +330,12 @@ async function deleteItem(item) {
 */
 function removerPlanta() {
   if (inputNomeDelPlanta === '') {
-    alert("O nome da planta deve ser preenchido");
+    alert('O nome da planta deve ser preenchido');
   } else {
     deleteItem(inputNomeDelPlanta)
       .then((response) => {
         if (response.status == 200) {
-          alert("Item Deletado!")
+          alert('Item Deletado!')
           window.location.reload();
         } else {
           alert(`Erro: ${response.status}`)
@@ -345,8 +344,8 @@ function removerPlanta() {
       .catch((error) => {
         console.error('Error:', error);
       });
-  }
-}
+  };
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -356,14 +355,13 @@ function removerPlanta() {
 async function procurarIdCidade() {
   const encoded = encodeURIComponent(cityName);
   const urlCity = `${brasilApi}cidade/${encoded}`;
-  console.log(urlCity)
   const response = await fetch(urlCity)
   if (!response.ok) {
     const message = `An error has occured to find city ${cityName}: ${response.status}`;
     throw new Error(message);
-  }
+  };
   const cityData = await response.json();
-  return cityData[0].id;
+  return cityData[0].id
 }
 
 /*
@@ -373,7 +371,6 @@ async function procurarIdCidade() {
 */
 async function buscarPrevisao(id) {
   const forcastDays = forcastDaysInput || 1;
-  console.log(forcastDays)
   const urlWeather = `${brasilApi}clima/previsao/${id}/${forcastDays}`;
   const response = await fetch(urlWeather);
   if (!response.ok) {
@@ -390,29 +387,29 @@ async function buscarPrevisao(id) {
   --------------------------------------------------------------------------------------
 */
 function mostrarPrevisao(weatherData) {
-  weatherForcastDiv.innerHTML = ""
+  weatherForcastDiv.innerHTML = '';
   for (let previsao of weatherData.clima) {
     const {condicao_desc, data, min, max} = previsao;
     weatherForcastDiv.innerHTML += `
-    <div class="weatherForcastDiv--inner">
-      <div class="weatherInfo" id="data">
-          <p class="weatherInfo--label">Data: </p>
-          <p class="weatherInfo--data">${data}</p>
+    <div class='weatherForcastDiv--inner'>
+      <div class='weatherInfo' id='data'>
+          <p class='weatherInfo--label'>Data: </p>
+          <p class='weatherInfo--data'>${data}</p>
       </div>
-      <div class="weatherInfo" id="condicao">
-          <p class="weatherInfo--label">Condição: </p>
-          <p class="weatherInfo--data">${condicao_desc}</p>
+      <div class='weatherInfo' id='condicao'>
+          <p class='weatherInfo--label'>Condição: </p>
+          <p class='weatherInfo--data'>${condicao_desc}</p>
       </div>
-      <div class="weatherInfo" id="temp_min">
-          <p class="weatherInfo--label">Temperatura Min: </p>
-          <p class="weatherInfo--data">${min} °C</p>
+      <div class='weatherInfo' id='temp_min'>
+          <p class='weatherInfo--label'>Temperatura Min: </p>
+          <p class='weatherInfo--data'>${min} °C</p>
       </div>
-      <div class="weatherInfo" id="temp_max">
-          <p class="weatherInfo--label">Temperatura Max: </p>
-          <p class="weatherInfo--data">${max} °C</p>
+      <div class='weatherInfo' id='temp_max'>
+          <p class='weatherInfo--label'>Temperatura Max: </p>
+          <p class='weatherInfo--data'>${max} °C</p>
       </div>
     </div>
-    `
-  }
+    `;
+  };
   return weatherData
-}
+};
