@@ -369,12 +369,12 @@ function mostrarPrevisao(weatherData) {
   const {cidade, clima} = weatherData;
   const [{condicao_desc, data, indice_uv, min, max}] = clima;
   weatherForcastDiv.innerHTML = `
-            <p id="city">Cidade: ${cidade}</p>
-            <p id="data">Data: ${data}</p>
-            <p id="condicao">Condição: ${condicao_desc}</p>
-            <p id="temp_min">Temperatura Min: ${min}</p>
-            <p id="temp_max">Temperatura Max: ${max}</p>
-            <p id="indice_uv">Indice UV: ${indice_uv}</p>
+            <div class="weatherInfo" id="city">Cidade: ${cidade}</div>
+            <div class="weatherInfo" id="data">Data: ${data}</div>
+            <div class="weatherInfo" id="condicao">Condição: ${condicao_desc}</div>
+            <div class="weatherInfo" id="temp_min">Temperatura Min: ${min}</div>
+            <div class="weatherInfo" id="temp_max">Temperatura Max: ${max}</div>
+            <div class="weatherInfo" id="indice_uv">Indice UV: ${indice_uv}</div>
   `
   console.log(weatherData)
   return weatherData

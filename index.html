@@ -58,7 +58,7 @@
             </thead>
         </table>
     </main>
-    <aside id="toggles">
+    <aside id="toggles--aside">
         <section class="section--toggle">
             <button type="button" class="toggleFormBtn" id="addForm_toggleBtn">
                 <img id="toggleBtnImgAdd" class="toggleBtnImg"  src="./resources/images/expand_more.svg" alt="arrow-icon">
@@ -111,9 +111,17 @@
             </form>
         </section>
     </aside>
-    <aside id="weather">
-        <input type="text" name="cityWeather" id="cityWeather">
-        <button type="button" id="searchCityBtn">Previsão</button>
+    <aside id="weather--aside">
+        <form class="weather--form">
+            <fieldset class="fieldset">
+                <legend>Previsão do Tempo:</legend>
+                <section class="form--section">
+                    <label for="delete_select">Cidade:</label> 
+                    <input type="text" class="input" name="cityWeather" id="cityWeather" placeholder="Rio de Janeiro" required>
+                </section>    
+            </fieldset>
+            <button type="button" class="btn" id="searchCityBtn">Previsão</button>
+        </form>
         <div id="weatherForcastDiv">
         </div>
     </aside>
