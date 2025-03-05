@@ -19,6 +19,12 @@ Para que o front-end funcione de forma otimizada, será necessário iniciar a AP
 
 ### Executando
 
+docker build --no-cache -t meu_canteiro .
+
+docker run -d -p 8080:80 meu_canteiro
+
+http://localhost:8080/
+
 Para executar basta abrir o arquivo index.html no browser. 
 
 >Caso precise atualizar o url basta modificar o arquivo config.js.
