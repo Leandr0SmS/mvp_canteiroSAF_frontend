@@ -1,5 +1,12 @@
 /*
   --------------------------------------------------------------------------------------
+  Urls das APIs
+  --------------------------------------------------------------------------------------
+*/
+const { baseUrl, brasilApi } = config;
+
+/*
+  --------------------------------------------------------------------------------------
   Função para iniciar o ambiente e os eventos
   --------------------------------------------------------------------------------------
 */
@@ -96,6 +103,18 @@ function start() {
       }
     }); 
   });
+  /*
+    --------------------------------------------------------------------------------------
+    Método para eventos de clicar nos .searchCityBtn 
+    --------------------------------------------------------------------------------------
+  */
+  document.getElementById("searchCityBtn").addEventListener("click", async function (event) {
+    event.preventDefault();
+    const cityId = await procurarIdCidade();
+    const data = await buscarPrevisao(cityId);
+    mostrarPrevisao(data)
+  });
+
 }
 /*
   --------------------------------------------------------------------------------------
@@ -126,7 +145,7 @@ function inserirSelectionForm(planta, form) {
   --------------------------------------------------------------------------------------
 */
 async function todasPlantas() {
-  const urlPlantas = config.baseUrl + '/plantas';
+  const urlPlantas = baseUrl + '/plantas';
   const response = await fetch(urlPlantas)
   if (!response.ok) {
     const message = `An error has occured: ${response.status}`;
@@ -305,4 +324,58 @@ function removerPlanta() {
   }
 }
 
+/*
+  --------------------------------------------------------------------------------------
+  Função para obter o id da cidade Via API brasilapi/cidade
+  --------------------------------------------------------------------------------------
+*/
+async function procurarIdCidade() {
+  const cityName = document.getElementById("cityWeather").value
+  const encoded = encodeURIComponent(cityName);
+  const urlCity = brasilApi + 'cidade/' + encoded;
+  const response = await fetch(urlCity)
+  if (!response.ok) {
+    const message = `An error has occured to find city ${cityName}: ${response.status}`;
+    throw new Error(message);
+  }
+  const cityData = await response.json();
+  return cityData[0].id;
+}
 
+/*
+  --------------------------------------------------------------------------------------
+  Função para obter o id da cidade Via API brasilapi/cptec
+  --------------------------------------------------------------------------------------
+*/
+async function buscarPrevisao(id) {
+  const urlWeather = brasilApi + 'clima/previsao/' + id;
+  const response = await fetch(urlWeather)
+  if (!response.ok) {
+    const message = `An error has occured to find weather of ${id}: ${response.status}`;
+    throw new Error(message);
+  }
+  const cityData = await response.json();
+  return cityData;
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para mostrar resultado previsão
+  --------------------------------------------------------------------------------------
+*/
+function mostrarPrevisao(weatherData) {
+  const weatherForcastDiv = document.getElementById('weatherForcastDiv');
+  console.log(weatherData)
+  const {cidade, clima} = weatherData;
+  const [{condicao_desc, data, indice_uv, min, max}] = clima;
+  weatherForcastDiv.innerHTML = `
+            <p id="city">Cidade: ${cidade}</p>
+            <p id="data">Data: ${data}</p>
+            <p id="condicao">Condição: ${condicao_desc}</p>
+            <p id="temp_min">Temperatura Min: ${min}</p>
+            <p id="temp_max">Temperatura Max: ${max}</p>
+            <p id="indice_uv">Indice UV: ${indice_uv}</p>
+  `
+  console.log(weatherData)
+  return weatherData
+}

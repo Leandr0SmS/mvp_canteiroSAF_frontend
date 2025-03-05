@@ -45,7 +45,7 @@ body {
     align-items: center;
     justify-content: center;
 }
-#aside {
+#toggles {
     display: flex;
     align-items: flex-start;
     justify-content: center;
