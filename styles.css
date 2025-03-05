@@ -157,6 +157,14 @@ td {
     font-size: 0.9em;
 }
 
+/*footer*/
+#footer {
+    font-size: 0.75em;
+    letter-spacing: 0em;
+    margin-top: 1rem;
+    text-align: center;
+}
+
 /*responsive*/
 @media (max-width: 845px) {
     /* body, header, main, aside */
