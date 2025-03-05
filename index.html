@@ -116,14 +116,15 @@
             <fieldset class="fieldset">
                 <legend>Previsão do Tempo:</legend>
                 <section class="form--section">
-                    <label for="delete_select">Cidade:</label> 
+                    <label for="cityWeather">Cidade:</label> 
                     <input type="text" class="input" name="cityWeather" id="cityWeather" placeholder="Rio de Janeiro" required>
+                    <label for="forcastDays">Dias:</label> 
+                    <input type="number" class="input" name="forcastDays" id="forcastDays" placeholder="1" max="6" required>
                 </section>    
             </fieldset>
             <button type="button" class="btn" id="searchCityBtn">Previsão</button>
         </form>
-        <div id="weatherForcastDiv">
-        </div>
+        <div id="weatherForcastDiv"></div>
     </aside>
     <footer id="footer">
         <p>Author: Leandro Simões</p>

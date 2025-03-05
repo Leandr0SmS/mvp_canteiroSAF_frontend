@@ -330,9 +330,10 @@ function removerPlanta() {
   --------------------------------------------------------------------------------------
 */
 async function procurarIdCidade() {
-  const cityName = document.getElementById("cityWeather").value
+  const cityName = document.getElementById("cityWeather").value;
   const encoded = encodeURIComponent(cityName);
-  const urlCity = brasilApi + 'cidade/' + encoded;
+  const urlCity = `${brasilApi}cidade/${encoded}`;
+  console.log(urlCity)
   const response = await fetch(urlCity)
   if (!response.ok) {
     const message = `An error has occured to find city ${cityName}: ${response.status}`;
@@ -348,12 +349,15 @@ async function procurarIdCidade() {
   --------------------------------------------------------------------------------------
 */
 async function buscarPrevisao(id) {
-  const urlWeather = brasilApi + 'clima/previsao/' + id;
-  const response = await fetch(urlWeather)
+  const forcastDaysInput = document.getElementById("forcastDays").value;
+  const forcastDays = forcastDaysInput || 1;
+  console.log(forcastDays)
+  const urlWeather = `${brasilApi}clima/previsao/${id}/${forcastDays}`;
+  const response = await fetch(urlWeather);
   if (!response.ok) {
     const message = `An error has occured to find weather of ${id}: ${response.status}`;
     throw new Error(message);
-  }
+  };
   const cityData = await response.json();
   return cityData;
 }
@@ -365,35 +369,31 @@ async function buscarPrevisao(id) {
 */
 function mostrarPrevisao(weatherData) {
   const weatherForcastDiv = document.getElementById('weatherForcastDiv');
-  console.log(weatherData)
-  const {cidade, clima} = weatherData;
-  const [{condicao_desc, data, indice_uv, min, max}] = clima;
-  weatherForcastDiv.innerHTML = `
-    <div class="weatherInfo" id="city">
-        <p class="weatherInfo--label">Cidade: </p>
-        <p class="weatherInfo--data">${cidade}</p>
+  weatherForcastDiv.innerHTML = ""
+  for (let previsao of weatherData.clima) {
+    const {condicao_desc, data, min, max} = previsao;
+    weatherForcastDiv.innerHTML += `
+    <div class="weatherForcastDiv--inner">
+      <div class="weatherInfo" id="data">
+          <p class="weatherInfo--label">Data: </p>
+          <p class="weatherInfo--data">${data}</p>
+      </div>
+      <div class="weatherInfo" id="condicao">
+          <p class="weatherInfo--label">Condição: </p>
+          <p class="weatherInfo--data">${condicao_desc}</p>
+      </div>
+      <div class="weatherInfo" id="temp_min">
+          <p class="weatherInfo--label">Temperatura Min: </p>
+          <p class="weatherInfo--data">${min} °C</p>
+      </div>
+      <div class="weatherInfo" id="temp_max">
+          <p class="weatherInfo--label">Temperatura Max: </p>
+          <p class="weatherInfo--data">${max} °C</p>
+      </div>
     </div>
-    <div class="weatherInfo" id="data">
-        <p class="weatherInfo--label">Data: </p>
-        <p class="weatherInfo--data">${data}</p>
-    </div>
-    <div class="weatherInfo" id="condicao">
-        <p class="weatherInfo--label">Condição: </p>
-        <p class="weatherInfo--data">${condicao_desc}</p>
-    </div>
-    <div class="weatherInfo" id="temp_min">
-        <p class="weatherInfo--label">Temperatura Min: </p>
-        <p class="weatherInfo--data">${min} °C</p>
-    </div>
-    <div class="weatherInfo" id="temp_max">
-        <p class="weatherInfo--label">Temperatura Max: </p>
-        <p class="weatherInfo--data">${max} °C</p>
-    </div>
-    <div class="weatherInfo" id="indice_uv">
-        <p class="weatherInfo--label">Indice UV: </p>
-        <p class="weatherInfo--data">${indice_uv}</p>
-    </div>
-  `
+    `
+  }
+
   console.log(weatherData)
   return weatherData
 }

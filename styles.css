@@ -171,18 +171,21 @@ td {
 }
 #weatherForcastDiv {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 5px dashed var(--lawn-green);
+    flex-direction: column;
+}
+.weatherForcastDiv--inner {
+    display: flex;
+    justify-content: space-between;
+    border: 2px dashed var(--lawn-green);
 }
 .weatherInfo {
     font-size: 0.8em;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     letter-spacing: 0em;
     margin: 0.3rem;
+    min-width: 9rem;
     border: 1px dashed var(--lion);
 }
 .weatherInfo--label {
@@ -256,6 +259,22 @@ td {
     .section--toggle {
         justify-content: center;
         align-items: center;
+    }
+    .weatherForcastDiv--inner {
+        flex-wrap: wrap;
+        max-width: 13rem;
+    }
+    .weatherInfo--label{
+        font-size: 0.9em;
+        
+    }
+    .weatherInfo--data {
+        font-size: 0.7em;
+    }
+    .weatherInfo {
+        font-size: 0.7em;
+        margin: 0.1rem;
+        min-width: 6rem;
     }
 
     /* Buttons */
