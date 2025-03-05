@@ -4,7 +4,7 @@ FROM nginx:alpine
 # Remove the default Nginx welcome page
 RUN rm -rf /usr/share/nginx/html/*
 
-# (Optional) Copy other static assets if needed (e.g., CSS, JS, images)
+# Copy static assets 
 COPY . /usr/share/nginx/html
 
 # Expose port 80 (default port for HTTP)

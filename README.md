@@ -4,12 +4,13 @@
 
 ## Descrição
 
-Este projeto busca auxiliar no planejamento de sistemas agroflorestais (SAF) que combinem espécies vegetais de diferentes estratos verticais.<br>
+Este projeto busca auxiliar no planejamento de sistemas agroflorestais (SAF) que combinem espécies vegetais de diferentes estratos verticais.  
 A seleção das espécies que irão compor um SAF é de grande importância para sua eficiência.
 
 O projeto permite ao usuário:
+
 - Inserir/Excluir espécies do banco de dados;
-- Selecionar uma espécie por estrato para criar um canteiro apresentando informações pertinentes para realizar o planejamento, manejo e colheita do SAF; 
+- Selecionar uma espécie por estrato para criar um canteiro apresentando informações pertinentes para realizar o planejamento, manejo e colheita do SAF;
 
 ## Iniciando
 
@@ -19,18 +20,22 @@ Para que o front-end funcione de forma otimizada, será necessário iniciar a AP
 
 ### Executando
 
-docker build --no-cache -t meu_canteiro .
+>Caso precise atualizar o URL da API basta modificar o arquivo config.js.
 
-docker run -d -p 8080:80 meu_canteiro
+#### Docker
 
-http://localhost:8080/
+`docker build --no-cache -t meu_canteiro .`
 
-Para executar basta abrir o arquivo index.html no browser. 
+`docker run -d -p 8080:80 meu_canteiro`
 
->Caso precise atualizar o url basta modificar o arquivo config.js.
+[http://localhost:8080/](http://localhost:8080/)
+
+#### Browser
+
+Para executar basta abrir o arquivo index.html no browser.
 
 ## Autor
- 
+
 [Leandro Simões](https://github.com/Leandr0SmS)
 
 ## Licença
@@ -46,9 +51,8 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 
 ## Inspirações
 
-* [PUC-Rio](https://www.puc-rio.br/index.html)
-* [CodeCademy](https://www.codecademy.com/)
-* [FreeCodeCamp](https://www.freecodecamp.org/learn/)
-* [Cepeas](https://www.cepeas.org/)
-* [Agenda Gotsch](https://agendagotsch.com/)
-
+- [PUC-Rio](https://www.puc-rio.br/index.html)
+- [CodeCademy](https://www.codecademy.com/)
+- [FreeCodeCamp](https://www.freecodecamp.org/learn/)
+- [Cepeas](https://www.cepeas.org/)
+- [Agenda Gotsch](https://agendagotsch.com/)
