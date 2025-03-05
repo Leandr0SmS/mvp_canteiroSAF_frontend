@@ -18,7 +18,9 @@ const delBtn = document.getElementById('delBtn');
 const togglesBtns = document.querySelectorAll('.toggleFormBtn');
 const deleteSelect = document.getElementById('delete_select');
 const canteiroForm = document.getElementById('canteiro--form');
+const weatherForm = document.getElementById('weather--form');
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
+const weatherFildset = document.getElementById('weather--fildset');
 const resultTableRaw = `
                         <thead>
                           <tr>
@@ -99,10 +101,11 @@ function start() {
     --------------------------------------------------------------------------------------
   */
   togglesBtns.forEach(button => {
-
+    if (button.id === 'searchCityBtn') {
+      return
+    }
     button.addEventListener('click', function(event){
       event.preventDefault();
-    
       let btnId;
       const btnClass = event.target.className;
       btnClass == 'toggleBtnImg'
@@ -139,11 +142,34 @@ function start() {
     Método para eventos de clicar nos .searchCityBtn 
     --------------------------------------------------------------------------------------
   */
-  forcastBtn.addEventListener('click', async function (event) {
-    event.preventDefault();
-    const cityId = await procurarIdCidade();
-    const data = await buscarPrevisao(cityId);
-    mostrarPrevisao(data);
+  forcastBtn.addEventListener('click', async function () {
+    const cityName = document.getElementById('cityWeather').value;
+    const forcastDaysInput = document.getElementById('forcastDays').value;
+
+    if (forcastBtn.textContent === 'Previsão Meteorológica') {
+      forcastBtn.className = 'btn';
+      forcastBtn.innerText = 'Previsão';
+      weatherFildset.style.display = 'block';
+      weatherForm.style.display = 'block';
+    } else if (forcastBtn.textContent === 'Retornar') {
+      weatherForm.reset();
+      weatherForcastDiv.innerHTML = '';
+      forcastBtn.className = 'toggleFormBtn';
+      forcastBtn.innerText = 'Previsão Meteorológica';
+      weatherFildset.style.display = 'none';
+      weatherForm.style.display = 'flex';
+    } else if (forcastBtn.textContent === 'Previsão') {
+      if (cityName === '') {
+        alert('O nome da cidade deve ser preenchido.');
+      } else if (forcastDaysInput > 6) {
+        alert('O número máximo de dias é 6.');
+      } else {
+        const cityId = await procurarIdCidade(cityName);
+        const data = await buscarPrevisao(cityId, forcastDaysInput);
+        mostrarPrevisao(data);
+        forcastBtn.innerText = 'Retornar';
+      }
+    }
   });
 
 }
@@ -354,12 +380,12 @@ function removerPlanta() {
   Função para obter o id da cidade Via API brasilapi/cidade
   --------------------------------------------------------------------------------------
 */
-async function procurarIdCidade() {
-  const cityName = document.getElementById('cityWeather').value;
+async function procurarIdCidade(cityName) {
   const encoded = encodeURIComponent(cityName);
   const urlCity = `${brasilApi}cidade/${encoded}`;
   const response = await fetch(urlCity)
   if (!response.ok) {
+    alert('Desculpe, não encontramos essa cidade, tente outra.')
     const message = `An error has occured to find city ${cityName}: ${response.status}`;
     throw new Error(message);
   };
@@ -372,8 +398,7 @@ async function procurarIdCidade() {
   Função para obter o id da cidade Via API brasilapi/cptec
   --------------------------------------------------------------------------------------
 */
-async function buscarPrevisao(id) {
-  const forcastDaysInput = document.getElementById('forcastDays').value;
+async function buscarPrevisao(id, forcastDaysInput) {
   const forcastDays = forcastDaysInput || 1;
   const urlWeather = `${brasilApi}clima/previsao/${id}/${forcastDays}`;
   const response = await fetch(urlWeather);

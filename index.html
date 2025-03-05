@@ -103,8 +103,8 @@
         </section>
     </aside>
     <aside class="aside" id="weather--aside">
-        <form class="weather--form">
-            <fieldset class="fieldset">
+        <form class="weather--form" id="weather--form">
+            <fieldset id="weather--fildset" class="fieldset">
                 <legend>Previsão do Tempo:</legend>
                 <section class="form--section">
                     <label for="cityWeather">Cidade:</label> 
@@ -113,7 +113,7 @@
                     <input type="number" class="input" name="forcastDays" id="forcastDays" placeholder="1" max="6" required>
                 </section>    
             </fieldset>
-            <button type="button" class="btn" id="searchCityBtn">Previsão</button>
+            <button type="button" class="toggleFormBtn" id="searchCityBtn">Previsão Meteorológica</button>
         </form>
         <div id="weatherForcastDiv"></div>
     </aside>
