@@ -1,3 +1,15 @@
+/*
+  --------------------------------------------------------------------------------------
+  Urls das APIs
+  --------------------------------------------------------------------------------------
+*/
+const { baseUrl, brasilApi } = config;
+
+/*
+  --------------------------------------------------------------------------------------
+  Variaveis
+  --------------------------------------------------------------------------------------
+*/
 const forcastBtn = document.getElementById('searchCityBtn');
 const canteiroBtn = document.getElementById('canteiroBtn');
 const resultTabel = document.getElementById('tabela_resultado');
@@ -6,32 +18,18 @@ const delBtn = document.getElementById('delBtn');
 const togglesBtns = document.querySelectorAll('.toggleFormBtn');
 const deleteSelect = document.getElementById('delete_select');
 const canteiroForm = document.getElementById('canteiro--form');
-const inputNomePlanta = document.getElementById('nomePlanta').value;
-const inputNovoEstrato = document.getElementById('novoEstrato').value;
-const inputTempoColheita = document.getElementById('tempoColheita').value;
-const inputEspacamento = document.getElementById('espacamento').value;
-const inputNomeDelPlanta = document.getElementById('delete_select').value;
-const cityName = document.getElementById('cityWeather').value;
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
-const forcastDaysInput = document.getElementById('forcastDays').value;
 const resultTableRaw = `
-  <thead>
-    <tr>
-        <th>Espaçamento (m)</th>
-        <th>Estrato</th>
-        <th>Nome</th>
-        <th>Sombra (%)</th>
-        <th>Dias Colheita</th>
-    </tr>
-  </thead>
-`;
-
-/*
-  --------------------------------------------------------------------------------------
-  Urls das APIs
-  --------------------------------------------------------------------------------------
-*/
-const { baseUrl, brasilApi } = config;
+                        <thead>
+                          <tr>
+                              <th>Espaçamento (m)</th>
+                              <th>Estrato</th>
+                              <th>Nome</th>
+                              <th>Sombra (%)</th>
+                              <th>Dias Colheita</th>
+                          </tr>
+                        </thead>
+                      `;
 
 /*
   --------------------------------------------------------------------------------------
@@ -57,7 +55,6 @@ function start() {
   canteiroBtn.addEventListener('click', function(event){
     event.preventDefault();
     if (canteiroBtn.textContent === 'Criar Canteiro') {
-      console.log('pass true')
       resultTabel.innerHTML = resultTableRaw;
       criarCanteiro()      
         .then((data) => {
@@ -280,6 +277,10 @@ async function postItem(
   --------------------------------------------------------------------------------------
 */
 function adicionarPlanta() {
+  const inputNomePlanta = document.getElementById('nomePlanta').value;
+  const inputNovoEstrato = document.getElementById('novoEstrato').value;
+  const inputTempoColheita = document.getElementById('tempoColheita').value;
+  const inputEspacamento = document.getElementById('espacamento').value;
   if (inputNomePlanta === '' || inputNovoEstrato === '') {
       alert('O nome da planta e o estrato devem ser preenchidos');
   } else if (isNaN(inputEspacamento)  || isNaN(inputTempoColheita)) {
@@ -329,6 +330,7 @@ async function deleteItem(item) {
   --------------------------------------------------------------------------------------
 */
 function removerPlanta() {
+  const inputNomeDelPlanta = document.getElementById('delete_select').value;
   if (inputNomeDelPlanta === '') {
     alert('O nome da planta deve ser preenchido');
   } else {
@@ -353,6 +355,7 @@ function removerPlanta() {
   --------------------------------------------------------------------------------------
 */
 async function procurarIdCidade() {
+  const cityName = document.getElementById('cityWeather').value;
   const encoded = encodeURIComponent(cityName);
   const urlCity = `${brasilApi}cidade/${encoded}`;
   const response = await fetch(urlCity)
@@ -370,6 +373,7 @@ async function procurarIdCidade() {
   --------------------------------------------------------------------------------------
 */
 async function buscarPrevisao(id) {
+  const forcastDaysInput = document.getElementById('forcastDays').value;
   const forcastDays = forcastDaysInput || 1;
   const urlWeather = `${brasilApi}clima/previsao/${id}/${forcastDays}`;
   const response = await fetch(urlWeather);

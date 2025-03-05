@@ -61,6 +61,10 @@ body {
 .weather--form {
     width: 85%;
     max-width: 50rem;
+    font-size: 0.8em;
+}
+#cityWeather, #forcastDays {
+    font-size: 0.8em;
 }
 .fieldset {
     border-radius: 0.5rem 0.5rem 0 0;
@@ -112,10 +116,10 @@ label, legend {
     align-items: center;
     justify-content: center;
     min-width: 24.68rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
     border: none;
     border-radius: 0.5rem;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--nyanza);
     background-color: var(--lion);
 }
@@ -140,7 +144,10 @@ label, legend {
     transition: background-color 0.2s;
 }
 .toggleBtnImg {
-    width: 4rem;
+    width: 2.5rem;
+}
+#searchCityBtn {
+    font-size: 1em;
 }
 
 /* Table */
@@ -165,6 +172,8 @@ td {
 }
 
 /*weather aside*/
+
+
 #weather--aside {
     flex-direction: column;
     align-items: center;
