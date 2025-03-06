@@ -1,7 +1,5 @@
 # MVP Canteiro SAF - Front End
 
-    Front end elaborado para conclusão da Sprint Desenvolvimento Full Stack Básico da Pós graduação Engenharia de software da PUC Rio.
-
 ## Descrição
 
 Este projeto busca auxiliar no planejamento de sistemas agroflorestais (SAF) que combinem espécies vegetais de diferentes estratos verticais.  
@@ -20,13 +18,16 @@ Para que o front-end funcione de forma otimizada, será necessário iniciar a AP
 
 ### Executando
 
->Caso precise atualizar o URL da API basta modificar o arquivo config.js.
+> Caso precise atualizar o URL da API basta modificar o arquivo config.js.
 
 #### Docker
 
-`docker build --no-cache -t meu_canteiro .`
-
-`docker run -d -p 8080:80 meu_canteiro`
+```
+docker build --no-cache -t meu_canteiro .
+```
+```
+docker run -d -p 8080:80 meu_canteiro
+```
 
 [http://localhost:8080/](http://localhost:8080/)
 
