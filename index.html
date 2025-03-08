@@ -49,12 +49,26 @@
         <table id="tabela_resultado">
         </table>
     </main>
-    <aside class="aside" id="toggles--aside">
-        <section class="section--toggle">
+    <aside class="aside">
+        <section id="toggleBtnSection">
             <button type="button" class="toggleFormBtn" id="addForm_toggleBtn">
                 <img id="toggleBtnImgAdd" class="toggleBtnImg"  src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Adicionar Planta
             </button>
+            <button type="button" class="toggleFormBtn" id="editForm_toggleBtn">
+                <img id="toggleBtnImgEdit" class="toggleBtnImg"  src="./resources/images/expand_more.svg" alt="arrow-icon">
+                Editar Planta
+            </button>
+            <button type="button" class="toggleFormBtn" id="deleteForm_toggleBtn">
+                <img id="toggleBtnImgDel" class="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
+                Deletar Planta
+            </button>
+            <button type="button" class="toggleFormBtn" id="deleteForm_toggleBtn">
+                <img id="toggleBtnImgDel" class="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
+                Previsão do tempo
+            </button>
+        </section>
+        <section id="toggleFormSection">
             <form class="form" id="addForm">
                 <fieldset class="fieldset">
                     <legend>Adicione espécies no banco de dados:</legend>
@@ -83,12 +97,34 @@
                 </fieldset>
                 <button type="button" class="btn" id="addBtn">Adicionar</button>
             </form>
-        </section>
-        <section class="section--toggle">
-            <button type="button" class="toggleFormBtn" id="deleteForm_toggleBtn">
-                <img id="toggleBtnImgDel" class="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
-                Deletar Planta
-            </button>
+            <form class="form" id="editForm">
+                <fieldset class="fieldset">
+                    <legend>Editar espécies do banco de dados:</legend>
+                    <section class="form--section">
+                        <label for="nomePlanta">Nome:</label> 
+                        <input id="nomePlantaEdit" class="input" type="text"  placeholder="Banana Prata">
+                    </section>
+                    <section class="form--section">
+                        <label for="editEstrato">Estrato:</label> 
+                        <select class="input" id="editEstrato">
+                            <option value=""></option>
+                            <option value="baixo">Baixo</option>
+                            <option value="medio">Médio</option>
+                            <option value="alto">Alto</option>
+                            <option value="emergente">Emergente</option>
+                        </select>
+                    </section>    
+                    <section class="form--section">
+                        <label for="editTempoColheita">Tempo para colheita (dias):</label>
+                        <input id="editTempoColheita" class="input" type="number"  placeholder="420">
+                    </section>
+                    <section class="form--section">
+                        <label for="editEspacamento">Espaçamento entre plantas:</label> 
+                        <input id="editEspacamento" class="input" type="number"  placeholder="3.0">
+                    </section>    
+                </fieldset>
+                <button type="button" class="btn" id="editBtn">Editar</button>
+            </form>
             <form class="form" id="deleteForm">
                 <fieldset class="fieldset">
                     <legend>Deletar espécies no banco de dados:</legend>
@@ -100,22 +136,20 @@
                 </fieldset>
                 <button type="button" class="btn" id="delBtn">Deletar</button>
             </form>
+            <form class="weather--form" id="weather--form">
+                <fieldset id="weather--fildset" class="fieldset">
+                    <legend>Previsão do Tempo:</legend>
+                    <section class="form--section">
+                        <label for="cityWeather">Cidade:</label> 
+                        <input type="text" class="input" name="cityWeather" id="cityWeather" placeholder="Rio de Janeiro" required>
+                        <label for="forcastDays">Dias:</label> 
+                        <input type="number" class="input" name="forcastDays" id="forcastDays" placeholder="1" max="6" required>
+                    </section>    
+                </fieldset>
+                <button type="button" class="btn" id="searchCityBtn">Previsão Meteorológica</button>
+            </form>
+            <div id="weatherForcastDiv"></div>
         </section>
-    </aside>
-    <aside class="aside" id="weather--aside">
-        <form class="weather--form" id="weather--form">
-            <fieldset id="weather--fildset" class="fieldset">
-                <legend>Previsão do Tempo:</legend>
-                <section class="form--section">
-                    <label for="cityWeather">Cidade:</label> 
-                    <input type="text" class="input" name="cityWeather" id="cityWeather" placeholder="Rio de Janeiro" required>
-                    <label for="forcastDays">Dias:</label> 
-                    <input type="number" class="input" name="forcastDays" id="forcastDays" placeholder="1" max="6" required>
-                </section>    
-            </fieldset>
-            <button type="button" class="toggleFormBtn" id="searchCityBtn">Previsão Meteorológica</button>
-        </form>
-        <div id="weatherForcastDiv"></div>
     </aside>
     <footer id="footer">
         <p>Author: Leandro Simões</p>
