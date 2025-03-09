@@ -63,8 +63,8 @@
                 <img id="toggleBtnImgDel" class="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Deletar Planta
             </button>
-            <button type="button" class="toggleFormBtn" id="deleteForm_toggleBtn">
-                <img id="toggleBtnImgDel" class="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
+            <button type="button" class="toggleFormBtn" id="weatherForm_toggleBtn">
+                <img id="toggleBtnImgWea" class="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Previsão do tempo
             </button>
         </section>
@@ -102,7 +102,7 @@
                     <legend>Editar espécies do banco de dados:</legend>
                     <section class="form--section">
                         <label for="nomePlanta">Nome:</label> 
-                        <input id="nomePlantaEdit" class="input" type="text"  placeholder="Banana Prata">
+                        <select id="nomePlantaEdit" class="input"></select>
                     </section>
                     <section class="form--section">
                         <label for="editEstrato">Estrato:</label> 
@@ -130,13 +130,12 @@
                     <legend>Deletar espécies no banco de dados:</legend>
                     <section class="form--section">
                         <label for="delete_select">Nome:</label> 
-                        <select id="delete_select" class="input">
-                        </select>
+                        <select id="delete_select" class="input"></select>
                     </section>    
                 </fieldset>
                 <button type="button" class="btn" id="delBtn">Deletar</button>
             </form>
-            <form class="weather--form" id="weather--form">
+            <form class="weather--form" id="weatherForm">
                 <fieldset id="weather--fildset" class="fieldset">
                     <legend>Previsão do Tempo:</legend>
                     <section class="form--section">

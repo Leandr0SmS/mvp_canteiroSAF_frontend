@@ -81,7 +81,7 @@ body {
 label, legend {
     margin-bottom: 0.3rem;
 }
-#deleteForm, #addForm {
+#deleteForm, #addForm, #editForm, #weatherForm {
     display: none;
 }
 #canteiroForm--fieldset {

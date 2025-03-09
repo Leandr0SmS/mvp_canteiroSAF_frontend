@@ -17,6 +17,7 @@ const addBtn = document.getElementById('addBtn');
 const delBtn = document.getElementById('delBtn');
 const togglesBtns = document.querySelectorAll('.toggleFormBtn');
 const deleteSelect = document.getElementById('delete_select');
+const editSelect = document.getElementById('nomePlantaEdit');
 const canteiroForm = document.getElementById('canteiro--form');
 const weatherForm = document.getElementById('weather--form');
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
@@ -95,49 +96,7 @@ function start() {
     event.preventDefault();
     removerPlanta();
   });
-  /*
-    --------------------------------------------------------------------------------------
-    Método para ouvir eventos de clicar nos .toggleFormBtn 
-    --------------------------------------------------------------------------------------
-  */
-  togglesBtns.forEach(button => {
-    if (button.id === 'searchCityBtn') {
-      return
-    }
-    button.addEventListener('click', function(event){
-      event.preventDefault();
-      let btnId;
-      const btnClass = event.target.className;
-      btnClass == 'toggleBtnImg'
-        ? btnId = event.target.parentNode.id
-        : btnId = event.target.id;
-
-      const btn = document.getElementById(`${btnId}`);
-
-      const icon = document.getElementById(`${btn.children[0].id}`);
-      const formId = btnId.substring(0, btnId.indexOf('_'));
-      const form = document.getElementById(`${formId}`);
-
-      if (form.style.display == 'flex') {
-        form.style.display='none';
-        icon.src = './resources/images/expand_more.svg';
-      } else {
-        form.style.display='flex';
-        resultTabel.style.display='none';
-        icon.src = './resources/images/expand_less.svg';
-        if (formId == 'deleteForm' && deleteSelect.childElementCount == 0) {
-          todasPlantas()
-            .then((data) => {
-              data.plantas.forEach(planta => inserirSelectionForm(planta, 'delete_select'))
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-        }
-      }
-    }); 
-  });
-  /*
+    /*
     --------------------------------------------------------------------------------------
     Método para eventos de clicar nos .searchCityBtn 
     --------------------------------------------------------------------------------------
@@ -171,6 +130,52 @@ function start() {
       }
     }
   });
+  /*
+    --------------------------------------------------------------------------------------
+    Método para ouvir eventos de clicar nos .toggleFormBtn 
+    --------------------------------------------------------------------------------------
+  */
+  togglesBtns.forEach(button => {
+    button.addEventListener('click', function(event){
+      event.preventDefault();
+
+      let btnId;
+      const btnClass = event.target.className;
+      //propagar click para icone
+      btnClass == 'toggleBtnImg'
+        ? btnId = event.target.parentNode.id
+        : btnId = event.target.id;
+      
+      // Seleionar butão e icone
+      const btn = document.getElementById(`${btnId}`);
+      const icon = document.getElementById(`${btn.children[0].id}`);
+      // Selecionar formulário 
+      const formId = btnId.substring(0, btnId.indexOf('_'));
+      const form = document.getElementById(`${formId}`);
+      // Pegar o primeiro <select> no form
+      const firstSelect = form.querySelectorAll("select")[0];
+
+      // Mudar icone no click
+      if (form.style.display == 'flex') {
+        form.style.display='none';
+        icon.src = './resources/images/expand_more.svg';
+      } else {
+        form.style.display='flex';
+        resultTabel.style.display='none';
+        icon.src = './resources/images/expand_less.svg';
+        // ]inserir nome das plantas no primeiro option do formulário
+        if (firstSelect.childElementCount == 0) {
+          todasPlantas()
+            .then((data) => {
+              data.plantas.forEach(planta => inserirSelectionForm(planta, firstSelect.id))
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+        }
+      }
+    }); 
+  });
 
 }
 /*
@@ -178,17 +183,17 @@ function start() {
   Função para inserir <option> nos <selects> do formulário do canteiro.
   --------------------------------------------------------------------------------------
 */
-function inserirSelectionForm(planta, form) {
+function inserirSelectionForm(planta, formId) {
 
   let select;
-  if (form == 'canteiro') {
-    select = document.getElementById(`${form}_${planta.estrato}`);
+  if (formId == 'canteiro') {
+    select = document.getElementById(`${formId}_${planta.estrato}`);
     const option = document.createElement('option');
     option.text = `${planta.nome_planta}`;
     option.value = `${planta.id_planta}`;
     select.add(option);
   } else {
-    select = document.getElementById(`${form}`);
+    select = document.getElementById(`${formId}`);
     const option = document.createElement('option');
     option.text = `${planta.nome_planta}`;
     option.value = `${planta.nome_planta}`;
