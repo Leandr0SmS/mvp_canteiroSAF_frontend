@@ -15,6 +15,7 @@ const canteiroBtn = document.getElementById('canteiroBtn');
 const resultTabel = document.getElementById('tabela_resultado');
 const addBtn = document.getElementById('addBtn');
 const delBtn = document.getElementById('delBtn');
+const editBtn = document.getElementById('editBtn');
 
 const toggleBtnSection = document.getElementById('toggleBtnSection');
 const toggleBtns = toggleBtnSection.childNodes;
@@ -80,6 +81,7 @@ function start() {
       canteiroBtn.innerText = 'Criar Canteiro';
     }
   }); 
+
   /*
     --------------------------------------------------------------------------------------
     Método para ouvir evento de clicar no botão #addBtn (Adicionar)
@@ -89,6 +91,17 @@ function start() {
       event.preventDefault();
       adicionarPlanta();
   }); 
+
+  /*
+    --------------------------------------------------------------------------------------
+    Método para ouvir evento de clicar no botão #editBtn (Editar)
+    --------------------------------------------------------------------------------------
+  */
+    editBtn.addEventListener('click', function(event){
+      event.preventDefault();
+      editarPlanta();
+  });
+
   /*
     --------------------------------------------------------------------------------------
     Método para ouvir evento de clicar no botão #delBtn (deletar)
@@ -412,32 +425,32 @@ function adicionarPlanta() {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para adicionar uma planta no servidor via requisição POST
+  Função para adicionar uma planta no servidor via requisição PUT
   --------------------------------------------------------------------------------------
 */
-async function postItem(
-  inputNomePlanta, 
-  inputNovoEstrato, 
-  inputTempoColheita,
-  inputEspacamento,
-) {
+async function putItem(
+                          inputNomePlanta, 
+                          inputNovoEstrato, 
+                          inputTempoColheita,
+                          inputEspacamento,
+                        ) {
 
-const formData = new FormData();
+  const formData = new FormData();
+  
+  formData.append('nome_planta', inputNomePlanta);
+  formData.append('estrato', inputNovoEstrato);
+  formData.append('tempo_colheita', inputTempoColheita);
+  formData.append('espacamento', inputEspacamento);
 
-formData.append('nome_planta', inputNomePlanta);
-formData.append('estrato', inputNovoEstrato);
-formData.append('tempo_colheita', inputTempoColheita);
-formData.append('espacamento', inputEspacamento);
-
-let url = config.baseUrl + '/planta';
-const response = await fetch(url, {
-method: 'post',
-body: formData
-});
-if (!response.ok) {
-throw new Error(`${response.status}`);
-};
-return response
+  let url = config.baseUrl + '/planta';
+  const response = await fetch(url, {
+    method: 'put',
+    body: formData
+  });
+  if (!response.ok) {
+    throw new Error(`${response.status}`);
+  };
+  return response
 }
 
 /*
@@ -475,6 +488,72 @@ function adicionarPlanta() {
         console.error('Error:', error);
         alert('Erro: ')
       });
+  };
+};
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para editar uma planta no servidor via requisição POST
+  --------------------------------------------------------------------------------------
+*/
+async function postItem(
+                inputEditNomePlanta, 
+                inputEditEstrato, 
+                inputEditTempoColheita,
+                inputEditEspacamento,
+              ) {
+
+  const formDataEdit = new FormData();
+
+  formDataEdit.append('nome_planta', inputEditNomePlanta);
+  formDataEdit.append('estrato', inputEditEstrato);
+  formDataEdit.append('tempo_colheita', inputEditTempoColheita);
+  formDataEdit.append('espacamento', inputEditEspacamento);
+
+  let url = config.baseUrl + '/planta';
+  const response = await fetch(url, {
+    method: 'post',
+    body: formDataEdit
+  });
+  if (!response.ok) {
+    throw new Error(`${response.status}`);
+  };
+  return response
+}
+
+/*
+--------------------------------------------------------------------------------------
+Função para editar uma nova planta 
+--------------------------------------------------------------------------------------
+*/
+function editarPlanta() {
+  const inputEditNomePlanta = document.getElementById('nomePlantaEdit').value;
+  const inputEditEstrato = document.getElementById('editEstrato').value;
+  const inputEditTempoColheita = document.getElementById('editTempoColheita').value;
+  const inputEditEspacamento = document.getElementById('editEspacamento').value;
+
+  if (inputEditNomePlanta === '') {
+    alert('O nome da planta deve ser preenchido');
+  } else {
+    postItem(
+      inputEditNomePlanta, 
+      inputEditEstrato, 
+      inputEditTempoColheita,
+      inputEditEspacamento,
+    )
+    .then((response) => {
+      if (response.status === 200) {
+        console.log(response)
+        alert('Item editado!')
+        window.location.reload();
+      } else {
+        alert('ERRO: Não foi possível editar planta :/')
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('Erro: ')
+    });
   };
 };
 
