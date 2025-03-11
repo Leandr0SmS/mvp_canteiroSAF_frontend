@@ -107,16 +107,10 @@ function start() {
     const cityName = document.getElementById('cityWeather').value;
     const forcastDaysInput = document.getElementById('forcastDays').value;
 
-    if (forcastBtn.textContent === 'Previsão Meteorológica') {
-      forcastBtn.className = 'btn';
-      forcastBtn.innerText = 'Previsão';
-      weatherForm.style.display = 'block';
-    } else if (forcastBtn.textContent === 'Retornar') {
+    if (forcastBtn.textContent === 'Retornar') {
       weatherForm.reset();
       weatherForcastDiv.innerHTML = '';
-      forcastBtn.className = 'toggleFormBtn';
-      forcastBtn.innerText = 'Previsão Meteorológica';
-      weatherFildset.style.display = 'none';
+      forcastBtn.innerText = 'Previsão';
       weatherForm.style.display = 'flex';
     } else if (forcastBtn.textContent === 'Previsão') {
       if (cityName === '') {
@@ -129,6 +123,8 @@ function start() {
         mostrarPrevisao(data);
         forcastBtn.innerText = 'Retornar';
       }
+    } else {
+      throw new Error('No button value');
     }
   });
   /*
@@ -166,16 +162,15 @@ function start() {
         toggleBtns.forEach(b => {
           if (b.value == 'true') {
             b.value = 'false'
-            // Selecionar e esconder formulário.
+            // Selecionar e esconder formulários.
             const fId = b.id.substring(0, b.id.indexOf('_'));
             const f = document.getElementById(`${fId}`);
             f.style.display='none';
-            // Seleionar e trocar icone
+            // Seleionar e trocar icones
             const i = document.getElementById(`${b.children[0].id}`);
             i.src = './resources/images/expand_more.svg';
           };
         });
-        console.log(form)
         form.style.display='flex';
         icon.src = './resources/images/expand_less.svg';
         btn.value = 'true'
@@ -190,7 +185,7 @@ function start() {
             });
         }
       } else {
-        console.log('No button value')
+        throw new Error('No button value');
       }
     }); 
   });
