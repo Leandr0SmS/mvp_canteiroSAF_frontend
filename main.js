@@ -15,13 +15,15 @@ const canteiroBtn = document.getElementById('canteiroBtn');
 const resultTabel = document.getElementById('tabela_resultado');
 const addBtn = document.getElementById('addBtn');
 const delBtn = document.getElementById('delBtn');
-const togglesBtns = document.querySelectorAll('.toggleFormBtn');
+
+const toggleBtnSection = document.getElementById('toggleBtnSection');
+const toggleBtns = toggleBtnSection.childNodes;
+
 const deleteSelect = document.getElementById('delete_select');
 const editSelect = document.getElementById('nomePlantaEdit');
 const canteiroForm = document.getElementById('canteiro--form');
-const weatherForm = document.getElementById('weather--form');
+const weatherForm = document.getElementById('weatherForm');
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
-const weatherFildset = document.getElementById('weather--fildset');
 const resultTableRaw = `
                         <thead>
                           <tr>
@@ -108,7 +110,6 @@ function start() {
     if (forcastBtn.textContent === 'Previsão Meteorológica') {
       forcastBtn.className = 'btn';
       forcastBtn.innerText = 'Previsão';
-      weatherFildset.style.display = 'block';
       weatherForm.style.display = 'block';
     } else if (forcastBtn.textContent === 'Retornar') {
       weatherForm.reset();
@@ -135,18 +136,18 @@ function start() {
     Método para ouvir eventos de clicar nos .toggleFormBtn 
     --------------------------------------------------------------------------------------
   */
-  togglesBtns.forEach(button => {
-    button.addEventListener('click', function(event){
+  toggleBtns.forEach(button => {
+    button.addEventListener('click', function toggleBtnLogic(event){
       event.preventDefault();
-
-      let btnId;
+    
       const btnClass = event.target.className;
       //propagar click para icone
+      let btnId;
       btnClass == 'toggleBtnImg'
         ? btnId = event.target.parentNode.id
         : btnId = event.target.id;
       
-      // Seleionar butão e icone
+      // Seleionar botão e icone
       const btn = document.getElementById(`${btnId}`);
       const icon = document.getElementById(`${btn.children[0].id}`);
       // Selecionar formulário 
@@ -154,17 +155,32 @@ function start() {
       const form = document.getElementById(`${formId}`);
       // Pegar o primeiro <select> no form
       const firstSelect = form.querySelectorAll("select")[0];
-
+    
       // Mudar icone no click
-      if (form.style.display == 'flex') {
+      if (btn.value == 'true') {
         form.style.display='none';
         icon.src = './resources/images/expand_more.svg';
-      } else {
+        btn.value = 'false'
+      } else if (btn.value == 'false') {
+        // Esconder fomrularios não usados
+        toggleBtns.forEach(b => {
+          if (b.value == 'true') {
+            b.value = 'false'
+            // Selecionar e esconder formulário.
+            const fId = b.id.substring(0, b.id.indexOf('_'));
+            const f = document.getElementById(`${fId}`);
+            f.style.display='none';
+            // Seleionar e trocar icone
+            const i = document.getElementById(`${b.children[0].id}`);
+            i.src = './resources/images/expand_more.svg';
+          };
+        });
+        console.log(form)
         form.style.display='flex';
-        resultTabel.style.display='none';
         icon.src = './resources/images/expand_less.svg';
-        // ]inserir nome das plantas no primeiro option do formulário
-        if (firstSelect.childElementCount == 0) {
+        btn.value = 'true'
+        // Inserir nome das plantas no primeiro option do formulário
+        if (firstSelect && firstSelect.childElementCount == 0) {
           todasPlantas()
             .then((data) => {
               data.plantas.forEach(planta => inserirSelectionForm(planta, firstSelect.id))
@@ -173,11 +189,70 @@ function start() {
               console.error('Error:', error);
             });
         }
+      } else {
+        console.log('No button value')
       }
     }); 
   });
 
 }
+
+/*
+  --------------------------------------------------------------------------------------
+  Função lógica toggleBtn
+  --------------------------------------------------------------------------------------
+*/
+function toggleBtnLogic(event, ){
+  event.preventDefault();
+
+  let btnId;
+  const btnClass = event.target.className;
+  //propagar click para icone
+  btnClass == 'toggleBtnImg'
+    ? btnId = event.target.parentNode.id
+    : btnId = event.target.id;
+  
+  // Seleionar botão e icone
+  const btn = document.getElementById(`${btnId}`);
+  const icon = document.getElementById(`${btn.children[0].id}`);
+  // Selecionar formulário 
+  const formId = btnId.substring(0, btnId.indexOf('_'));
+  const form = document.getElementById(`${formId}`);
+  // Pegar o primeiro <select> no form
+  const firstSelect = form.querySelectorAll("select")[0];
+
+  // Mudar icone no click
+  if (btn.value == 'true') {
+    form.style.display='none';
+    icon.src = './resources/images/expand_more.svg';
+    btn.value = 'false'
+    toggleBtns.forEach(b => console.log(b.value))
+  } else {
+    toggleBtns.forEach(b => {
+      if (b.value == 'true') {
+        b.value = 'false'
+        form.style.display='none';
+        icon.src = './resources/images/expand_more.svg';
+        console.log(b)
+      }; // toggle btn function
+    })
+    form.style.display='flex';
+    resultTabel.style.display='none';
+    icon.src = './resources/images/expand_less.svg';
+    btn.value = 'true'
+    // Inserir nome das plantas no primeiro option do formulário
+    if (firstSelect.childElementCount == 0) {
+      todasPlantas()
+        .then((data) => {
+          data.plantas.forEach(planta => inserirSelectionForm(planta, firstSelect.id))
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  }
+}
+
 /*
   --------------------------------------------------------------------------------------
   Função para inserir <option> nos <selects> do formulário do canteiro.

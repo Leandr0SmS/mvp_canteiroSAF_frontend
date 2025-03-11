@@ -58,14 +58,6 @@ body {
     display: flex;
     flex-direction: column;
 }
-.weather--form {
-    width: 85%;
-    max-width: 50rem;
-    font-size: 0.8em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 #cityWeather, #forcastDays {
     font-size: 0.8em;
 }
@@ -87,9 +79,6 @@ label, legend {
 #canteiroForm--fieldset {
     display: flex;
     gap: 0.5rem;
-}
-#weather--fildset {
-    display: none;
 }
 .section--toggle {
     position: relative;
@@ -247,9 +236,6 @@ td {
     #canteiroForm--fieldset {
         flex-direction: column;
         gap: 0.3rem;
-    }
-    .weather--form {
-        width: fit-content;
     }
     .input {
         width: 100%;

@@ -51,19 +51,19 @@
     </main>
     <aside class="aside">
         <section id="toggleBtnSection">
-            <button type="button" class="toggleFormBtn" id="addForm_toggleBtn">
+            <button type="button" class="toggleFormBtn" id="addForm_toggleBtn" value="false">
                 <img id="toggleBtnImgAdd" class="toggleBtnImg"  src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Adicionar Planta
             </button>
-            <button type="button" class="toggleFormBtn" id="editForm_toggleBtn">
+            <button type="button" class="toggleFormBtn" id="editForm_toggleBtn" value="false">
                 <img id="toggleBtnImgEdit" class="toggleBtnImg"  src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Editar Planta
             </button>
-            <button type="button" class="toggleFormBtn" id="deleteForm_toggleBtn">
+            <button type="button" class="toggleFormBtn" id="deleteForm_toggleBtn" value="false">
                 <img id="toggleBtnImgDel" class="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Deletar Planta
             </button>
-            <button type="button" class="toggleFormBtn" id="weatherForm_toggleBtn">
+            <button type="button" class="toggleFormBtn" id="weatherForm_toggleBtn" value="false">
                 <img id="toggleBtnImgWea" class="toggleBtnImg" src="./resources/images/expand_more.svg" alt="arrow-icon">
                 Previsão do tempo
             </button>
@@ -135,12 +135,16 @@
                 </fieldset>
                 <button type="button" class="btn" id="delBtn">Deletar</button>
             </form>
-            <form class="weather--form" id="weatherForm">
-                <fieldset id="weather--fildset" class="fieldset">
+            <form class="form" id="weatherForm">
+                <fieldset class="fieldset">
                     <legend>Previsão do Tempo:</legend>
                     <section class="form--section">
                         <label for="cityWeather">Cidade:</label> 
-                        <input type="text" class="input" name="cityWeather" id="cityWeather" placeholder="Rio de Janeiro" required>
+                        <input type="text" class="input" name="cityWeather" id="cityWeather" list="listCitiesWeather" placeholder="Rio de Janeiro" required>
+                        <datalist id="listCitiesWeather">
+                            <option value="Rio de Janeiro">Rio de janeiro</option>
+                            <option value="Mangaratiba">Mangaratiba</option>
+                        </datalist>
                         <label for="forcastDays">Dias:</label> 
                         <input type="number" class="input" name="forcastDays" id="forcastDays" placeholder="1" max="6" required>
                     </section>    
