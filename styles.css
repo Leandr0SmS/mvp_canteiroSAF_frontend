@@ -65,6 +65,7 @@ body {
 .form {
     display: flex;
     flex-direction: column;
+    min-width: 40rem;
 }
 #cityWeather, #forcastDays {
     font-size: 0.8em;
@@ -235,6 +236,9 @@ td {
         gap: 0.2em;
     }
     /* Forms */
+    .form {
+        min-width: 10rem;
+    }
     .fieldset {
         padding-top: 0;
         max-width: 19rem;
@@ -284,7 +288,6 @@ td {
     }
     .btn {
         padding: 0.5rem;
-        width: 100%; 
         font-size: 0.8rem;
     }
     .toggleBtnImg {
