@@ -344,10 +344,10 @@ function inserirLista(planta, length) {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para adicionar uma planta no servidor via requisição POST
+  Função para adicionar uma planta no servidor via requisição PUT
   --------------------------------------------------------------------------------------
 */
-async function postItem(
+async function putItem(
                           inputNomePlanta, 
                           inputNovoEstrato, 
                           inputTempoColheita,
@@ -363,7 +363,7 @@ async function postItem(
 
   let url = config.baseUrl + '/planta';
   const response = await fetch(url, {
-    method: 'post',
+    method: 'put',
     body: formData
   });
   if (!response.ok) {
@@ -387,7 +387,75 @@ function adicionarPlanta() {
   } else if (isNaN(inputEspacamento)  || isNaN(inputTempoColheita)) {
       alert('Tempo para colheita e espaçamento convencional precisam ser números!');
   } else {
-      postItem(
+    putItem(
+          inputNomePlanta, 
+          inputNovoEstrato, 
+          inputTempoColheita,
+          inputEspacamento,
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          alert('Item adicionado!')
+          window.location.reload();
+        } else if (response.status === 409) {
+          alert('ERRO: Planta de mesmo nome já salvo na base :/')
+        } else {
+          alert('ERRO: Não foi possível salvar nova plnata :/')
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert('Erro: ')
+      });
+  };
+};
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para adicionar uma planta no servidor via requisição POST
+  --------------------------------------------------------------------------------------
+*/
+async function postItem(
+  inputNomePlanta, 
+  inputNovoEstrato, 
+  inputTempoColheita,
+  inputEspacamento,
+) {
+
+const formData = new FormData();
+
+formData.append('nome_planta', inputNomePlanta);
+formData.append('estrato', inputNovoEstrato);
+formData.append('tempo_colheita', inputTempoColheita);
+formData.append('espacamento', inputEspacamento);
+
+let url = config.baseUrl + '/planta';
+const response = await fetch(url, {
+method: 'post',
+body: formData
+});
+if (!response.ok) {
+throw new Error(`${response.status}`);
+};
+return response
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para adicionar uma nova planta 
+  --------------------------------------------------------------------------------------
+*/
+function adicionarPlanta() {
+  const inputNomePlanta = document.getElementById('nomePlanta').value;
+  const inputNovoEstrato = document.getElementById('novoEstrato').value;
+  const inputTempoColheita = document.getElementById('tempoColheita').value;
+  const inputEspacamento = document.getElementById('espacamento').value;
+  if (inputNomePlanta === '' || inputNovoEstrato === '') {
+      alert('O nome da planta e o estrato devem ser preenchidos');
+  } else if (isNaN(inputEspacamento)  || isNaN(inputTempoColheita)) {
+      alert('Tempo para colheita e espaçamento convencional precisam ser números!');
+  } else {
+    putItem(
           inputNomePlanta, 
           inputNovoEstrato, 
           inputTempoColheita,

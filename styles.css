@@ -47,10 +47,18 @@ body {
 }
 .aside {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
     gap: 0.5rem;
     margin-top: 0.7rem;
+}
+#footer {
+    margin-bottom: 0.5rem;
+}
+#toggleBtnSection {
+    display: flex;
+    gap: 0.4em;
 }
 
 /* Forms */
@@ -80,13 +88,6 @@ label, legend {
     display: flex;
     gap: 0.5rem;
 }
-.section--toggle {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 90%;
-}
 .input {
     padding: 0.5rem;
     margin-bottom: 0.3rem;
@@ -110,11 +111,12 @@ label, legend {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 24.68rem;
+    min-width: 12.4rem;
+    padding: 0.2em;
     margin-bottom: 0.3rem;
     border: none;
     border-radius: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.9em;
     color: var(--nyanza);
     background-color: var(--lion);
 }
@@ -139,7 +141,7 @@ label, legend {
     transition: background-color 0.2s;
 }
 .toggleBtnImg {
-    width: 2.5rem;
+    width: 2em;
 }
 
 /* Table */
@@ -227,6 +229,10 @@ td {
         align-items: center;
         gap: 0.3rem;
         margin-top: 0.3rem;
+    }
+    #toggleBtnSection {
+        flex-direction: column;
+        gap: 0.2em;
     }
     /* Forms */
     .fieldset {
