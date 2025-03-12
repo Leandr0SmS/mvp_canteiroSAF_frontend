@@ -10,6 +10,10 @@ O projeto permite ao usuário:
 - Inserir/Excluir espécies do banco de dados;
 - Selecionar uma espécie por estrato para criar um canteiro apresentando informações pertinentes para realizar o planejamento, manejo e colheita do SAF;
 
+### Arquitetura
+
+![Arquitetura Meu Canteiro SAF](./resources/images/Meu_canteiro_Flowchart.png)
+
 ## Iniciando
 
 ### Dependências
