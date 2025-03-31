@@ -3,7 +3,7 @@
   Urls das APIs
   --------------------------------------------------------------------------------------
 */
-const { baseUrl, brasilApi } = config;
+const { meuCanteiroApi, brasilApi , safDesignApi} = config;
 
 /*
   --------------------------------------------------------------------------------------
@@ -207,62 +207,6 @@ function start() {
 
 /*
   --------------------------------------------------------------------------------------
-  Função lógica toggleBtn
-  --------------------------------------------------------------------------------------
-*/
-function toggleBtnLogic(event, ){
-  event.preventDefault();
-
-  let btnId;
-  const btnClass = event.target.className;
-  //propagar click para icone
-  btnClass == 'toggleBtnImg'
-    ? btnId = event.target.parentNode.id
-    : btnId = event.target.id;
-  
-  // Seleionar botão e icone
-  const btn = document.getElementById(`${btnId}`);
-  const icon = document.getElementById(`${btn.children[0].id}`);
-  // Selecionar formulário 
-  const formId = btnId.substring(0, btnId.indexOf('_'));
-  const form = document.getElementById(`${formId}`);
-  // Pegar o primeiro <select> no form
-  const firstSelect = form.querySelectorAll("select")[0];
-
-  // Mudar icone no click
-  if (btn.value == 'true') {
-    form.style.display='none';
-    icon.src = './resources/images/expand_more.svg';
-    btn.value = 'false'
-    toggleBtns.forEach(b => console.log(b.value))
-  } else {
-    toggleBtns.forEach(b => {
-      if (b.value == 'true') {
-        b.value = 'false'
-        form.style.display='none';
-        icon.src = './resources/images/expand_more.svg';
-        console.log(b)
-      }; // toggle btn function
-    })
-    form.style.display='flex';
-    resultTabel.style.display='none';
-    icon.src = './resources/images/expand_less.svg';
-    btn.value = 'true'
-    // Inserir nome das plantas no primeiro option do formulário
-    if (firstSelect.childElementCount == 0) {
-      todasPlantas()
-        .then((data) => {
-          data.plantas.forEach(planta => inserirSelectionForm(planta, firstSelect.id))
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-  }
-}
-
-/*
-  --------------------------------------------------------------------------------------
   Função para inserir <option> nos <selects> do formulário do canteiro.
   --------------------------------------------------------------------------------------
 */
@@ -290,7 +234,7 @@ function inserirSelectionForm(planta, formId) {
   --------------------------------------------------------------------------------------
 */
 async function todasPlantas() {
-  const urlPlantas = baseUrl + '/plantas';
+  const urlPlantas = meuCanteiroApi + '/plantas';
   const response = await fetch(urlPlantas);
   if (!response.ok) {
     const message = `An error has occured: ${response.status}`;
@@ -298,6 +242,35 @@ async function todasPlantas() {
   }
   const plantasData = await response.json();
   return plantasData;
+}
+/*
+  --------------------------------------------------------------------------------------
+  Função para adicionar um cantiero na API canteiro via requisição PUT
+  --------------------------------------------------------------------------------------
+*/
+async function putCanteiro( 
+    inputNomeCanteiro,
+    xCanteiro,
+    yCanteiro,
+    plantasCanteiro,
+  ) {
+  
+  const formData = new FormData();
+    
+  formData.append('nome_canteiro', inputNomeCanteiro)
+  formData.append('x_canteiro', xCanteiro)
+  formData.append('y_canteiro', yCanteiro)
+  formData.append('plantas_canteiro', plantasCanteiro)
+    
+  let url = config.safDesignApi + '/canteiro';
+  const response = await fetch(url, {
+    method: 'put',
+    body: formData
+  });
+  if (!response.ok) {
+    throw new Error(`${response.status}`);
+  };
+    return response
 }
 /*
   --------------------------------------------------------------------------------------
@@ -324,7 +297,7 @@ async function criarCanteiro() {
     }
   });
 
-  let url = config.baseUrl + '/canteiro?'
+  let url = config.meuCanteiroApi + '/canteiro?'
   const urlPlantas = url + urlList.join('');
 
   const response = await fetch(urlPlantas)
@@ -374,7 +347,7 @@ async function putItem(
   formData.append('tempo_colheita', inputTempoColheita);
   formData.append('espacamento', inputEspacamento);
 
-  let url = config.baseUrl + '/planta';
+  let url = config.meuCanteiroApi + '/planta';
   const response = await fetch(url, {
     method: 'put',
     body: formData
@@ -442,7 +415,7 @@ async function putItem(
   formData.append('tempo_colheita', inputTempoColheita);
   formData.append('espacamento', inputEspacamento);
 
-  let url = config.baseUrl + '/planta';
+  let url = config.meuCanteiroApi + '/planta';
   const response = await fetch(url, {
     method: 'put',
     body: formData
@@ -510,7 +483,7 @@ async function postItem(
   formDataEdit.append('tempo_colheita', inputEditTempoColheita);
   formDataEdit.append('espacamento', inputEditEspacamento);
 
-  let url = config.baseUrl + '/planta';
+  let url = config.meuCanteiroApi + '/planta';
   const response = await fetch(url, {
     method: 'post',
     body: formDataEdit
@@ -563,7 +536,7 @@ function editarPlanta() {
   --------------------------------------------------------------------------------------
 */
 async function deleteItem(item) {
-  let url = config.baseUrl + `/planta?nome_planta=${item}`;
+  let url = config.meuCanteiroApi + `/planta?nome_planta=${item}`;
   const response = await fetch(url, {
     method: 'delete'
   });
