@@ -248,7 +248,7 @@ async function todasPlantas() {
   Função para adicionar um cantiero na API canteiro via requisição PUT
   --------------------------------------------------------------------------------------
 */
-async function putCanteiro( 
+async function postCanteiro( 
     inputNomeCanteiro,
     xCanteiro,
     yCanteiro,
@@ -264,7 +264,7 @@ async function putCanteiro(
     
   let url = config.safDesignApi + '/canteiro';
   const response = await fetch(url, {
-    method: 'put',
+    method: 'post',
     body: formData
   });
   if (!response.ok) {
@@ -290,6 +290,7 @@ async function criarCanteiro() {
   const urlList = [];
 
   values.map(v => {
+    console.log(v)
     if (urlList.length == 0 && v[1]) {
       urlList.push(`id_planta_${v[0]}=${v[1]}`)
     } else if (v[1]) {
