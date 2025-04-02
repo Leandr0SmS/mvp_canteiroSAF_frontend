@@ -28,7 +28,7 @@ const weatherForcastDiv = document.getElementById('weatherForcastDiv');
 const resultTableRaw = `
                         <thead>
                           <tr>
-                              <th>Espaçamento (m)</th>
+                              <th>Espaçamento (cm)</th>
                               <th>Estrato</th>
                               <th>Nome</th>
                               <th>Sombra (%)</th>
@@ -65,6 +65,7 @@ function start() {
       criarCanteiro()      
         .then((data) => {
           const length = data.plantas.length;
+          console.log(data.plantas)
           data.plantas.forEach(planta => {
             inserirLista(planta, length)
           })
@@ -316,15 +317,19 @@ async function criarCanteiro() {
 function inserirLista(planta, length) {
   const tbody = resultTabel.createTBody();
   const linha = tbody.insertRow();
+  console.log(planta)
   if (!planta) {
     for (len = length; len >= 0; len--) {
       const cel = linha.insertCell();
       cel.innerHTML = ';'
     }
   } else {
-    for (prop in planta) {
-      const cel = linha.insertCell();
-      cel.innerHTML = planta[prop];
+    const props = ['espacamento', 'estrato' , 'nome_planta' , 'sombra', 'tempo_colheita']
+    for (const prop in planta) {
+      if (props.includes(prop)) {
+        const cel = linha.insertCell();
+        cel.innerHTML = planta[prop];
+      }
     }
   };
 };
