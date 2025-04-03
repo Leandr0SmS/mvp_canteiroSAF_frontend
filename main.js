@@ -65,7 +65,7 @@ function start() {
       criarCanteiro()      
         .then((data) => {
           const length = data.plantas.length;
-          console.log(data.plantas)
+          console.log(data) ///////////////////////////////
           data.plantas.forEach(planta => {
             inserirLista(planta, length)
           })
@@ -246,63 +246,33 @@ async function todasPlantas() {
 }
 /*
   --------------------------------------------------------------------------------------
-  Função para adicionar um cantiero na API canteiro via requisição PUT
-  --------------------------------------------------------------------------------------
-*/
-async function postCanteiro( 
-    inputNomeCanteiro,
-    xCanteiro,
-    yCanteiro,
-    plantasCanteiro,
-  ) {
-  
-  const formData = new FormData();
-    
-  formData.append('nome_canteiro', inputNomeCanteiro)
-  formData.append('x_canteiro', xCanteiro)
-  formData.append('y_canteiro', yCanteiro)
-  formData.append('plantas_canteiro', plantasCanteiro)
-    
-  let url = config.safDesignApi + '/canteiro';
-  const response = await fetch(url, {
-    method: 'post',
-    body: formData
-  });
-  if (!response.ok) {
-    throw new Error(`${response.status}`);
-  };
-    return response
-}
-/*
-  --------------------------------------------------------------------------------------
   Função para obter a lista das plantas do canteiro no servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
 async function criarCanteiro() {
 
   const canteiro = {
+    'nome_canteiro': "meu canteiro",
+    'x_canteiro': '800',
+    'y_canteiro': '200',
     'emergente': document.getElementById('canteiro_emergente').value,
     'alto': document.getElementById('canteiro_alto').value,
     'medio': document.getElementById('canteiro_medio').value,
     'baixo': document.getElementById('canteiro_baixo').value
   };
 
-  const values = Object.entries(canteiro);
-  const urlList = [];
-
-  values.map(v => {
-    console.log(v)
-    if (urlList.length == 0 && v[1]) {
-      urlList.push(`id_planta_${v[0]}=${v[1]}`)
-    } else if (v[1]) {
-      urlList.push(`&id_planta_${v[0]}=${v[1]}`)
-    }
-  });
+  const params = new URLSearchParams();
+  
+  for (key in canteiro) {
+  	params.append(key, canteiro[key]);
+  }
+  
+  const queryString = params.toString();
 
   let url = config.meuCanteiroApi + '/canteiro?'
-  const urlPlantas = url + urlList.join('');
+  const urlPlantas = url + queryString;
 
-  const response = await fetch(urlPlantas)
+  const response = await fetch(urlPlantas);
   if (!response.ok) {
     throw new Error(`${response.status}`);
   }
@@ -317,7 +287,7 @@ async function criarCanteiro() {
 function inserirLista(planta, length) {
   const tbody = resultTabel.createTBody();
   const linha = tbody.insertRow();
-  console.log(planta)
+  console.log(planta) /////////////////////////////////////////
   if (!planta) {
     for (len = length; len >= 0; len--) {
       const cel = linha.insertCell();
@@ -333,6 +303,17 @@ function inserirLista(planta, length) {
     }
   };
 };
+
+function criarGrafico(dados) {
+  const fig = {
+    data: [],
+    layout: {
+        xaxis: { scaleanchor: 'y', range: [0, this.x_canteiro], constrain: 'domain' },
+        yaxis: { scaleanchor: 'x', range: [0, this.y_canteiro], constrain: 'domain' },
+        autosize: false
+    }
+  };
+}
 
 /*
   --------------------------------------------------------------------------------------
