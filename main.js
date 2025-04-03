@@ -25,6 +25,7 @@ const editSelect = document.getElementById('nomePlantaEdit');
 const canteiroForm = document.getElementById('canteiro--form');
 const weatherForm = document.getElementById('weatherForm');
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
+const grafDiv = document.getElementById('graphDiv');
 const resultTableRaw = `
                         <thead>
                           <tr>
@@ -60,12 +61,30 @@ function start() {
   */
   canteiroBtn.addEventListener('click', function(event){
     event.preventDefault();
+
+    const canteiro = {
+      'nome_canteiro': document.getElementById('canteiro_nome').value,
+      'x_canteiro': document.getElementById('canteiro_x').value,
+      'y_canteiro': document.getElementById('canteiro_y').value,
+      'emergente': document.getElementById('canteiro_emergente').value,
+      'alto': document.getElementById('canteiro_alto').value,
+      'medio': document.getElementById('canteiro_medio').value,
+      'baixo': document.getElementById('canteiro_baixo').value
+    };
+
+    if (!Object.values(canteiro).every(v => Boolean(v))) {
+      alert('Todos os campos devem ser preenchidos!')
+      resultTabel.innerHTML = resultTableRaw;
+      resultTabel.style.display = 'none';
+      grafDiv.innerHTML = '';
+      return
+    }
+
     if (canteiroBtn.textContent === 'Criar Canteiro') {
       resultTabel.innerHTML = resultTableRaw;
-      criarCanteiro()      
+      criarCanteiro(canteiro)      
         .then((data) => {
           const length = data.plantas.length;
-          console.log(data) ///////////////////////////////
           data.plantas.forEach(planta => {
             inserirLista(planta, length)
           })
@@ -79,6 +98,7 @@ function start() {
     } else if (canteiroBtn.textContent === 'Refazer Canteiro') {
       resultTabel.innerHTML = resultTableRaw;
       resultTabel.style.display = 'none';
+      grafDiv.innerHTML = '';
       canteiroForm.reset();
       canteiroBtn.innerText = 'Criar Canteiro';
     }
@@ -250,17 +270,7 @@ async function todasPlantas() {
   Função para obter a lista das plantas do canteiro no servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
-async function criarCanteiro() {
-
-  const canteiro = {
-    'nome_canteiro': document.getElementById('canteiro_nome').value,
-    'x_canteiro': document.getElementById('canteiro_x').value,
-    'y_canteiro': document.getElementById('canteiro_y').value,
-    'emergente': document.getElementById('canteiro_emergente').value,
-    'alto': document.getElementById('canteiro_alto').value,
-    'medio': document.getElementById('canteiro_medio').value,
-    'baixo': document.getElementById('canteiro_baixo').value
-  };
+async function criarCanteiro(canteiro) {
 
   const params = new URLSearchParams();
   
@@ -306,7 +316,7 @@ function inserirLista(planta, length) {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para gerr grafico canteiro
+  Função para gerar grafico canteiro
   --------------------------------------------------------------------------------------
 */
 function criarGrafico(dados) {
@@ -384,8 +394,6 @@ function criarGrafico(dados) {
     // Gerar plot
     Plotly.newPlot('graphDiv', fig.data, fig.layout);
   });
-
-
 }
 
 /*
