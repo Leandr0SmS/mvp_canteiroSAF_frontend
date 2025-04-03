@@ -27,10 +27,10 @@ Para que o front-end funcione de forma otimizada, será necessário iniciar a AP
 #### Docker
 
 ```
-docker build --no-cache -t meu_canteiro .
+docker build --no-cache -t meu_canteiro_front .
 ```
 ```
-docker run -d -p 8080:80 meu_canteiro
+docker run -d -p 8080:80 meu_canteiro_front
 ```
 
 [http://localhost:8080/](http://localhost:8080/)
