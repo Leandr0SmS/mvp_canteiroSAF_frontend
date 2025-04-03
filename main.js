@@ -252,9 +252,9 @@ async function todasPlantas() {
 async function criarCanteiro() {
 
   const canteiro = {
-    'nome_canteiro': "meu canteiro",
-    'x_canteiro': '800',
-    'y_canteiro': '200',
+    'nome_canteiro': document.getElementById('canteiro_nome').value,
+    'x_canteiro': document.getElementById('canteiro_x').value,
+    'y_canteiro': document.getElementById('canteiro_y').value,
     'emergente': document.getElementById('canteiro_emergente').value,
     'alto': document.getElementById('canteiro_alto').value,
     'medio': document.getElementById('canteiro_medio').value,
