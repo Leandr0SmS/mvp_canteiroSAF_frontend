@@ -26,7 +26,7 @@ async function todasPlantas() {
 async function criarCanteiro(canteiro) {
 
     const params = new URLSearchParams();
-    for (key in canteiro) {
+    for (let key in canteiro) {
         params.append(key, canteiro[key]);
     }
     const queryString = params.toString();
@@ -44,7 +44,7 @@ async function criarCanteiro(canteiro) {
   Função para inserir plantas na tabela do canteiro
   --------------------------------------------------------------------------------------
 */
-function inserirLista(planta, length) {
+function inserirLista(planta, length, resultTabel) {
 
     const tbody = resultTabel.createTBody();
     const linha = tbody.insertRow();
@@ -70,6 +70,8 @@ function inserirLista(planta, length) {
   --------------------------------------------------------------------------------------
 */
 function criarGrafico(dados) {
+
+    console.log(dados)
 
     const fig = {
         data: [],

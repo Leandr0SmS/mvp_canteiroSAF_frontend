@@ -17,8 +17,6 @@ const editBtn = document.getElementById('editBtn');
 const toggleBtnSection = document.getElementById('toggleBtnSection');
 const toggleBtns = toggleBtnSection.childNodes;
 
-const deleteSelect = document.getElementById('delete_select');
-const editSelect = document.getElementById('nomePlantaEdit');
 const canteiroForm = document.getElementById('canteiro--form');
 const weatherForm = document.getElementById('weatherForm');
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
@@ -83,7 +81,7 @@ function start() {
         .then((data) => {
           const length = data.plantas.length;
           data.plantas.forEach(planta => {
-            inserirLista(planta, length)
+            inserirLista(planta, length, resultTabel)
           })
           criarGrafico(data)
         })
@@ -245,4 +243,4 @@ function inserirSelectionForm(planta, formId) {
     option.value = `${planta.nome_planta}`;
     select.add(option);
   }
-}
+};

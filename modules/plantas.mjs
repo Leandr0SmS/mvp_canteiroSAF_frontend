@@ -1,3 +1,6 @@
+import { config } from '../config.js';
+const { meuCanteiroApi } = config;
+
 /*
   --------------------------------------------------------------------------------------
   Função para adicionar uma planta no servidor via requisição PUT
@@ -17,7 +20,7 @@ async function putPlanta(
   formData.append('tempo_colheita', inputTempoColheita);
   formData.append('espacamento', inputEspacamento);
 
-  let url = config.meuCanteiroApi + '/planta';
+  let url = meuCanteiroApi + '/planta';
   const response = await fetch(url, {
     method: 'put',
     body: formData
@@ -56,7 +59,7 @@ function adicionarPlanta() {
         } else if (response.status === 409) {
           alert('ERRO: Planta de mesmo nome já salvo na base :/')
         } else {
-          alert('ERRO: Não foi possível salvar nova plnata :/')
+          alert('ERRO: Não foi possível salvar nova planta :/')
         }
       })
       .catch((error) => {
@@ -85,7 +88,7 @@ async function postPlanta(
   formDataEdit.append('tempo_colheita', inputEditTempoColheita);
   formDataEdit.append('espacamento', inputEditEspacamento);
 
-  let url = config.meuCanteiroApi + '/planta';
+  let url = meuCanteiroApi + '/planta';
   const response = await fetch(url, {
     method: 'post',
     body: formDataEdit
@@ -138,7 +141,7 @@ function editarPlanta() {
   --------------------------------------------------------------------------------------
 */
 async function deleteItem(item) {
-  let url = config.meuCanteiroApi + `/planta?nome_planta=${item}`;
+  let url = meuCanteiroApi + `/planta?nome_planta=${item}`;
   const response = await fetch(url, {
     method: 'delete'
   });
