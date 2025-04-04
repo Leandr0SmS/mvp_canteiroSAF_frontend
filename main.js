@@ -1,6 +1,6 @@
-import { procurarIdCidade, buscarPrevisao, mostrarPrevisao } from './modules/previsao-tempo.mjs'
-import { adicionarPlanta, editarPlanta, removerPlanta } from './modules/plantas.mjs'
-import { todasPlantas, criarCanteiro, inserirLista, criarGrafico } from './modules/canteiro.mjs'
+import { procurarIdCidade, buscarPrevisao, mostrarPrevisao } from './modules/previsao-tempo.js'
+import { adicionarPlanta, editarPlanta, removerPlanta } from './modules/plantas.js'
+import { todasPlantas, criarCanteiro, inserirLista, criarGrafico } from './modules/canteiro.js'
 
 /*
   --------------------------------------------------------------------------------------
@@ -61,11 +61,13 @@ function start() {
       'nome_canteiro': document.getElementById('canteiro_nome').value,
       'x_canteiro': document.getElementById('canteiro_x').value,
       'y_canteiro': document.getElementById('canteiro_y').value,
-      'emergente': document.getElementById('canteiro_emergente').value,
-      'alto': document.getElementById('canteiro_alto').value,
-      'medio': document.getElementById('canteiro_medio').value,
-      'baixo': document.getElementById('canteiro_baixo').value
+      'id_planta_emergente': document.getElementById('canteiro_emergente').value,
+      'id_planta_alto': document.getElementById('canteiro_alto').value,
+      'id_planta_medio': document.getElementById('canteiro_medio').value,
+      'id_planta_baixo': document.getElementById('canteiro_baixo').value
     };
+
+    console.log(canteiro)
 
     if (!Object.values(canteiro).every(v => Boolean(v))) {
       alert('Todos os campos devem ser preenchidos!')
