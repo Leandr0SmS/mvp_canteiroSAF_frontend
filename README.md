@@ -93,8 +93,8 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 ## Inspirações
 
 - [PUC-Rio](https://www.puc-rio.br/index.html)
-- [CodeCademy](https://www.codecademy.com/)
 - [FreeCodeCamp](https://www.freecodecamp.org/learn/)
 - [Cepeas](https://www.cepeas.org/)
 - [Agenda Gotsch](https://agendagotsch.com/)
 - [BrasilAPI](https://brasilapi.com.br/docs)
+- [MyMemory API DOCS](https://mymemory.translated.net/doc/)
