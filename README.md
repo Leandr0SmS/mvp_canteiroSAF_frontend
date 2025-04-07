@@ -15,6 +15,31 @@ O projeto permite ao usuário:
 
 ![Arquitetura Meu Canteiro SAF](./resources/images/Meu_canteiro_Flowchart.png)
 
+## Iniciando
+
+### Dependências
+
+Para que o front-end funcione de forma otimizada, será necessário iniciar as APIs:
+
+- [puc_rio-mvp_1-back_end](https://github.com/Leandr0SmS/puc_rio-mvp_1-back_end)
+- [agroforestry_systems_design](https://github.com/Leandr0SmS/agroforestry_systems_design)
+
+### Executando
+
+> Caso precise atualizar o URL da API basta modificar o arquivo config.js.
+
+#### Docker
+
+```Docker CLI
+docker build --no-cache -t meu_canteiro_front .
+```
+
+```Docker CLI
+docker run -d -p 8080:80 meu_canteiro_front
+```
+
+[http://localhost:8080/](http://localhost:8080/)
+
 ## Previsão do tempo BrasilAPI
 
 Rota utilizada na BrasilAPI foi a /CPTEC que abstrai e normaliza dados provenientes da CPTEC. Fonte oficial: CPTEC/INPE
@@ -29,35 +54,26 @@ Retorna listagem com todas as cidades correspondentes ao termo pesquisado junto 
 Retorna a previsão meteorológica para a cidade informada para um período de 1 até 6 dias. Devido a inconsistências encontradas nos retornos da CPTEC nossa API só consegue retornar com precisão o período máximo de 6 dias.
 `https://brasilapi.com.br/api/cptec/v1/clima/previsao/{cityCode}/{days}`
 
-### Links
+### Links Brasil API
 
 - [Termos de uso](https://brasilapi.com.br/#termos-de-uso)
 - [Brasil API DOCS](https://brasilapi.com.br/docs)
 
-## Iniciando
+## MyMemory Translation Memory technology API
 
-### Dependências
+### Rota
 
-Para que o front-end funcione de forma otimizada, será necessário iniciar a API [puc_rio-mvp_1-back_end](https://github.com/Leandr0SmS/puc_rio-mvp_1-back_end)
+`https://api.mymemory.translated.net/`
 
-### Executando
+| Parâmetro   | Descrição                                                                           | Tipo       | Valor de exemplo |
+|-------------|-------------------------------------------------------------------------------------|------------|------------------|
+| `q`         | A sentença que você deseja traduzir. Use UTF-8. Máx. 500 bytes                      | Obrigatório| `Hello World!`   |
+| `langpair`  | Par de idiomas de origem e destino, separados pelo símbolo `\|`. Use ISO ou RFC3066 | Obrigatório| `en\|it`         |
 
-> Caso precise atualizar o URL da API basta modificar o arquivo config.js.
+### Links MyMemory API
 
-#### Docker
-
-```
-docker build --no-cache -t meu_canteiro_front .
-```
-```
-docker run -d -p 8080:80 meu_canteiro_front
-```
-
-[http://localhost:8080/](http://localhost:8080/)
-
-#### Browser
-
-Para executar basta abrir o arquivo index.html no browser.
+- [Termos de uso](https://mymemory.translated.net/terms-and-conditions)
+- [MyMemory API DOCS](https://mymemory.translated.net/doc/)
 
 ## Autor
 

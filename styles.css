@@ -275,6 +275,21 @@ td {
         flex-direction: column;
         gap: 0.2em;
     }
+    /* Frases */
+    #frase-section {
+        margin: 0.7rem 0;
+        max-width: 15rem;
+        letter-spacing: normal;
+        text-align: center;
+    }
+    .frase-div-frase--frase {
+        letter-spacing: normal;
+        font-size: 0.8em;
+        margin: 0.5rem 0;
+    }
+    .frase-div-autor {
+        margin-left: 0.6rem;
+    }
     /* Forms */
     .form {
         min-width: 10rem;

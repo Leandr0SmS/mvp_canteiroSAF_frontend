@@ -1,6 +1,6 @@
 import { config } from '../config.js';
 
-const { quotesAPI } = config;
+const { quotesAPI, MyMemorytranlateAPI } = config;
 
 /*
   --------------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ async function buscarFrase() {
   --------------------------------------------------------------------------------------
 */
 async function traduzirTexto(texto, destino = 'pt') {
-  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto)}&langpair=en|${destino}`;
+  const url = `${MyMemorytranlateAPI}get?q=${encodeURIComponent(texto)}&langpair=en|${destino}`;
 
   const response = await fetch(url);
   if (!response.ok) {
