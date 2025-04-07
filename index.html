@@ -26,23 +26,23 @@
     </header>
     <main id="main">
         <form class="form" id="canteiro--form">
-            <fieldset class="fieldset" id="canteiroForm-nome-xy-fieldset">
-                <legend>Nome Canteiro</legend>
+            <fieldset class="fieldset" id="canteiroForm-plantas-fieldset">
+                <legend>Selecionar plantas nos estratos:</legend>
                 <section class="form--section">
                     <label for="canteiro_nome">Nome:</label>
                     <input type="text" id="canteiro_nome" class="input" required></input>
                 </section>
-                <section class="form--section">
-                    <label for="canteiro_x">Eixo X:</label>
-                    <input type="number" id="canteiro_x" class="input" required></input>
+                <section class="form--section" id="xy--section">
+                    <div class="xy--div">
+                        <label for="canteiro_y">Eixo Y:</label>
+                        <input type="number" id="canteiro_y" class="input" required></input>
+
+                    </div>
+                    <div class="xy--div">
+                        <label for="canteiro_x">Eixo X:</label>
+                        <input type="number" id="canteiro_x" class="input" required></input>
+                    </div>
                 </section>
-                <section class="form--section">
-                    <label for="canteiro_y">Eixo Y:</label>
-                    <input type="number" id="canteiro_y" class="input" required></input>
-                </section>
-            </fieldset>
-            <fieldset class="fieldset" id="canteiroForm-plantas-fieldset">
-                <legend>Selecionar plantas nos estratos:</legend>
                 <section class="form--section">
                     <label for="canteiro_baixo">Baixo:</label>
                     <select class="input canteiro_select" id="canteiro_baixo">

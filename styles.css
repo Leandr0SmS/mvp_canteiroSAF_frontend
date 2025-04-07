@@ -65,7 +65,7 @@ body {
 .form {
     display: flex;
     flex-direction: column;
-    min-width: 40rem;
+    min-width: 50rem;
 }
 #cityWeather, #forcastDays {
     font-size: 0.8em;
@@ -78,6 +78,18 @@ body {
 .form--section {
     display: flex;
     flex-direction: column;
+}
+#xy--section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.xy--div{
+    display: flex;
+    flex-direction: column;
+}
+#canteiro_x, #canteiro_y {
+    width:24rem;
 }
 label, legend {
     margin-bottom: 0.3rem;
@@ -246,6 +258,9 @@ td {
     #canteiroForm--fieldset {
         flex-direction: column;
         gap: 0.3rem;
+    }
+    #canteiro_x, #canteiro_y {
+        width: max-content;
     }
     .input {
         width: 100%;
