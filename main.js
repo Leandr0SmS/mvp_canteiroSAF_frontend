@@ -1,7 +1,7 @@
 import { procurarIdCidade, buscarPrevisao, mostrarPrevisao } from './modules/previsao-tempo.js'
 import { adicionarPlanta, editarPlanta, removerPlanta } from './modules/plantas.js'
 import { todasPlantas, criarCanteiro, inserirLista, criarGrafico } from './modules/canteiro.js'
-import { buscarFrase, mostrarFrase } from './modules/frases.js';
+import { buscarFrase, mostrarFrase, traduzirTexto } from './modules/frases.js';
 
 /*
   --------------------------------------------------------------------------------------
@@ -60,21 +60,42 @@ function start() {
   Carregar nova frase
   --------------------------------------------------------------------------------------
 */
+let fraseAtual = null; // Armazena a frase original
+let idiomaAtual = 'pt'; // Padrão 
 async function carregarFrase() {
   try {
-    const idioma = idiomaSelect.value;
-    const frase = await buscarFrase();
-    await mostrarFrase(frase, fraseDiv, idioma);
+    idiomaAtual = idiomaSelect.value;
+    fraseAtual = await buscarFrase();
+    await mostrarFrase(fraseAtual, fraseDiv, idiomaAtual);
   } catch (error) {
     console.error('Erro ao carregar frase:', error);
+  }
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Traduzir frase existente ao mudar idioma
+  --------------------------------------------------------------------------------------
+*/
+async function atualizarTraducao() {
+  if (!fraseAtual) return;
+
+  idiomaAtual = idiomaSelect.value;
+  try {
+    const fraseTraduzida = await traduzirTexto(fraseAtual.quote, idiomaAtual);
+
+    fraseDiv.querySelector('.frase-div-frase--frase').innerText = fraseTraduzida;
+  } catch (error) {
+    console.error('Erro ao traduzir:', error);
+    fraseDiv.querySelector('.frase-div-frase--frase').innerText = 'Erro ao traduzir frase.';
   }
 }
 
 // Carrega ao iniciar
 carregarFrase();
 
-// Atualiza ao trocar idioma
-idiomaSelect.addEventListener('change', carregarFrase);
+// Atualiza apenas tradução ao trocar idioma
+idiomaSelect.addEventListener('change', atualizarTraducao);
   
   /*
     --------------------------------------------------------------------------------------

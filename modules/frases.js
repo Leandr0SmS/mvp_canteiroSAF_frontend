@@ -76,4 +76,4 @@ async function mostrarFrase(frase, fraseDiv, idioma = 'pt') {
   return frase;
 }
 
-export { buscarFrase, mostrarFrase };
+export { buscarFrase, mostrarFrase, traduzirTexto };

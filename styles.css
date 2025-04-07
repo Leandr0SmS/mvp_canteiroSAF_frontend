@@ -61,6 +61,34 @@ body {
     gap: 0.4em;
 }
 
+/* Frases */
+#frase-section {
+    margin: 0.7rem 0;
+    max-width: 50rem;
+    letter-spacing: normal;
+}
+.frase-div-frase--frase {
+    letter-spacing: normal;
+    font-size: 1.1em;
+    margin: 0.5rem 0;
+}
+.frase-div-autor {
+    display: flex;
+    font-size: 0.65em;
+    font-family: monospace, 'Courier New', Courier;
+}
+.frase-div-autor--label {
+    font-weight: 600;
+}
+#idiomaSelect {
+    border: 1px solid var(--lawn-green);
+    border-radius: 0.25em;
+    padding: 0.15em 0.3em;
+    font-size: 0.5em;
+    cursor: pointer;
+    line-height: 1.1;
+}
+
 /* Forms */
 .form {
     display: flex;
