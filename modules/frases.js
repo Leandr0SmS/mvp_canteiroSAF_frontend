@@ -4,37 +4,76 @@ const { quotesAPI } = config;
 
 /*
   --------------------------------------------------------------------------------------
-  Função para buscar frase
+  Buscar frase da API
   --------------------------------------------------------------------------------------
 */
 async function buscarFrase() {
   const response = await fetch(quotesAPI);
   if (!response.ok) {
-    const message = `Ocorreu um erro para buscar uma frase`;
-    throw new Error(message);
-  };
+    throw new Error('Erro ao buscar frase');
+  }
   const frase = await response.json();
   return frase;
 }
 
 /*
   --------------------------------------------------------------------------------------
-  Função para mostrar frase
+  Traduzir usando API MyMemory
   --------------------------------------------------------------------------------------
 */
-function mostrarFrase(frase, fraseDiv) {
-    console.log(frase)
-    fraseDiv.innerHTML = '';
-    fraseDiv.innerHTML += `
+async function traduzirTexto(texto, destino = 'pt') {
+  const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto)}&langpair=en|${destino}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error('Erro ao traduzir texto');
+  }
+
+  const data = await response.json();
+  return data.responseData.translatedText;
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Mostrar frase com tradução
+  --------------------------------------------------------------------------------------
+*/
+async function mostrarFrase(frase, fraseDiv, idioma = 'pt') {
+  console.log(frase);
+
+  // Mostra "Carregando..."
+  fraseDiv.innerHTML = `
+    <div class='frase-div-frase' id='frase'>
+      <p class='frase-div-frase--frase'><em>Traduzindo frase...</em></p>
+    </div>
+    <div class='frase-div-autor' id='autor'>
+      <p class='frase-div-autor--label'>Autor: </p>
+      <p class='frase-div-autor--autor'>${frase.author}</p>
+    </div>
+  `;
+
+  try {
+    const fraseTraduzida = await traduzirTexto(frase.quote, idioma);
+
+    fraseDiv.innerHTML = `
       <div class='frase-div-frase' id='frase'>
-          <p class='frase-div-frase--frase'>${frase.quote}</p>
+          <p class='frase-div-frase--frase'>${fraseTraduzida}</p>
       </div>
       <div class='frase-div-autor' id='autor'>
           <p class='frase-div-autor--label'>Autor: </p>
           <p class='frase-div-autor--autor'>${frase.author}</p>
       </div>
     `;
-    return frase
-};
+  } catch (error) {
+    fraseDiv.innerHTML = `
+      <div class='frase-div-frase' id='frase'>
+          <p class='frase-div-frase--frase'><em>Erro ao traduzir frase.</em></p>
+      </div>
+    `;
+    console.error('Erro ao traduzir:', error);
+  }
+
+  return frase;
+}
 
 export { buscarFrase, mostrarFrase };

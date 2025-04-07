@@ -1,7 +1,7 @@
 import { procurarIdCidade, buscarPrevisao, mostrarPrevisao } from './modules/previsao-tempo.js'
 import { adicionarPlanta, editarPlanta, removerPlanta } from './modules/plantas.js'
 import { todasPlantas, criarCanteiro, inserirLista, criarGrafico } from './modules/canteiro.js'
-import { buscarFrase, mostrarFrase } from './modules/frases.js'
+import { buscarFrase, mostrarFrase } from './modules/frases.js';
 
 /*
   --------------------------------------------------------------------------------------
@@ -22,7 +22,11 @@ const canteiroForm = document.getElementById('canteiro--form');
 const weatherForm = document.getElementById('weatherForm');
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
 const grafDiv = document.getElementById('graphDiv');
-const fraseDiv = document.getElementById('frase-div');
+
+
+const fraseDiv = document.getElementById('frase-container');
+const idiomaSelect = document.getElementById('idiomaSelect');
+
 const resultTableRaw = `
                         <thead>
                           <tr>
@@ -51,14 +55,26 @@ function start() {
     .catch((error) => {
       console.error('Error:', error);
     });
-  // Busca e adiciona Frase de API externa
-  buscarFrase()
-    .then((data) => {
-      mostrarFrase(data, fraseDiv)
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+/*
+  --------------------------------------------------------------------------------------
+  Carregar nova frase
+  --------------------------------------------------------------------------------------
+*/
+async function carregarFrase() {
+  try {
+    const idioma = idiomaSelect.value;
+    const frase = await buscarFrase();
+    await mostrarFrase(frase, fraseDiv, idioma);
+  } catch (error) {
+    console.error('Erro ao carregar frase:', error);
+  }
+}
+
+// Carrega ao iniciar
+carregarFrase();
+
+// Atualiza ao trocar idioma
+idiomaSelect.addEventListener('change', carregarFrase);
   
   /*
     --------------------------------------------------------------------------------------
