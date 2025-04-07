@@ -1,6 +1,7 @@
 import { procurarIdCidade, buscarPrevisao, mostrarPrevisao } from './modules/previsao-tempo.js'
 import { adicionarPlanta, editarPlanta, removerPlanta } from './modules/plantas.js'
 import { todasPlantas, criarCanteiro, inserirLista, criarGrafico } from './modules/canteiro.js'
+import { buscarFrase, mostrarFrase } from './modules/frases.js'
 
 /*
   --------------------------------------------------------------------------------------
@@ -21,6 +22,7 @@ const canteiroForm = document.getElementById('canteiro--form');
 const weatherForm = document.getElementById('weatherForm');
 const weatherForcastDiv = document.getElementById('weatherForcastDiv');
 const grafDiv = document.getElementById('graphDiv');
+const fraseDiv = document.getElementById('frase-div');
 const resultTableRaw = `
                         <thead>
                           <tr>
@@ -41,7 +43,7 @@ const resultTableRaw = `
 start();
 
 function start() {
-  // Adiciona plantas ao formulário do canteiro
+ // Adiciona plantas ao formulário do canteiro
   todasPlantas()
     .then((data) => {
       data.plantas.forEach(planta => inserirSelectionForm(planta, 'canteiro'))
@@ -49,6 +51,15 @@ function start() {
     .catch((error) => {
       console.error('Error:', error);
     });
+  // Busca e adiciona Frase de API externa
+  buscarFrase()
+    .then((data) => {
+      mostrarFrase(data, fraseDiv)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  
   /*
     --------------------------------------------------------------------------------------
     Método para ouvir evento de clicar no botão #canteiroBtn (criar canteiro) 
