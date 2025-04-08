@@ -34,11 +34,9 @@ Para que o front-end funcione de forma otimizada, será necessário iniciar as A
     docker build --no-cache -t meu_canteiro_front .
 ```
 
-
 ```Docker CLI
     docker run -d -p 8080:80 --name meu_canteiro_front meu_canteiro_front
 ```
-
 
 [http://localhost:8080/](http://localhost:8080/)
 
