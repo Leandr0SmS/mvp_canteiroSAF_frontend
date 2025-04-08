@@ -61,7 +61,17 @@ Retorna a previsão meteorológica para a cidade informada para um período de 1
 - [Termos de uso](https://brasilapi.com.br/#termos-de-uso)
 - [Brasil API DOCS](https://brasilapi.com.br/docs)
 
+## Free Quotes API
+
+Utilizada para exibir frases motivacionais ao usuário, oferecendo uma experiência mais leve e inspiradora durante o uso da aplicação
+
+### Links Free Quotes API
+
+- [Free Quotes API DOCS](https://qapi.vercel.app/docs)
+
 ## MyMemory Translation Memory technology API
+
+API responsável por traduzir as frases motivacionais para o idioma do usuário, garantindo acessibilidade e uma experiência personalizada.
 
 ### Rota
 
