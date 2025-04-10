@@ -24,21 +24,23 @@ async function todasPlantas() {
   --------------------------------------------------------------------------------------
 */
 async function criarCanteiro(canteiro) {
+    const url = config.meuCanteiroApi + '/canteiro';
 
-    const params = new URLSearchParams();
-    for (let key in canteiro) {
-        params.append(key, canteiro[key]);
-    }
-    const queryString = params.toString();
-    let url = config.meuCanteiroApi + '/canteiro?'
-    const urlPlantas = url + queryString;
-    const response = await fetch(urlPlantas);
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(canteiro)
+    });
+
     if (!response.ok) {
-        throw new Error(`${response.status}`);
+        throw new Error(`Erro ao criar canteiro: ${response.status}`);
     }
+
     const canteiroData = await response.json();
     return canteiroData;
-};
+}
 /*
   --------------------------------------------------------------------------------------
   Função para inserir plantas na tabela do canteiro
