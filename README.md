@@ -38,7 +38,7 @@ Para que o front-end funcione de forma otimizada, será necessário iniciar as A
     docker run -d -p 8080:80 --name meu_canteiro_front meu_canteiro_front
 ```
 
-[http://localhost:8080/](http://localhost:8080/)
+Abrir no navegador: [http://localhost:8080/](http://localhost:8080/)
 
 ## Previsão do tempo BrasilAPI
 
