@@ -71,7 +71,7 @@ function inserirLista(planta, length, resultTabel) {
 */
 function criarGrafico(dados) {
 
-    console.log(dados)
+    console.log(dados);
 
     const fig = {
         data: [],
@@ -80,36 +80,40 @@ function criarGrafico(dados) {
             yaxis: { range: [0, dados.y_canteiro], constrain: 'domain' },
             autosize: false,
             title: {
-                text: dados.nome_canteiro, 
-                x: 0.5,                  
+                text: dados.nome_canteiro,
+                x: 0.5,
                 xanchor: 'center',
-                font: { size: 15 }      
+                font: { size: 15 }
             }
         }
     };
 
-    // Calcular maximo diametro
+    // Calcular máximo diâmetro
     let maxDiameter = 0;
-    Object.values(dados.dados_grafico.plantas_canteiro).forEach(plantas => {
-      plantas.forEach(planta => {
-          maxDiameter = Math.max(maxDiameter, planta.diametro);
-      });
+    Object.values(dados.dados_grafico).forEach(plantas => {
+        plantas.forEach(planta => {
+            maxDiameter = Math.max(maxDiameter, planta.diametro);
+        });
     });
-    
-    // Calcular refenrencia de tamanho
+
+    // Fator de escala para tamanhos
     const scalingFactor = 5;
     const maxRange = Math.max(dados.x_canteiro, dados.y_canteiro);
     const sizeref = (maxRange / maxDiameter) / scalingFactor;
-    // Gerar cores aleatorias
-    const numEstratos = Object.keys(dados.dados_grafico.plantas_canteiro).length;
-    const colors = Array.from({ length: numEstratos }, () => Math.random());
 
-    // Create traces for each estrato
-    Object.entries(dados.dados_grafico.plantas_canteiro).forEach(([estrato, plantas]) => {
+    // Cores aleatórias para cada estrato
+    const estratos = Object.keys(dados.dados_grafico);
+    const colors = estratos.map(() => Math.random());
+
+    // Criar traces por estrato
+    estratos.forEach((estrato, idx) => {
+        const plantas = dados.dados_grafico[estrato];
+
         const x = [];
         const y = [];
         const sizes = [];
-        const customData = [];    
+        const customData = [];
+
         plantas.forEach(planta => {
             x.push(parseInt(planta.posicao[0], 10));
             y.push(parseInt(planta.posicao[1], 10));
@@ -122,7 +126,7 @@ function criarGrafico(dados) {
             ]);
         });
 
-      fig.data.push({
+        fig.data.push({
             type: 'scatter',
             mode: 'markers',
             x: x,
@@ -132,21 +136,22 @@ function criarGrafico(dados) {
                 size: sizes,
                 sizemode: 'diameter',
                 sizeref: sizeref,
-                color: colors[0],
-                opacity: 0.4, 
+                color: colors[idx],
+                opacity: 0.4,
                 colorscale: 'Earth'
             },
             customdata: customData,
-            hovertemplate: 
+            hovertemplate:
                 `<b>Nome</b>: %{customdata[0]}<br>` +
                 `<b>Estrato</b>: %{customdata[1]}<br>` +
-                `<b>Posicao</b>: %{customdata[2]}<br>` +
+                `<b>Posição</b>: %{customdata[2]}<br>` +
                 `<b>Diâmetro</b>: %{customdata[3]}` +
-                `<extra></extra>` 
-            });   
-            // Gerar plot
-            Plotly.newPlot('graphDiv', fig.data, fig.layout);
-      });
+                `<extra></extra>`
+        });
+    });
+
+    // Gerar o gráfico
+    Plotly.newPlot('graphDiv', fig.data, fig.layout);
 };
 
 export { todasPlantas, criarCanteiro, inserirLista, criarGrafico };
