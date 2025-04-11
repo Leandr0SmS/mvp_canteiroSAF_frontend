@@ -116,6 +116,9 @@ body {
     display: flex;
     flex-direction: column;
 }
+#select-canteiro {
+    margin: 0;
+}
 #canteiro_x, #canteiro_y {
     width:24rem;
 }
@@ -149,9 +152,11 @@ label, legend {
 
 /* Buttons */
 .btn--form--section {
-    display: flex;
     width: 18rem;
-    gap: 0.3rem;
+}
+#form-buttons {
+    display: flex;
+    gap: 0.2rem;
 }
 .toggleFormBtn {
     display: flex;
@@ -344,6 +349,9 @@ td {
     }
 
     /* Buttons */
+    .btn--form--section {
+        width: 14rem;
+    }
     .toggleFormBtn {
         margin-bottom: 0;
         font-size: 1rem;

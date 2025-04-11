@@ -6,8 +6,6 @@ import {
   carregarCanteiros,
   editarCanteiro,
   deletarCanteiro,
-  inserirLista,
-  criarGrafico,
   visualizarCanteiro
 } from './modules/canteiro.js'
 import { buscarFrase, mostrarFrase, traduzirTexto } from './modules/frases.js';
@@ -18,7 +16,6 @@ import { buscarFrase, mostrarFrase, traduzirTexto } from './modules/frases.js';
   --------------------------------------------------------------------------------------
 */
 const forcastBtn = document.getElementById('searchCityBtn');
-const canteiroBtn = document.getElementById('saveCanteiroBtn');
 const resultTabel = document.getElementById('tabela_resultado');
 const addBtn = document.getElementById('addBtn');
 const delBtn = document.getElementById('delBtn');
@@ -30,7 +27,6 @@ const toggleBtns = toggleBtnSection.childNodes;
 const selectCanteiro = document.getElementById('select-canteiro');
 const canteiroActions = document.getElementById('canteiro-actions');
 const criarBtn = document.getElementById('criarCanteiroBtn');
-const editarBtn = document.getElementById('editCanteiroBtn');
 const deletarBtn = document.getElementById('deleteCanteiroBtn');
 const salvarBtn = document.getElementById('saveCanteiroBtn');
 const form = document.getElementById('canteiro--form');
@@ -78,7 +74,7 @@ function start() {
     });
   
   //Carreando canteiros no selectCanteiros
-  carregarCanteiros(selectCanteiro, canteiroActions, form)
+  carregarCanteiros(selectCanteiro, canteiroActions, canteiroForm)
     .then((canteiros) => {
       todosCanteiros = canteiros;
     });
@@ -99,7 +95,7 @@ function start() {
 
     if (confirm(`Deseja realmente deletar o canteiro "${nome}"?`)) {
         await deletarCanteiro(nome);
-        form.style.display = 'none';
+        canteiroForm.style.display = 'none';
         todosCanteiros = await carregarCanteiros(
           document.getElementById('select-canteiro'),
           document.getElementById('canteiro-actions'),
@@ -108,8 +104,7 @@ function start() {
     }
   });
 
-  // Botão Salvar (cria ou edita)
-  const salvarBtn = document.getElementById('saveCanteiroBtn');
+
   salvarBtn.addEventListener('click', async () => {
     const nomeInput = document.getElementById('canteiro_nome');
     const canteiro = {
