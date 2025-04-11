@@ -1,6 +1,15 @@
 import { procurarIdCidade, buscarPrevisao, mostrarPrevisao } from './modules/previsao-tempo.js'
 import { adicionarPlanta, editarPlanta, removerPlanta } from './modules/plantas.js'
-import { todasPlantas, criarCanteiro, inserirLista, criarGrafico } from './modules/canteiro.js'
+import { 
+  todasPlantas, 
+  criarCanteiro,
+  carregarCanteiros,
+  editarCanteiro,
+  deletarCanteiro,
+  inserirLista,
+  criarGrafico,
+  visualizarCanteiro
+} from './modules/canteiro.js'
 import { buscarFrase, mostrarFrase, traduzirTexto } from './modules/frases.js';
 
 /*
@@ -9,7 +18,7 @@ import { buscarFrase, mostrarFrase, traduzirTexto } from './modules/frases.js';
   --------------------------------------------------------------------------------------
 */
 const forcastBtn = document.getElementById('searchCityBtn');
-const canteiroBtn = document.getElementById('canteiroBtn');
+const canteiroBtn = document.getElementById('saveCanteiroBtn');
 const resultTabel = document.getElementById('tabela_resultado');
 const addBtn = document.getElementById('addBtn');
 const delBtn = document.getElementById('delBtn');
@@ -17,6 +26,16 @@ const editBtn = document.getElementById('editBtn');
 
 const toggleBtnSection = document.getElementById('toggleBtnSection');
 const toggleBtns = toggleBtnSection.childNodes;
+
+const selectCanteiro = document.getElementById('select-canteiro');
+const canteiroActions = document.getElementById('canteiro-actions');
+const criarBtn = document.getElementById('criarCanteiroBtn');
+const editarBtn = document.getElementById('editCanteiroBtn');
+const deletarBtn = document.getElementById('deleteCanteiroBtn');
+const salvarBtn = document.getElementById('saveCanteiroBtn');
+const form = document.getElementById('canteiro--form');
+const visualizarBtn = document.getElementById('visualizarCanteiroBtn');
+const limparBtn = document.getElementById('limparVisualizacaoBtn');
 
 const canteiroForm = document.getElementById('canteiro--form');
 const weatherForm = document.getElementById('weatherForm');
@@ -39,6 +58,8 @@ const resultTableRaw = `
                         </thead>
                       `;
 
+let todosCanteiros = [];
+
 /*
   --------------------------------------------------------------------------------------
   Função para iniciar o ambiente e os eventos
@@ -47,7 +68,7 @@ const resultTableRaw = `
 start();
 
 function start() {
- // Adiciona plantas ao formulário do canteiro
+  // Adiciona plantas ao formulário do canteiro
   todasPlantas()
     .then((data) => {
       data.plantas.forEach(planta => inserirSelectionForm(planta, 'canteiro'))
@@ -55,99 +76,258 @@ function start() {
     .catch((error) => {
       console.error('Error:', error);
     });
-/*
-  --------------------------------------------------------------------------------------
-  Carregar nova frase
-  --------------------------------------------------------------------------------------
-*/
-let fraseAtual = null; // Armazena a frase original
-let idiomaAtual = 'pt'; // Padrão 
-async function carregarFrase() {
-  try {
-    idiomaAtual = idiomaSelect.value;
-    fraseAtual = await buscarFrase();
-    await mostrarFrase(fraseAtual, fraseDiv, idiomaAtual);
-  } catch (error) {
-    console.error('Erro ao carregar frase:', error);
-  }
-}
-
-/*
-  --------------------------------------------------------------------------------------
-  Traduzir frase existente ao mudar idioma
-  --------------------------------------------------------------------------------------
-*/
-async function atualizarTraducao() {
-  if (!fraseAtual) return;
-
-  idiomaAtual = idiomaSelect.value;
-  try {
-    const fraseTraduzida = await traduzirTexto(fraseAtual.quote, idiomaAtual);
-
-    fraseDiv.querySelector('.frase-div-frase--frase').innerText = fraseTraduzida;
-  } catch (error) {
-    console.error('Erro ao traduzir:', error);
-    fraseDiv.querySelector('.frase-div-frase--frase').innerText = 'Erro ao traduzir frase.';
-  }
-}
-
-// Carrega ao iniciar
-carregarFrase();
-
-// Atualiza apenas tradução ao trocar idioma
-idiomaSelect.addEventListener('change', atualizarTraducao);
   
-  /*
-    --------------------------------------------------------------------------------------
-    Método para ouvir evento de clicar no botão #canteiroBtn (criar canteiro) 
-    --------------------------------------------------------------------------------------
-  */
-  canteiroBtn.addEventListener('click', function(event){
-    event.preventDefault();
+  //Carreando canteiros no selectCanteiros
+  carregarCanteiros(selectCanteiro, canteiroActions, form)
+    .then((canteiros) => {
+      todosCanteiros = canteiros;
+    });
 
+  // Botão Criar novo
+  criarBtn.addEventListener('click', () => {
+    limparFormulario();
+    document.getElementById('canteiro_nome').readOnly = false;
+    document.getElementById('saveCanteiroBtn').textContent = 'Salvar Canteiro';
+    document.getElementById('deleteCanteiroBtn').style.display = 'none';
+    document.getElementById('canteiro--form').style.display = 'block';
+  });
+
+  // Botão Deletar
+  deletarBtn.addEventListener('click', async () => {
+    const nome = selectCanteiro.value;
+    if (!nome) return;
+
+    if (confirm(`Deseja realmente deletar o canteiro "${nome}"?`)) {
+        await deletarCanteiro(nome);
+        form.style.display = 'none';
+        todosCanteiros = await carregarCanteiros(
+          document.getElementById('select-canteiro'),
+          document.getElementById('canteiro-actions'),
+          document.getElementById('canteiro--form')
+        );
+    }
+  });
+
+  // Botão Salvar (cria ou edita)
+  const salvarBtn = document.getElementById('saveCanteiroBtn');
+  salvarBtn.addEventListener('click', async () => {
+    const nomeInput = document.getElementById('canteiro_nome');
     const canteiro = {
-      'nome_canteiro': document.getElementById('canteiro_nome').value,
-      'x_canteiro': document.getElementById('canteiro_x').value,
-      'y_canteiro': document.getElementById('canteiro_y').value,
-      'id_planta_emergente': document.getElementById('canteiro_emergente').value,
-      'id_planta_alto': document.getElementById('canteiro_alto').value,
-      'id_planta_medio': document.getElementById('canteiro_medio').value,
-      'id_planta_baixo': document.getElementById('canteiro_baixo').value
+        nome_canteiro: nomeInput.value,
+        x_canteiro: parseInt(document.getElementById('canteiro_x').value),
+        y_canteiro: parseInt(document.getElementById('canteiro_y').value),
+        id_planta_emergente: document.getElementById('canteiro_emergente').value,
+        id_planta_alto: document.getElementById('canteiro_alto').value,
+        id_planta_medio: document.getElementById('canteiro_medio').value,
+        id_planta_baixo: document.getElementById('canteiro_baixo').value
     };
 
-    console.log(canteiro)
-
     if (!Object.values(canteiro).every(v => Boolean(v))) {
-      alert('Todos os campos devem ser preenchidos!')
-      resultTabel.innerHTML = resultTableRaw;
-      resultTabel.style.display = 'none';
-      grafDiv.innerHTML = '';
-      return
+        alert('Todos os campos devem ser preenchidos!');
+        return;
     }
 
-    if (canteiroBtn.textContent === 'Criar Canteiro') {
-      resultTabel.innerHTML = resultTableRaw;
-      criarCanteiro(canteiro)      
-        .then((data) => {
-          const length = data.plantas.length;
-          data.plantas.forEach(planta => {
-            inserirLista(planta, length, resultTabel)
-          })
-          criarGrafico(data)
-        })
-        .catch((error) => {
-          console.error('Error:' + error);
-        });
-      resultTabel.style.display ='block';
-      canteiroBtn.innerText = 'Refazer Canteiro';
-    } else if (canteiroBtn.textContent === 'Refazer Canteiro') {
-      resultTabel.innerHTML = resultTableRaw;
-      resultTabel.style.display = 'none';
-      grafDiv.innerHTML = '';
-      canteiroForm.reset();
-      canteiroBtn.innerText = 'Criar Canteiro';
+    try {
+        if (salvarBtn.textContent.includes('Editar')) {
+            await editarCanteiro(canteiro);
+        } else {
+            await criarCanteiro(canteiro);
+        }
+
+        alert('Canteiro salvo com sucesso!');
+    } catch (e) {
+        console.error(e);
+        return;
     }
-  }); 
+
+    // Resetar UI pós-salvamento
+    await carregarCanteiros(
+      document.getElementById('select-canteiro'),
+      document.getElementById('canteiro-actions'),
+      document.getElementById('canteiro--form')
+    );
+    document.getElementById('canteiro--form').style.display = 'none';
+    nomeInput.readOnly = false;
+    salvarBtn.textContent = 'Salvar Canteiro';
+
+  });
+
+  selectCanteiro.addEventListener('change', async function () {
+    const nomeSelecionado = this.value;
+    const deletarBtn = document.getElementById('deleteCanteiroBtn');
+
+    if (!nomeSelecionado) {
+        limparFormulario();
+        document.getElementById('canteiro_nome').readOnly = false;
+        document.getElementById('saveCanteiroBtn').textContent = 'Salvar Canteiro';
+        deletarBtn.style.display = 'none';
+        document.getElementById('canteiro--form').style.display = 'block';
+        return;
+    }
+
+    todosCanteiros = await carregarCanteiros(
+      document.getElementById('select-canteiro'),
+      document.getElementById('canteiro-actions'),
+      document.getElementById('canteiro--form')
+    );
+    const canteiroSelecionado = todosCanteiros.find(c => c.nome_canteiro === nomeSelecionado);
+
+    if (!canteiroSelecionado) {
+        alert("Canteiro não encontrado na lista.");
+        return;
+    }
+
+    preencherFormulario(canteiroSelecionado);
+    deletarBtn.style.display = 'inline-block';
+    document.getElementById('canteiro--form').style.display = 'block';
+  });
+
+
+  function preencherFormulario(c) {
+
+    // Preenche os campos
+    const nomeInput = document.getElementById('canteiro_nome');
+    nomeInput.value = c.nome_canteiro;
+    nomeInput.readOnly = true; // impede alterações no nome
+
+    document.getElementById('canteiro_x').value = c.x_canteiro;
+    document.getElementById('canteiro_y').value = c.y_canteiro;
+
+    // Define o modo de edição
+    const salvarBtn = document.getElementById('saveCanteiroBtn');
+    salvarBtn.textContent = 'Editar Canteiro';
+
+    const plantas = c.plantas_canteiro?.plantas || [];
+    const estratos = ['emergente', 'alto', 'medio', 'baixo'];
+
+    estratos.forEach(estrato => {
+        const select = document.getElementById(`canteiro_${estrato}`);
+        const planta = plantas.find(p => p.estrato.toLowerCase() === estrato);
+
+        if (planta && select) {
+            for (let i = 0; i < select.options.length; i++) {
+                const option = select.options[i];
+                if (option.textContent.trim().toLowerCase() === planta.nome_planta.trim().toLowerCase()) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    });
+  }
+
+  deletarBtn.addEventListener('click', async () => {
+    const nomeInput = document.getElementById('canteiro_nome');
+    const nomeCanteiro = nomeInput.value;
+
+    if (!nomeCanteiro) {
+        alert("Selecione um canteiro para deletar.");
+        return;
+    }
+
+    const confirmar = confirm(`Tem certeza que deseja deletar o canteiro "${nomeCanteiro}"?`);
+
+    if (!confirmar) return;
+
+    try {
+        await deletarCanteiro(nomeCanteiro);
+
+        // Pós deleção
+        Plotly.purge('graphDiv'); // limpa gráfico se houver
+        deletarBtn.style.display = 'none';
+        document.getElementById('limparVisualizacaoBtn').style.display = 'none';
+
+        // Recarrega o select
+        todosCanteiros = await carregarCanteiros(
+            document.getElementById('select-canteiro'),
+            document.getElementById('canteiro-actions'),
+            document.getElementById('canteiro--form')
+        );
+
+        // Limpa seleção
+        limparFormulario();
+
+    } catch (err) {
+        console.warn("Erro ao tentar deletar:", err);
+    }
+  });
+
+    /*
+    --------------------------------------------------------------------------------------
+    Visualizar canteiro
+    --------------------------------------------------------------------------------------
+  */
+  visualizarBtn.addEventListener('click', () => {
+    const select = document.getElementById('canteiro_nome');
+    const nomeCanteiro = select.value;
+
+    if (!nomeCanteiro) {
+        alert("Selecione um canteiro.");
+        return;
+    }
+
+    visualizarCanteiro(nomeCanteiro);
+    document.getElementById('limparVisualizacaoBtn').style.display = 'inline-block';
+  });
+
+  limparBtn.addEventListener('click', () => {
+    // Limpa o conteúdo do gráfico
+    Plotly.purge('graphDiv');
+
+    // Opcional: esconder o botão novamente
+    limparBtn.style.display = 'none';
+    // Resetar UI pós-salvamento
+    document.getElementById('canteiro--form').style.display = 'none';
+    nomeInput.readOnly = false;
+    salvarBtn.textContent = 'Salvar Canteiro';
+    
+    carregarCanteiros(
+        document.getElementById('select-canteiro'),
+        document.getElementById('canteiro-actions'),
+        document.getElementById('canteiro--form')
+    );
+  });
+  /*
+    --------------------------------------------------------------------------------------
+    Carregar nova frase
+    --------------------------------------------------------------------------------------
+  */
+  let fraseAtual = null; // Armazena a frase original
+  let idiomaAtual = 'pt'; // Padrão 
+  async function carregarFrase() {
+    try {
+      idiomaAtual = idiomaSelect.value;
+      fraseAtual = await buscarFrase();
+      await mostrarFrase(fraseAtual, fraseDiv, idiomaAtual);
+    } catch (error) {
+      console.error('Erro ao carregar frase:', error);
+    }
+  }
+
+  /*
+    --------------------------------------------------------------------------------------
+    Traduzir frase existente ao mudar idioma
+    --------------------------------------------------------------------------------------
+  */
+  async function atualizarTraducao() {
+    if (!fraseAtual) return;
+
+    idiomaAtual = idiomaSelect.value;
+    try {
+      const fraseTraduzida = await traduzirTexto(fraseAtual.quote, idiomaAtual);
+
+      fraseDiv.querySelector('.frase-div-frase--frase').innerText = fraseTraduzida;
+    } catch (error) {
+      console.error('Erro ao traduzir:', error);
+      fraseDiv.querySelector('.frase-div-frase--frase').innerText = 'Erro ao traduzir frase.';
+    }
+  }
+
+  // Carrega ao iniciar
+  carregarFrase();
+
+  // Atualiza apenas tradução ao trocar idioma
+  idiomaSelect.addEventListener('change', atualizarTraducao);
 
   /*
     --------------------------------------------------------------------------------------
@@ -294,3 +474,20 @@ function inserirSelectionForm(planta, formId) {
     select.add(option);
   }
 };
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para limpar formulário canteiro.
+  --------------------------------------------------------------------------------------
+*/
+function limparFormulario() {
+  document.getElementById('canteiro_nome').value = '';
+  document.getElementById('canteiro_x').value = '';
+  document.getElementById('canteiro_y').value = '';
+
+  const estratos = ['baixo', 'medio', 'alto', 'emergente'];
+  estratos.forEach(estrato => {
+      const select = document.getElementById(`canteiro_${estrato}`);
+      if (select) select.value = '';
+  });
+}

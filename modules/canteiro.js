@@ -94,6 +94,7 @@ function inserirLista(planta, length, resultTabel) {
   --------------------------------------------------------------------------------------
 */
 function criarGrafico(dados) {
+    console.log(dados)
     const frames = [];
     const fig = {
         data: [],
@@ -255,5 +256,118 @@ function criarGrafico(dados) {
     });
 };
 
+async function visualizarCanteiro(nomeCanteiro) {
+    try {
+        const response = await fetch(`${config.meuCanteiroApi}/canteiro?nome_canteiro=${encodeURIComponent(nomeCanteiro)}`);
 
-export { todasPlantas, criarCanteiro, inserirLista, criarGrafico };
+        if (!response.ok) {
+            if (response.status === 404) {
+                alert("Canteiro não encontrado!");
+            } else {
+                alert("Erro ao buscar o canteiro.");
+            }
+            return;
+        }
+
+        const dadosCanteiro = await response.json();
+        dadosCanteiro.dados_grafico = dadosCanteiro.plantas_destribuidas;
+
+        criarGrafico(dadosCanteiro);
+    } catch (error) {
+        console.error("Erro ao visualizar canteiro:", error);
+        alert("Erro de conexão com a API.");
+    }
+}
+
+// BUSCAR CANTEIROS
+async function carregarCanteiros(select, actions, form) {
+    try {
+        const response = await fetch(`${config.meuCanteiroApi}/canteiros`);
+        const data = await response.json();
+
+        const dataCanteiros = data.canteiro;
+
+        select.innerHTML = `<option value="">Selecione um canteiro</option>`;
+
+        dataCanteiros.forEach(c => {
+            const option = document.createElement('option');
+            option.value = c.nome_canteiro;
+            option.textContent = c.nome_canteiro;
+            select.appendChild(option);
+        });
+
+        actions.style.display = dataCanteiros.length > 0 ? 'block' : 'none';
+        form.style.display = 'none';
+        return dataCanteiros
+
+    } catch (err) {
+        console.error("Erro ao carregar canteiros:", err);
+        alert("Não foi possível carregar os canteiros existentes.");
+    }
+}
+
+// EDITAR CANTEIRO
+async function editarCanteiro(canteiro) {
+    const url = `${meuCanteiroApi}/canteiro`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(canteiro)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message || "Erro ao editar canteiro.");
+            throw new Error(data.message || "Erro ao editar canteiro.");
+        }
+
+        return data;
+    } catch (error) {
+        console.error("Erro ao editar canteiro:", error);
+        alert("Erro de conexão ao editar o canteiro.");
+        throw error;
+    }
+}
+
+// DELETAR CANTEIRO
+async function deletarCanteiro(nomeCanteiro) {
+    const url = `${meuCanteiroApi}/canteiros?nome_canteiro=${encodeURIComponent(nomeCanteiro)}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.message || "Erro ao deletar canteiro.");
+            throw new Error(data.message || "Erro ao deletar canteiro.");
+        }
+
+        alert(data.message || "Canteiro deletado com sucesso.");
+        return data;
+
+    } catch (error) {
+        console.error("Erro ao deletar canteiro:", error);
+        alert("Erro de conexão ao deletar o canteiro.");
+        throw error;
+    }
+}
+
+export { 
+    todasPlantas, 
+    criarCanteiro,
+    carregarCanteiros,
+    editarCanteiro,
+    deletarCanteiro,
+    inserirLista,
+    criarGrafico,
+    visualizarCanteiro
+};
