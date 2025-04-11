@@ -26,20 +26,42 @@ async function todasPlantas() {
 async function criarCanteiro(canteiro) {
     const url = config.meuCanteiroApi + '/canteiro';
 
-    const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(canteiro)
-    });
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(canteiro)
+        });
 
-    if (!response.ok) {
-        throw new Error(`Erro ao criar canteiro: ${response.status}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            switch (response.status) {
+                case 400:
+                    alert("Erro nos dados enviados. Verifique o formulário.");
+                    break;
+                case 404:
+                    alert("Alguma das plantas selecionadas não foi encontrada.");
+                    break;
+                case 409:
+                    alert("Já existe um canteiro com esse nome. Escolha outro nome.");
+                    break;
+                default:
+                    alert(`Erro inesperado: ${data.message || response.statusText}`);
+                    break;
+            }
+            throw new Error(`Erro ao criar canteiro: ${response.status}`);
+        }
+
+        return data;
+
+    } catch (error) {
+        console.error("Erro de rede ou na API:", error);
+        alert("Erro de conexão com o servidor. Verifique sua internet ou tente mais tarde.");
+        throw error;
     }
-
-    const canteiroData = await response.json();
-    return canteiroData;
 }
 /*
   --------------------------------------------------------------------------------------
