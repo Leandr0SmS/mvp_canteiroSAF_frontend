@@ -306,13 +306,21 @@ async function carregarCanteiros(select, actions, form) {
 
 // EDITAR CANTEIRO
 async function editarCanteiro(canteiro) {
-    const url = `${meuCanteiroApi}/canteiro`;
+    const formData = new FormData();
+
+    formData.append('nome_canteiro', canteiro.nome_canteiro);
+    formData.append('x_canteiro', canteiro.x_canteiro);
+    formData.append('y_canteiro', canteiro.y_canteiro);
+
+    // Enviar os dados das plantas como string JSON, se necessário
+    if (canteiro.plantas_canteiro) {
+        formData.append('plantas_canteiro', JSON.stringify(canteiro.plantas_canteiro));
+    }
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`${config.meuCanteiroApi}/canteiro`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(canteiro)
+            body: new URLSearchParams(formData)
         });
 
         const data = await response.json();
@@ -322,7 +330,9 @@ async function editarCanteiro(canteiro) {
             throw new Error(data.message || "Erro ao editar canteiro.");
         }
 
+        alert("Canteiro editado com sucesso!");
         return data;
+
     } catch (error) {
         console.error("Erro ao editar canteiro:", error);
         alert("Erro de conexão ao editar o canteiro.");

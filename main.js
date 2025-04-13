@@ -93,19 +93,55 @@ function start() {
   // Botão Salvar
   salvarBtn.addEventListener('click', async () => {
     const nomeInput = document.getElementById('canteiro_nome');
-    const canteiro = {
-        nome_canteiro: nomeInput.value,
-        x_canteiro: parseInt(document.getElementById('canteiro_x').value),
-        y_canteiro: parseInt(document.getElementById('canteiro_y').value),
-        id_planta_emergente: document.getElementById('canteiro_emergente').value,
-        id_planta_alto: document.getElementById('canteiro_alto').value,
-        id_planta_medio: document.getElementById('canteiro_medio').value,
-        id_planta_baixo: document.getElementById('canteiro_baixo').value
-    };
+    const nome = nomeInput.value;
+    const x = parseInt(document.getElementById('canteiro_x').value);
+    const y = parseInt(document.getElementById('canteiro_y').value);
 
-    if (!Object.values(canteiro).every(v => Boolean(v))) {
-        alert('Todos os campos devem ser preenchidos!');
+    if (!nome || isNaN(x) || isNaN(y)) {
+        alert('Nome, X e Y devem ser preenchidos corretamente!');
         return;
+    }
+
+    let canteiro;
+
+    if (salvarBtn.textContent.includes('Editar')) {
+        // Busca o canteiro na variável local
+        const canteiroSelecionado = todosCanteiros.find(c => c.nome_canteiro === nome);
+        
+        if (!canteiroSelecionado) {
+            alert("Erro: Canteiro não encontrado em memória.");
+            return;
+        }
+
+        // Prepara os dados completos com as plantas já existentes
+        canteiro = {
+            nome_canteiro: nome,
+            x_canteiro: x,
+            y_canteiro: y,
+            plantas_canteiro: canteiroSelecionado.plantas_canteiro
+        };
+
+    } else {
+        // Criação de canteiro com seleção de plantas
+        const emergente = document.getElementById('canteiro_emergente').value;
+        const alto = document.getElementById('canteiro_alto').value;
+        const medio = document.getElementById('canteiro_medio').value;
+        const baixo = document.getElementById('canteiro_baixo').value;
+
+        if (![emergente, alto, medio, baixo].every(Boolean)) {
+            alert('Todos os estratos devem ser selecionados!');
+            return;
+        }
+
+        canteiro = {
+            nome_canteiro: nome,
+            x_canteiro: x,
+            y_canteiro: y,
+            id_planta_emergente: emergente,
+            id_planta_alto: alto,
+            id_planta_medio: medio,
+            id_planta_baixo: baixo
+        };
     }
 
     try {
@@ -121,18 +157,18 @@ function start() {
         return;
     }
 
-    // Resetar UI pós-salvamento
     await carregarCanteiros(
-      document.getElementById('select-canteiro'),
-      document.getElementById('canteiro-actions'),
-      document.getElementById('canteiro--form')
+        document.getElementById('select-canteiro'),
+        document.getElementById('canteiro-actions'),
+        document.getElementById('canteiro--form')
     );
+
     document.getElementById('canteiro--form').style.display = 'none';
     nomeInput.readOnly = false;
     salvarBtn.textContent = 'Salvar Canteiro';
-
   });
 
+  // Mudança do select Canteiros
   selectCanteiro.addEventListener('change', async function () {
     const nomeSelecionado = this.value;
     visualizarBtn.style.display = 'block';
@@ -234,7 +270,7 @@ function start() {
     }
   });
 
-    /*
+  /*
     --------------------------------------------------------------------------------------
     Visualizar canteiro
     --------------------------------------------------------------------------------------
@@ -327,9 +363,9 @@ function start() {
     Método para ouvir evento de clicar no botão #editBtn (Editar)
     --------------------------------------------------------------------------------------
   */
-    editBtn.addEventListener('click', function(event){
-      event.preventDefault();
-      editarPlanta();
+  editBtn.addEventListener('click', function(event){
+    event.preventDefault();
+    editarPlanta();
   });
 
   /*
