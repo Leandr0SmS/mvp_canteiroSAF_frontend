@@ -83,28 +83,14 @@ function start() {
   criarBtn.addEventListener('click', () => {
     limparFormulario();
     document.getElementById('canteiro_nome').readOnly = false;
-    document.getElementById('saveCanteiroBtn').textContent = 'Salvar Canteiro';
-    document.getElementById('deleteCanteiroBtn').style.display = 'none';
-    document.getElementById('canteiro--form').style.display = 'block';
+    salvarBtn.textContent = 'Salvar Canteiro';
+    deletarBtn.style.display = 'none';
+    form.style.display = 'block';
+    visualizarBtn.style.display = 'none';
+    limparBtn.style.display = 'none';
   });
 
-  // Botão Deletar
-  deletarBtn.addEventListener('click', async () => {
-    const nome = selectCanteiro.value;
-    if (!nome) return;
-
-    if (confirm(`Deseja realmente deletar o canteiro "${nome}"?`)) {
-        await deletarCanteiro(nome);
-        canteiroForm.style.display = 'none';
-        todosCanteiros = await carregarCanteiros(
-          document.getElementById('select-canteiro'),
-          document.getElementById('canteiro-actions'),
-          document.getElementById('canteiro--form')
-        );
-    }
-  });
-
-
+  // Botão Salvar
   salvarBtn.addEventListener('click', async () => {
     const nomeInput = document.getElementById('canteiro_nome');
     const canteiro = {
@@ -149,14 +135,15 @@ function start() {
 
   selectCanteiro.addEventListener('change', async function () {
     const nomeSelecionado = this.value;
-    const deletarBtn = document.getElementById('deleteCanteiroBtn');
+    visualizarBtn.style.display = 'block';
+    limparBtn.style.display = 'block';
 
     if (!nomeSelecionado) {
         limparFormulario();
         document.getElementById('canteiro_nome').readOnly = false;
-        document.getElementById('saveCanteiroBtn').textContent = 'Salvar Canteiro';
+        salvarBtn.textContent = 'Salvar Canteiro';
         deletarBtn.style.display = 'none';
-        document.getElementById('canteiro--form').style.display = 'block';
+        form.style.display = 'block';
         return;
     }
 
@@ -174,7 +161,7 @@ function start() {
 
     preencherFormulario(canteiroSelecionado);
     deletarBtn.style.display = 'inline-block';
-    document.getElementById('canteiro--form').style.display = 'block';
+    form.style.display = 'block';
   });
 
 
@@ -253,8 +240,8 @@ function start() {
     --------------------------------------------------------------------------------------
   */
   visualizarBtn.addEventListener('click', () => {
-    const select = document.getElementById('canteiro_nome');
-    const nomeCanteiro = select.value;
+    const selectNome = document.getElementById('canteiro_nome');
+    const nomeCanteiro = selectNome.value;
 
     if (!nomeCanteiro) {
         alert("Selecione um canteiro.");
@@ -266,6 +253,7 @@ function start() {
   });
 
   limparBtn.addEventListener('click', () => {
+    const selectNome = document.getElementById('canteiro_nome');
     // Limpa o conteúdo do gráfico
     Plotly.purge('graphDiv');
 
@@ -273,7 +261,7 @@ function start() {
     limparBtn.style.display = 'none';
     // Resetar UI pós-salvamento
     document.getElementById('canteiro--form').style.display = 'none';
-    nomeInput.readOnly = false;
+    selectNome.readOnly = false;
     salvarBtn.textContent = 'Salvar Canteiro';
     
     carregarCanteiros(

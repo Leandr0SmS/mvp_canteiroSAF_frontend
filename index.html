@@ -29,7 +29,7 @@
     <main id="main">
         <!-- Dropdown para selecionar canteiros existentes -->
         <section class="form--section">
-            <label for="select-canteiro">Selecionar Canteiro Existente:</label>
+            <label for="select-canteiro">Selecione Canteiro Existente:</label>
             <select class="input" id="select-canteiro">
                 <option value="">Novo Canteiro</option>
             </select>
@@ -37,6 +37,7 @@
 
         <!-- Ações para editar/deletar -->
         <section class="btn--form--section" id="canteiro-actions">
+            <label for="criarCanteiroBtn">Crie Novo Canteiro:</label>
             <button type="button" class="btn" id="criarCanteiroBtn">Novo Canteiro</button>
         </section>
 
@@ -53,11 +54,11 @@
                 <section class="form--section" id="xy--section">
                     <div class="xy--div">
                         <label for="canteiro_x">Eixo X:</label>
-                        <input type="number" id="canteiro_x" class="input" required/>
+                        <input type="number" id="canteiro_x" class="input" min="0" required/>
                     </div>
                     <div class="xy--div">
                         <label for="canteiro_y">Eixo Y:</label>
-                        <input type="number" id="canteiro_y" class="input" required>
+                        <input type="number" id="canteiro_y" class="input" min="0" required>
                     </div>
                 </section>
             
@@ -136,11 +137,11 @@
                     </section>    
                     <section class="form--section">
                         <label for="tempoColheita">Tempo para colheita (dias):</label>
-                        <input id="tempoColheita" class="input" type="number"  placeholder="420">
+                        <input id="tempoColheita" class="input" type="number" min="0" placeholder="420">
                     </section>
                     <section class="form--section">
                         <label for="espacamento">Espaçamento entre plantas:</label> 
-                        <input id="espacamento" class="input" type="number"  placeholder="3.0">
+                        <input id="espacamento" class="input" type="number" min="0" placeholder="3.0">
                     </section>    
                 </fieldset>
                 <button type="button" class="btn" id="addBtn">Adicionar</button>
@@ -164,11 +165,11 @@
                     </section>    
                     <section class="form--section">
                         <label for="editTempoColheita">Tempo para colheita (dias):</label>
-                        <input id="editTempoColheita" class="input" type="number"  placeholder="420">
+                        <input id="editTempoColheita" class="input" type="number" min="0" placeholder="420">
                     </section>
                     <section class="form--section">
                         <label for="editEspacamento">Espaçamento entre plantas:</label> 
-                        <input id="editEspacamento" class="input" type="number"  placeholder="3.0">
+                        <input id="editEspacamento" class="input" type="number" min="0" placeholder="3.0">
                     </section>    
                 </fieldset>
                 <button type="button" class="btn" id="editBtn">Editar</button>
@@ -194,7 +195,7 @@
                             <option value="Mangaratiba">Mangaratiba</option>
                         </datalist>
                         <label for="forcastDays">Dias:</label> 
-                        <input type="number" class="input" name="forcastDays" id="forcastDays" placeholder="1" max="6" required>
+                        <input type="number" class="input" name="forcastDays" id="forcastDays" min="0" placeholder="1" max="6" required>
                     </section>    
                 </fieldset>
                 <button type="button" class="btn" id="searchCityBtn">Previsão</button>

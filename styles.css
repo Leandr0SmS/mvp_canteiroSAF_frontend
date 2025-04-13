@@ -151,8 +151,13 @@ label, legend {
 }
 
 /* Buttons */
+#criarCanteiroBtn {
+    border-radius: 0.5rem;
+    margin-top: .3rem;
+}
 .btn--form--section {
     width: 18rem;
+    margin-top: .5rem;
 }
 #form-buttons {
     display: flex;

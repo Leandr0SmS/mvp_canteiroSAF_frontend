@@ -94,8 +94,6 @@ function inserirLista(planta, length, resultTabel) {
   --------------------------------------------------------------------------------------
 */
 function criarGrafico(dados) {
-    console.log(dados)
-    const frames = [];
     const fig = {
         data: [],
         layout: {
