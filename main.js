@@ -104,50 +104,33 @@ function start() {
 
     let canteiro;
 
-    if (salvarBtn.textContent.includes('Editar')) {
-        // Busca o canteiro na variável local
-        const canteiroSelecionado = todosCanteiros.find(c => c.nome_canteiro === nome);
-        
-        if (!canteiroSelecionado) {
-            alert("Erro: Canteiro não encontrado em memória.");
-            return;
-        }
-
-        // Prepara os dados completos com as plantas já existentes
-        canteiro = {
-            nome_canteiro: nome,
-            x_canteiro: x,
-            y_canteiro: y,
-            plantas_canteiro: canteiroSelecionado.plantas_canteiro
-        };
-
-    } else {
-        // Criação de canteiro com seleção de plantas
-        const emergente = document.getElementById('canteiro_emergente').value;
-        const alto = document.getElementById('canteiro_alto').value;
-        const medio = document.getElementById('canteiro_medio').value;
-        const baixo = document.getElementById('canteiro_baixo').value;
-
-        if (![emergente, alto, medio, baixo].every(Boolean)) {
-            alert('Todos os estratos devem ser selecionados!');
-            return;
-        }
-
-        canteiro = {
-            nome_canteiro: nome,
-            x_canteiro: x,
-            y_canteiro: y,
-            id_planta_emergente: emergente,
-            id_planta_alto: alto,
-            id_planta_medio: medio,
-            id_planta_baixo: baixo
-        };
+    // Criação de canteiro com seleção de plantas
+    const emergente = document.getElementById('canteiro_emergente').value;
+    const alto = document.getElementById('canteiro_alto').value;
+    const medio = document.getElementById('canteiro_medio').value;
+    const baixo = document.getElementById('canteiro_baixo').value;
+    
+    if (![emergente, alto, medio, baixo].every(Boolean)) {
+        alert('Todos os estratos devem ser selecionados!');
+        return;
     }
+    
+    canteiro = {
+        nome_canteiro: nome,
+        x_canteiro: x,
+        y_canteiro: y,
+        id_planta_emergente: emergente,
+        id_planta_alto: alto,
+        id_planta_medio: medio,
+        id_planta_baixo: baixo
+    };
 
     try {
         if (salvarBtn.textContent.includes('Editar')) {
+            nomeInput.readOnly = true;
             await editarCanteiro(canteiro);
         } else {
+            nomeInput.readOnly = false;
             await criarCanteiro(canteiro);
         }
 

@@ -311,15 +311,16 @@ async function editarCanteiro(canteiro) {
     formData.append('nome_canteiro', canteiro.nome_canteiro);
     formData.append('x_canteiro', canteiro.x_canteiro);
     formData.append('y_canteiro', canteiro.y_canteiro);
-
-    // Enviar os dados das plantas como string JSON, se necessário
-    if (canteiro.plantas_canteiro) {
-        formData.append('plantas_canteiro', JSON.stringify(canteiro.plantas_canteiro));
-    }
+    
+    // Adiciona os IDs das plantas de cada estrato
+    formData.append('id_planta_emergente', canteiro.id_planta_emergente);
+    formData.append('id_planta_alto', canteiro.id_planta_alto);
+    formData.append('id_planta_medio', canteiro.id_planta_medio);
+    formData.append('id_planta_baixo', canteiro.id_planta_baixo);
 
     try {
         const response = await fetch(`${config.meuCanteiroApi}/canteiro`, {
-            method: 'POST',
+            method: 'POST', 
             body: new URLSearchParams(formData)
         });
 
