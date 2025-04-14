@@ -42,6 +42,9 @@ const grafDiv = document.getElementById('graphDiv');
 const fraseDiv = document.getElementById('frase-container');
 const idiomaSelect = document.getElementById('idiomaSelect');
 
+let fraseAtual = null; // Armazena a frase original
+let idiomaAtual = 'pt'; // Padrão 
+
 const resultTableRaw = `
                         <thead>
                           <tr>
@@ -79,7 +82,11 @@ function start() {
       todosCanteiros = canteiros;
     });
 
-  // Botão Criar novo
+  /*
+  --------------------------------------------------------------------------------------
+    Evento para criar novo canteiro
+  --------------------------------------------------------------------------------------
+  */
   criarBtn.addEventListener('click', () => {
     limparFormulario();
     document.getElementById('canteiro_nome').readOnly = false;
@@ -90,7 +97,11 @@ function start() {
     limparBtn.style.display = 'none';
   });
 
-  // Botão Salvar
+  /*
+  --------------------------------------------------------------------------------------
+    Evento para salvar canteiro
+  --------------------------------------------------------------------------------------
+  */
   salvarBtn.addEventListener('click', async () => {
     const nomeInput = document.getElementById('canteiro_nome');
     const nome = nomeInput.value;
@@ -151,7 +162,11 @@ function start() {
     salvarBtn.textContent = 'Salvar Canteiro';
   });
 
-  // Mudança do select Canteiros
+  /*
+  --------------------------------------------------------------------------------------
+    Evento para mudanças no select dos canteiros e preencher formulários
+  --------------------------------------------------------------------------------------
+  */
   selectCanteiro.addEventListener('change', async function () {
     const nomeSelecionado = this.value;
     visualizarBtn.style.display = 'block';
@@ -184,6 +199,11 @@ function start() {
   });
 
 
+  /*
+  --------------------------------------------------------------------------------------
+    Função que preenche formulários
+  --------------------------------------------------------------------------------------
+  */
   function preencherFormulario(c) {
 
     // Preenche os campos
@@ -217,6 +237,11 @@ function start() {
     });
   }
 
+  /*
+  --------------------------------------------------------------------------------------
+    Evento para deletar canteiro
+  --------------------------------------------------------------------------------------
+  */
   deletarBtn.addEventListener('click', async () => {
     const nomeInput = document.getElementById('canteiro_nome');
     const nomeCanteiro = nomeInput.value;
@@ -255,7 +280,7 @@ function start() {
 
   /*
     --------------------------------------------------------------------------------------
-    Visualizar canteiro
+    Evento para Visualizar canteiro
     --------------------------------------------------------------------------------------
   */
   visualizarBtn.addEventListener('click', () => {
@@ -289,41 +314,6 @@ function start() {
         document.getElementById('canteiro--form')
     );
   });
-  /*
-    --------------------------------------------------------------------------------------
-    Carregar nova frase
-    --------------------------------------------------------------------------------------
-  */
-  let fraseAtual = null; // Armazena a frase original
-  let idiomaAtual = 'pt'; // Padrão 
-  async function carregarFrase() {
-    try {
-      idiomaAtual = idiomaSelect.value;
-      fraseAtual = await buscarFrase();
-      await mostrarFrase(fraseAtual, fraseDiv, idiomaAtual);
-    } catch (error) {
-      console.error('Erro ao carregar frase:', error);
-    }
-  }
-
-  /*
-    --------------------------------------------------------------------------------------
-    Traduzir frase existente ao mudar idioma
-    --------------------------------------------------------------------------------------
-  */
-  async function atualizarTraducao() {
-    if (!fraseAtual) return;
-
-    idiomaAtual = idiomaSelect.value;
-    try {
-      const fraseTraduzida = await traduzirTexto(fraseAtual.quote, idiomaAtual);
-
-      fraseDiv.querySelector('.frase-div-frase--frase').innerText = fraseTraduzida;
-    } catch (error) {
-      console.error('Erro ao traduzir:', error);
-      fraseDiv.querySelector('.frase-div-frase--frase').innerText = 'Erro ao traduzir frase.';
-    }
-  }
 
   // Carrega ao iniciar
   carregarFrase();
@@ -492,4 +482,37 @@ function limparFormulario() {
       const select = document.getElementById(`canteiro_${estrato}`);
       if (select) select.value = '';
   });
+}
+/*
+  --------------------------------------------------------------------------------------
+  Carregar nova frase
+  --------------------------------------------------------------------------------------
+*/
+async function carregarFrase() {
+  try {
+    idiomaAtual = idiomaSelect.value;
+    fraseAtual = await buscarFrase();
+    await mostrarFrase(fraseAtual, fraseDiv, idiomaAtual);
+  } catch (error) {
+    console.error('Erro ao carregar frase:', error);
+  }
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Traduzir frase existente ao mudar idioma
+  --------------------------------------------------------------------------------------
+*/
+async function atualizarTraducao() {
+  if (!fraseAtual) return;
+
+  idiomaAtual = idiomaSelect.value;
+  try {
+    const fraseTraduzida = await traduzirTexto(fraseAtual.quote, idiomaAtual);
+
+    fraseDiv.querySelector('.frase-div-frase--frase').innerText = fraseTraduzida;
+  } catch (error) {
+    console.error('Erro ao traduzir:', error);
+    fraseDiv.querySelector('.frase-div-frase--frase').innerText = 'Erro ao traduzir frase.';
+  }
 }

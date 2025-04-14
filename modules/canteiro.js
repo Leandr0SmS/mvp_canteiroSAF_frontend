@@ -254,6 +254,11 @@ function criarGrafico(dados) {
     });
 };
 
+/*
+  --------------------------------------------------------------------------------------
+  Função que solicita plantas destribuidas com informaçoes para visualizar o canteiro
+  --------------------------------------------------------------------------------------
+*/
 async function visualizarCanteiro(nomeCanteiro) {
     try {
         const response = await fetch(`${config.meuCanteiroApi}/canteiro?nome_canteiro=${encodeURIComponent(nomeCanteiro)}`);
@@ -277,7 +282,11 @@ async function visualizarCanteiro(nomeCanteiro) {
     }
 }
 
-// BUSCAR CANTEIROS
+/*
+  --------------------------------------------------------------------------------------
+  Função para buscar todos os canteiros
+  --------------------------------------------------------------------------------------
+*/
 async function carregarCanteiros(select, actions, form) {
     try {
         const response = await fetch(`${config.meuCanteiroApi}/canteiros`);
@@ -304,7 +313,11 @@ async function carregarCanteiros(select, actions, form) {
     }
 }
 
-// EDITAR CANTEIRO
+/*
+  --------------------------------------------------------------------------------------
+  Função para editar uma canteiro
+  --------------------------------------------------------------------------------------
+*/
 async function editarCanteiro(canteiro) {
     const formData = new FormData();
 
@@ -341,7 +354,11 @@ async function editarCanteiro(canteiro) {
     }
 }
 
-// DELETAR CANTEIRO
+/*
+  --------------------------------------------------------------------------------------
+  Função para deletar um canteiro
+  --------------------------------------------------------------------------------------
+*/
 async function deletarCanteiro(nomeCanteiro) {
     const url = `${meuCanteiroApi}/canteiros?nome_canteiro=${encodeURIComponent(nomeCanteiro)}`;
 
