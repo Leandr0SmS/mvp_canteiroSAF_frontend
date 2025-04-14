@@ -147,7 +147,16 @@ function criarGrafico(dados) {
                     font: { size: 14 }
                 },
                 steps: []
-            }]
+            }],
+            legend: {  
+                font: {
+                    size: 10
+                },
+                orientation: 'h',
+                x: 0.5,
+                xanchor: 'center', 
+                y: -0.1  
+            }
         },
         frames: []
     };
