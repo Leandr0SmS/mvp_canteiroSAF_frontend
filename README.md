@@ -15,6 +15,10 @@ O projeto permite ao usuário:
 
 ![Arquitetura Meu Canteiro SAF](./resources/images/Meu_canteiro_Flowchart.png)
 
+- Meu Canteiro Front: [https://github.com/Leandr0SmS/mvp_canteiroSAF_frontend](https://github.com/Leandr0SmS/mvp_canteiroSAF_frontend)
+- Meu Canteiro API: [https://github.com/Leandr0SmS/mvp_canteiroSAF_API](https://github.com/Leandr0SmS/mvp_canteiroSAF_API)
+- Agroforestry Systems Design API: [https://github.com/Leandr0SmS/agroforestry_systems_design](https://github.com/Leandr0SmS/agroforestry_systems_design)
+
 ## Iniciando
 
 ### Dependências
