@@ -39,8 +39,6 @@ async function traduzirTexto(texto, destino = 'pt') {
   --------------------------------------------------------------------------------------
 */
 async function mostrarFrase(frase, fraseDiv, idioma = 'pt') {
-  console.log(frase);
-
   // Mostra "Carregando..."
   fraseDiv.innerHTML = `
     <div class='frase-div-frase' id='frase'>
