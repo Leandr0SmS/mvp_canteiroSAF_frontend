@@ -171,6 +171,7 @@ function start() {
     const nomeSelecionado = this.value;
     visualizarBtn.style.display = 'block';
     limparBtn.style.display = 'block';
+    Plotly.purge('graphDiv');
 
     if (!nomeSelecionado) {
         limparFormulario();
