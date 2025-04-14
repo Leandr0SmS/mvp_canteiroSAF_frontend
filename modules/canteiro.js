@@ -203,13 +203,12 @@ function criarGrafico(dados) {
                     planta.tempo_colheita
                 ]);
             });
-
             frameData.push({
                 type: 'scatter',
                 mode: 'markers',
                 x: x,
                 y: y,
-                name: estrato,
+                name: `${estrato} > ${plantas[0].nome_planta}`,
                 marker: {
                     size: sizes,
                     sizemode: 'diameter',
