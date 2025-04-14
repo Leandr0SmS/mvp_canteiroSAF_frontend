@@ -97,7 +97,11 @@ function criarGrafico(dados) {
     const fig = {
         data: [],
         layout: {
-            xaxis: { range: [0, dados.x_canteiro], constrain: 'domain' },
+            xaxis: { 
+                range: [0, dados.x_canteiro], 
+                constrain: 'domain',
+                scaleanchor: 'y' 
+            },
             yaxis: { range: [0, dados.y_canteiro], constrain: 'domain' },
             autosize: false,
             dragmode: 'zoom',
@@ -170,10 +174,6 @@ function criarGrafico(dados) {
         });
     });
 
-    const scalingFactor = 5;
-    const maxRange = Math.max(dados.x_canteiro, dados.y_canteiro);
-    const sizeref = (maxRange / maxDiameter) / scalingFactor;
-
     // Criar frames (um para cada dia)
     for (let dia = 0; dia <= maxDias; dia++) {
         const frameData = [];
@@ -191,9 +191,8 @@ function criarGrafico(dados) {
                 // Tamanho cresce até o valor real
                 const diametro = planta.diametro;
                 const tempo = planta.tempo_colheita;
-                const tamanhoAtual = dia >= tempo
-                    ? diametro
-                    : (diametro * dia / tempo);
+                const ciclo = dia % tempo;
+                const tamanhoAtual = (diametro * ciclo / tempo);
 
                 sizes.push(tamanhoAtual);
                 customData.push([
@@ -214,7 +213,7 @@ function criarGrafico(dados) {
                 marker: {
                     size: sizes,
                     sizemode: 'diameter',
-                    sizeref: sizeref,
+                    sizeref: 1,
                     color: colorMap[estrato] || 'gray',
                     opacity: 0.4,
                     line: { width: 1, color: '#000' }
