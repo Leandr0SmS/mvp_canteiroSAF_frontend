@@ -88,6 +88,7 @@ function start() {
   --------------------------------------------------------------------------------------
   */
   criarBtn.addEventListener('click', () => {
+    Plotly.purge('graphDiv');
     limparFormulario();
     document.getElementById('canteiro_nome').readOnly = false;
     salvarBtn.textContent = 'Salvar Canteiro';
