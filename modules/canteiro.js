@@ -213,7 +213,7 @@ function criarGrafico(dados) {
                 marker: {
                     size: sizes,
                     sizemode: 'diameter',
-                    sizeref: 1,
+                    sizeref: 2,
                     color: colorMap[estrato] || 'gray',
                     opacity: 0.4,
                     line: { width: 1, color: '#000' }
